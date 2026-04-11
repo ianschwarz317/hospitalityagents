@@ -1472,6 +1472,7 @@ async function doSignup() {
     email, password: pw,
     options: { data: { name } }
   });
+  console.log('signUp result:', JSON.stringify({ data, error }));
   if (error) {
     errEl.textContent = error.message;
     if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
@@ -1480,6 +1481,7 @@ async function doSignup() {
 
   // Profile is created automatically via DB trigger (handle_new_user)
   currentUser = { id: data.user.id, email, name, bio: '', website: '' };
+  console.log('currentUser set:', currentUser);
   renderNav();
   document.getElementById('auth-content').innerHTML = `
     <div class="modal-success">
