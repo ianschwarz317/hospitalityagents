@@ -1468,14 +1468,17 @@ async function doSignup() {
   const btn = document.querySelector('#auth-content .btn-accent');
   if (btn) { btn.textContent = 'Creating account…'; btn.disabled = true; }
 
-  const { data, error } = await sb.auth.signUp({ email, password: pw });
+  const { data, error } = await sb.auth.signUp({
+    email, password: pw,
+    options: { data: { name } }
+  });
   if (error) {
     errEl.textContent = error.message;
     if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
     return;
   }
 
-  await sb.from('profiles').insert({ id: data.user.id, name, bio: '', website: '' });
+  // Profile is created automatically via DB trigger (handle_new_user)
   currentUser = { id: data.user.id, email, name, bio: '', website: '' };
   renderNav();
   document.getElementById('auth-content').innerHTML = `
