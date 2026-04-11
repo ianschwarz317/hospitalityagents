@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HospitalityAgents — Admin</title>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #DFE3EA;
+  --neu-light: #FFFFFF;
+  --neu-dark: #B8BCC8;
+  --shadow-out: 6px 6px 14px var(--neu-dark), -4px -4px 10px var(--neu-light);
+  --shadow-in: inset 4px 4px 10px var(--neu-dark), inset -3px -3px 8px var(--neu-light);
+  --accent: #3B6CF4;
+  --green: #22C55E;
+  --amber: #F59E0B;
+  --red: #EF4444;
+  --text: #2D3047;
+  --text-2: #5A5F7A;
+  --text-3: #8B90A8;
+  --radius: 16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);min-height:100vh;}
+
+/* LOGIN */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.login-card{background:var(--bg);border-radius:24px;box-shadow:var(--shadow-out);padding:40px;width:380px;}
+.login-card h2{font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:6px;}
+.login-card p{font-size:13px;color:var(--text-3);margin-bottom:28px;}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:6px;}
+.form-input{width:100%;background:var(--bg);border:none;border-radius:10px;box-shadow:var(--shadow-in);padding:11px 14px;font-size:13.5px;font-family:inherit;color:var(--text);outline:none;}
+.form-error{font-size:12px;color:var(--red);margin-top:5px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 22px;border-radius:10px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .18s;border:none;font-family:inherit;}
+.btn-accent{background:var(--accent);color:#fff;box-shadow:6px 6px 14px rgba(59,108,244,0.3),-3px -3px 8px rgba(255,255,255,0.15);}
+.btn-accent:hover{background:#2855D6;}
+.btn-accent:disabled{opacity:0.6;cursor:not-allowed;}
+.btn-neu{background:var(--bg);color:var(--text);box-shadow:var(--shadow-out);}
+.btn-neu:hover{box-shadow:10px 10px 24px var(--neu-dark),-6px -6px 16px var(--neu-light);}
+.btn-sm{padding:7px 14px;font-size:12.5px;}
+.btn-approve{background:var(--green);color:#fff;box-shadow:4px 4px 10px rgba(34,197,94,0.3),-2px -2px 6px rgba(255,255,255,0.2);}
+.btn-approve:hover{background:#16a34a;}
+.btn-reject{background:var(--red);color:#fff;box-shadow:4px 4px 10px rgba(239,68,68,0.3),-2px -2px 6px rgba(255,255,255,0.2);}
+.btn-reject:hover{background:#dc2626;}
+.btn-unapprove{background:var(--amber);color:#fff;box-shadow:4px 4px 10px rgba(245,158,11,0.3);}
+.btn-unapprove:hover{background:#d97706;}
+
+/* ADMIN LAYOUT */
+#admin-ui{display:none;}
+.topbar{background:var(--bg);box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:0 32px;position:sticky;top:0;z-index:100;}
+.topbar-inner{max-width:1200px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-logo{font-size:16px;font-weight:800;letter-spacing:-0.03em;}
+.topbar-logo span{color:var(--accent);}
+.topbar-right{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text-3);}
+
+.main{max-width:1200px;margin:0 auto;padding:36px 32px;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px;}
+.stat-card{background:var(--bg);border-radius:var(--radius);box-shadow:var(--shadow-out);padding:20px 24px;}
+.stat-n{font-size:32px;font-weight:800;letter-spacing:-0.04em;line-height:1;}
+.stat-l{font-size:12px;color:var(--text-3);margin-top:4px;}
+.stat-pending .stat-n{color:var(--amber);}
+.stat-approved .stat-n{color:var(--green);}
+
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:24px;}
+.tab{background:var(--bg);border:none;border-radius:100px;box-shadow:var(--shadow-out);padding:8px 20px;font-size:13px;font-weight:600;color:var(--text-2);cursor:pointer;font-family:inherit;transition:all .15s;}
+.tab.active{box-shadow:var(--shadow-in);color:var(--accent);}
+
+/* TABLE */
+.table-wrap{background:var(--bg);border-radius:var(--radius);box-shadow:var(--shadow-out);overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+th{font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3);padding:14px 20px;text-align:left;background:var(--bg);border-bottom:2px solid #d0d4dc;}
+td{padding:16px 20px;border-bottom:1px solid #d8dce4;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(59,108,244,0.03);}
+
+.listing-name{font-weight:700;color:var(--text);margin-bottom:3px;}
+.listing-meta{font-size:12px;color:var(--text-3);}
+.badge{font-size:10px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;display:inline-block;}
+.badge-pending{background:#FEF3C7;color:#92400E;}
+.badge-approved{background:#DCFCE7;color:#166534;}
+.badge-persona{background:#EEF2FF;color:#3730A3;}
+.badge-skill{background:#F0FDF4;color:#166534;}
+.actions{display:flex;gap:8px;flex-wrap:wrap;}
+.creator-info{font-size:12px;color:var(--text-2);}
+.price-cell{font-size:16px;font-weight:800;letter-spacing:-0.02em;}
+
+.empty{text-align:center;padding:60px;color:var(--text-3);}
+.empty-icon{font-size:40px;margin-bottom:12px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;border-radius:10px;padding:12px 18px;font-size:13px;font-weight:600;opacity:0;transform:translateY(8px);transition:all .25s;z-index:9999;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.success{background:#16a34a;}
+.toast.error{background:var(--red);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg);border-radius:20px;box-shadow:var(--shadow-out);padding:32px;width:520px;max-height:80vh;overflow-y:auto;}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:4px;}
+.modal p{font-size:13px;color:var(--text-3);margin-bottom:20px;}
+.modal-row{display:flex;justify-content:space-between;font-size:13px;padding:10px 0;border-bottom:1px solid #d8dce4;}
+.modal-row:last-child{border-bottom:none;}
+.modal-label{color:var(--text-3);font-weight:600;}
+.modal-value{color:var(--text);text-align:right;max-width:300px;}
+.cap-list{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:8px;}
+.cap-list li::before{content:'›';color:var(--accent);margin-right:6px;}
+.platform-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.ptag{background:var(--bg);box-shadow:var(--shadow-in);border-radius:6px;font-size:11px;padding:3px 8px;color:var(--text-2);font-weight:600;}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-ui">
+  <div class="login-card">
+    <h2>🏨 Admin Panel</h2>
+    <p>Sign in with your admin account to manage listings.</p>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" id="l-email" type="email" placeholder="admin@email.com" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input class="form-input" id="l-pw" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="form-error" id="l-err"></div>
+    </div>
+    <button class="btn btn-accent" style="width:100%;margin-top:4px" id="login-btn" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- ADMIN UI -->
+<div id="admin-ui">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-logo">HospitalityAgents <span>Admin</span></div>
+      <div class="topbar-right">
+        <span id="admin-email"></span>
+        <button class="btn btn-neu btn-sm" onclick="doLogout()">Log out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card stat-pending"><div class="stat-n" id="s-pending">—</div><div class="stat-l">Pending review</div></div>
+      <div class="stat-card stat-approved"><div class="stat-n" id="s-approved">—</div><div class="stat-l">Approved listings</div></div>
+      <div class="stat-card"><div class="stat-n" id="s-creators">—</div><div class="stat-l">Registered creators</div></div>
+      <div class="stat-card"><div class="stat-n" id="s-total">—</div><div class="stat-l">Total listings</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" id="tab-pending" onclick="switchTab('pending')">⏳ Pending Review</button>
+      <button class="tab" id="tab-approved" onclick="switchTab('approved')">✅ Approved</button>
+      <button class="tab" id="tab-creators" onclick="switchTab('creators')">👤 Creators</button>
+    </div>
+
+    <!-- Content -->
+    <div id="tab-content"></div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+      <div>
+        <h3 id="m-name"></h3>
+        <p id="m-tagline" style="margin-bottom:0"></p>
+      </div>
+      <button class="btn btn-neu btn-sm" onclick="closeModal()">✕</button>
+    </div>
+    <div id="m-body"></div>
+    <div style="display:flex;gap:10px;margin-top:24px" id="m-actions"></div>
+  </div>
+</div>
+
+<script>
+const { createClient } = supabase;
+const sb = createClient(
+  'https://rpnkpgtjqtozgsynqspb.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwbmtwZ3RqcXRvemdzeW5xc3BiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5Mjk5ODEsImV4cCI6MjA5MTUwNTk4MX0.kjvNM3eB8bw_dl8s5TDPOfRPyXtHKVhP9lHRp16AoR8'
+);
+
+const ADMIN_EMAILS = ['schwarzfish98@gmail.com']; // add more admins here
+let currentTab = 'pending';
+let allListings = [];
+let allProfiles = [];
+let currentDetail = null;
+let toastTimer;
+
+// ── AUTH ──
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session && ADMIN_EMAILS.includes(session.user.email)) {
+    showAdmin(session.user.email);
+  }
+}
+
+async function doLogin() {
+  const email = document.getElementById('l-email').value.trim().toLowerCase();
+  const pw = document.getElementById('l-pw').value;
+  const errEl = document.getElementById('l-err');
+  const btn = document.getElementById('login-btn');
+  btn.textContent = 'Signing in…'; btn.disabled = true;
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  btn.textContent = 'Sign In'; btn.disabled = false;
+
+  if (error) { errEl.textContent = 'Invalid email or password.'; return; }
+  if (!ADMIN_EMAILS.includes(data.user.email)) {
+    errEl.textContent = 'This account does not have admin access.';
+    await sb.auth.signOut(); return;
+  }
+  showAdmin(data.user.email);
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  document.getElementById('admin-ui').style.display = 'none';
+  document.getElementById('login-ui').style.display = 'flex';
+}
+
+function showAdmin(email) {
+  document.getElementById('login-ui').style.display = 'none';
+  document.getElementById('admin-ui').style.display = 'block';
+  document.getElementById('admin-email').textContent = email;
+  loadData();
+}
+
+// ── DATA ──
+async function loadData() {
+  const [{ data: listings }, { data: profiles }] = await Promise.all([
+    sb.from('listings').select('*').order('created_at', { ascending: false }),
+    sb.from('profiles').select('*').order('created_at', { ascending: false })
+  ]);
+  allListings = listings || [];
+  allProfiles = profiles || [];
+  updateStats();
+  renderTab();
+}
+
+function updateStats() {
+  const pending = allListings.filter(l => !l.approved).length;
+  const approved = allListings.filter(l => l.approved).length;
+  document.getElementById('s-pending').textContent = pending;
+  document.getElementById('s-approved').textContent = approved;
+  document.getElementById('s-creators').textContent = allProfiles.length;
+  document.getElementById('s-total').textContent = allListings.length;
+}
+
+// ── TABS ──
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  renderTab();
+}
+
+function renderTab() {
+  if (currentTab === 'pending') renderListings(allListings.filter(l => !l.approved));
+  else if (currentTab === 'approved') renderListings(allListings.filter(l => l.approved));
+  else renderCreators();
+}
+
+// ── LISTINGS TABLE ──
+function renderListings(listings) {
+  const el = document.getElementById('tab-content');
+  if (!listings.length) {
+    el.innerHTML = `<div class="table-wrap"><div class="empty"><div class="empty-icon">${currentTab === 'pending' ? '🎉' : '📦'}</div><p>${currentTab === 'pending' ? 'No listings pending review.' : 'No approved listings yet.'}</p></div></div>`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Listing</th>
+            <th>Creator</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Submitted</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${listings.map(l => renderRow(l)).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderRow(l) {
+  const profile = allProfiles.find(p => p.id === l.creator_id);
+  const date = new Date(l.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const statusBadge = l.approved
+    ? `<span class="badge badge-approved">Approved</span>`
+    : `<span class="badge badge-pending">Pending</span>`;
+  const typeBadge = `<span class="badge ${l.type === 'persona' ? 'badge-persona' : 'badge-skill'}">${l.type}</span>`;
+
+  const actions = l.approved
+    ? `<button class="btn btn-unapprove btn-sm" onclick="unapprove(${l.id})">Unapprove</button>
+       <button class="btn btn-neu btn-sm" onclick="showDetail(${l.id})">View</button>
+       <button class="btn btn-reject btn-sm" onclick="deleteListing(${l.id})">Delete</button>`
+    : `<button class="btn btn-approve btn-sm" onclick="approve(${l.id})">✓ Approve</button>
+       <button class="btn btn-neu btn-sm" onclick="showDetail(${l.id})">View</button>
+       <button class="btn btn-reject btn-sm" onclick="deleteListing(${l.id})">Reject</button>`;
+
+  return `
+    <tr>
+      <td>
+        <div class="listing-name">${l.emoji || '🤖'} ${l.name}</div>
+        <div class="listing-meta">${l.tagline?.substring(0, 60)}${l.tagline?.length > 60 ? '…' : ''}</div>
+      </td>
+      <td>
+        <div class="creator-info"><strong>${l.creator_name}</strong></div>
+        <div class="creator-info">${profile?.id ? profile.id.substring(0,8) + '…' : '—'}</div>
+      </td>
+      <td>${typeBadge}<div class="listing-meta" style="margin-top:4px">${l.category}</div></td>
+      <td><span class="price-cell">$${l.price}</span></td>
+      <td><div class="listing-meta">${date}</div></td>
+      <td>${statusBadge}</td>
+      <td><div class="actions">${actions}</div></td>
+    </tr>
+  `;
+}
+
+// ── CREATORS TABLE ──
+function renderCreators() {
+  const el = document.getElementById('tab-content');
+  if (!allProfiles.length) {
+    el.innerHTML = `<div class="table-wrap"><div class="empty"><div class="empty-icon">👤</div><p>No creators yet.</p></div></div>`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Creator</th>
+            <th>Bio</th>
+            <th>Website</th>
+            <th>Listings</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${allProfiles.map(p => {
+            const listingCount = allListings.filter(l => l.creator_id === p.id).length;
+            const approvedCount = allListings.filter(l => l.creator_id === p.id && l.approved).length;
+            const date = new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            return `
+              <tr>
+                <td><div class="listing-name">${p.name || '—'}</div><div class="listing-meta">${p.id.substring(0,12)}…</div></td>
+                <td><div class="listing-meta">${p.bio || '—'}</div></td>
+                <td><div class="listing-meta">${p.website || '—'}</div></td>
+                <td><div>${listingCount} total · ${approvedCount} approved</div></td>
+                <td><div class="listing-meta">${date}</div></td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ── ACTIONS ──
+async function approve(id) {
+  const { error } = await sb.from('listings').update({ approved: true }).eq('id', id);
+  if (error) { showToast('Error approving listing', 'error'); return; }
+  allListings = allListings.map(l => l.id === id ? { ...l, approved: true } : l);
+  updateStats(); renderTab();
+  showToast('Listing approved ✓', 'success');
+}
+
+async function unapprove(id) {
+  const { error } = await sb.from('listings').update({ approved: false }).eq('id', id);
+  if (error) { showToast('Error updating listing', 'error'); return; }
+  allListings = allListings.map(l => l.id === id ? { ...l, approved: false } : l);
+  updateStats(); renderTab();
+  showToast('Listing unapproved', 'success');
+}
+
+async function deleteListing(id) {
+  if (!confirm('Delete this listing permanently? This cannot be undone.')) return;
+  const { error } = await sb.from('listings').delete().eq('id', id);
+  if (error) { showToast('Error deleting listing', 'error'); return; }
+  allListings = allListings.filter(l => l.id !== id);
+  updateStats(); renderTab(); closeModal();
+  showToast('Listing deleted', 'success');
+}
+
+// ── DETAIL MODAL ──
+function showDetail(id) {
+  const l = allListings.find(x => x.id === id);
+  if (!l) return;
+  currentDetail = l;
+  document.getElementById('m-name').textContent = `${l.emoji || '🤖'} ${l.name}`;
+  document.getElementById('m-tagline').textContent = l.tagline;
+
+  const caps = (l.capabilities || []).map(c => `<li>${c}</li>`).join('');
+  const platforms = (l.platforms || []).map(p => `<span class="ptag">${p}</span>`).join('');
+
+  document.getElementById('m-body').innerHTML = `
+    <div class="modal-row"><span class="modal-label">Type</span><span class="modal-value">${l.type} · ${l.category}</span></div>
+    <div class="modal-row"><span class="modal-label">Price</span><span class="modal-value">$${l.price}</span></div>
+    <div class="modal-row"><span class="modal-label">Creator</span><span class="modal-value">${l.creator_name}</span></div>
+    <div class="modal-row"><span class="modal-label">Status</span><span class="modal-value">${l.approved ? '✅ Approved' : '⏳ Pending'}</span></div>
+    <div class="modal-row"><span class="modal-label">About</span><span class="modal-value" style="text-align:left;line-height:1.6">${l.about}</span></div>
+    ${caps ? `<div class="modal-row" style="flex-direction:column;gap:8px"><span class="modal-label">Capabilities</span><ul class="cap-list">${caps}</ul></div>` : ''}
+    ${platforms ? `<div class="modal-row" style="flex-direction:column;gap:8px"><span class="modal-label">Platforms</span><div class="platform-list">${platforms}</div></div>` : ''}
+  `;
+
+  document.getElementById('m-actions').innerHTML = l.approved
+    ? `<button class="btn btn-unapprove" onclick="unapprove(${l.id});closeModal()">Unapprove</button>
+       <button class="btn btn-reject" onclick="deleteListing(${l.id})">Delete</button>`
+    : `<button class="btn btn-approve" onclick="approve(${l.id});closeModal()">✓ Approve</button>
+       <button class="btn btn-reject" onclick="deleteListing(${l.id})">Reject & Delete</button>`;
+
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('detail-modal').classList.remove('open');
+}
+document.getElementById('detail-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('detail-modal')) closeModal();
+});
+
+// ── TOAST ──
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+init();
+</script>
+</body>
+</html>
