@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HospitalityAgents.co — AI Agents & Skills for Hotel Operators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #DFE3EA;
+  --bg-alt: #D8DCE3;
+  --surface: #E4E8EF;
+  --surface-up: #EDF0F5;
+  --neu-light: #FFFFFF;
+  --neu-dark: #B8BCC8;
+  --neu-dark2: #A8ACBA;
+  --shadow-out: 6px 6px 14px var(--neu-dark), -4px -4px 10px var(--neu-light);
+  --shadow-out-md: 10px 10px 24px var(--neu-dark), -6px -6px 16px var(--neu-light);
+  --shadow-out-lg: 18px 18px 40px var(--neu-dark2), -10px -10px 28px var(--neu-light);
+  --shadow-in: inset 4px 4px 10px var(--neu-dark), inset -3px -3px 8px var(--neu-light);
+  --shadow-in-sm: inset 2px 2px 6px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
+  --accent: #3B6CF4;
+  --accent-hover: #2855D6;
+  --accent-light: rgba(59,108,244,0.12);
+  --accent-muted: rgba(59,108,244,0.25);
+  --green: #22C55E;
+  --amber: #F59E0B;
+  --red: #EF4444;
+  --text: #2D3047;
+  --text-2: #5A5F7A;
+  --text-3: #8B90A8;
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;
+  line-height:1.6;
+  min-height:100vh;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--neu-dark);border-radius:3px;}
+
+/* ── NAV ── */
+nav{
+  background:var(--bg);
+  position:sticky;top:0;z-index:200;
+  padding:0 32px;
+}
+.nav-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;align-items:center;height:68px;gap:32px;
+}
+.logo{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:17px;font-weight:800;
+  color:var(--text);
+  cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  letter-spacing:-0.03em;
+  text-decoration:none;
+}
+.logo-mark{
+  width:34px;height:34px;
+  border-radius:10px;
+  background:var(--bg);
+  box-shadow:var(--shadow-out);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+.nav-links{display:flex;align-items:center;gap:4px;flex:1;}
+.nav-link{
+  font-size:13.5px;font-weight:500;
+  color:var(--text-2);
+  cursor:pointer;
+  padding:8px 14px;
+  border-radius:var(--radius-sm);
+  transition:all .2s;
+  border:none;background:transparent;font-family:inherit;
+}
+.nav-link:hover{color:var(--text);background:var(--bg);box-shadow:var(--shadow-out);}
+.nav-link.active{color:var(--accent);box-shadow:var(--shadow-in-sm);}
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:auto;}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 22px;border-radius:var(--radius-sm);
+  font-size:13.5px;font-weight:600;
+  cursor:pointer;transition:all .18s;
+  border:none;font-family:inherit;
+  letter-spacing:-0.01em;
+}
+.btn-ghost{background:transparent;color:var(--text-2);}
+.btn-ghost:hover{color:var(--text);}
+.btn-neu{
+  background:var(--bg);color:var(--text);
+  box-shadow:var(--shadow-out);
+}
+.btn-neu:hover{box-shadow:var(--shadow-out-md);transform:translateY(-1px);}
+.btn-neu:active{box-shadow:var(--shadow-in);transform:translateY(0);}
+.btn-accent{
+  background:var(--accent);color:#fff;
+  box-shadow:6px 6px 14px rgba(59,108,244,0.3),-3px -3px 8px rgba(255,255,255,0.15);
+}
+.btn-accent:hover{background:var(--accent-hover);box-shadow:8px 8px 20px rgba(59,108,244,0.35),-4px -4px 10px rgba(255,255,255,0.2);transform:translateY(-1px);}
+.btn-accent:active{transform:translateY(0);}
+.btn-lg{padding:13px 28px;font-size:15px;border-radius:var(--radius);}
+.btn-sm{padding:7px 14px;font-size:12.5px;border-radius:8px;}
+.btn-danger{background:var(--bg);color:var(--red);box-shadow:var(--shadow-out);}
+.btn-danger:hover{box-shadow:var(--shadow-out-md);}
+
+/* ── NEU CARD ── */
+.neu-card{
+  background:var(--bg);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-out-md);
+  overflow:hidden;
+}
+.neu-card-flat{
+  background:var(--surface-up);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-in-sm);
+}
+.neu-panel{
+  background:var(--bg);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-out);
+  padding:24px;
+}
+
+/* ── PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ── HERO ── */
+.hero{
+  max-width:1280px;margin:0 auto;
+  padding:72px 32px 56px;
+  display:grid;grid-template-columns:1fr 420px;
+  gap:64px;align-items:center;
+}
+.hero-left{}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--bg);
+  box-shadow:var(--shadow-in-sm);
+  border-radius:100px;
+  padding:6px 14px;
+  font-size:11.5px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:28px;
+}
+.hero h1{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:clamp(36px,4.5vw,58px);
+  font-weight:800;
+  line-height:1.08;
+  letter-spacing:-0.04em;
+  color:var(--text);
+  margin-bottom:22px;
+}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero-sub{
+  font-size:16px;color:var(--text-2);
+  line-height:1.7;margin-bottom:36px;
+  max-width:480px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px;}
+.hero-stats{display:flex;gap:0;}
+.stat-pill{
+  background:var(--bg);
+  box-shadow:var(--shadow-out);
+  border-radius:var(--radius);
+  padding:18px 24px;
+  text-align:center;
+  flex:1;
+}
+.stat-pill + .stat-pill{border-radius:0;box-shadow:none;border-left:1px solid var(--neu-dark);}
+.stat-pill:first-child{border-radius:var(--radius) 0 0 var(--radius);}
+.stat-pill:last-child{border-radius:0 var(--radius) var(--radius) 0;}
+.stat-n{
+  font-size:26px;font-weight:800;
+  letter-spacing:-0.04em;color:var(--text);
+  line-height:1;margin-bottom:3px;
+}
+.stat-l{font-size:11px;color:var(--text-3);font-weight:500;}
+
+/* hero right card */
+.hero-card{
+  background:var(--bg);
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-out-lg);
+  padding:28px;
+  position:relative;
+}
+.hero-card-label{
+  font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:20px;
+}
+.featured-listing{cursor:pointer;}
+.fl-image{
+  width:100%;aspect-ratio:16/8;
+  background:var(--surface-up);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-in);
+  display:flex;align-items:center;justify-content:center;
+  font-size:52px;margin-bottom:18px;
+}
+.fl-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.fl-title{font-size:20px;font-weight:800;letter-spacing:-0.03em;color:var(--text);margin-bottom:6px;}
+.fl-desc{font-size:13px;color:var(--text-2);line-height:1.55;margin-bottom:18px;}
+.fl-footer{display:flex;align-items:center;justify-content:space-between;}
+.fl-price{font-size:22px;font-weight:800;letter-spacing:-0.03em;color:var(--text);}
+.fl-sales{font-size:11.5px;color:var(--text-3);}
+
+/* ── SECTION ── */
+.section{max-width:1280px;margin:0 auto;padding:56px 32px;}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;}
+.section-title{font-size:24px;font-weight:800;letter-spacing:-0.03em;color:var(--text);}
+.section-sub{font-size:13px;color:var(--text-3);margin-top:3px;}
+.link-more{font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;}
+.link-more:hover{color:var(--accent-hover);}
+
+/* ── CATEGORY STRIP ── */
+.cat-strip{
+  background:var(--bg);
+  padding:48px 32px;
+}
+.cat-strip-inner{max-width:1280px;margin:0 auto;}
+.cat-strip-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px;text-align:center;}
+.cat-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;}
+.cat-tile{
+  background:var(--bg);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-out);
+  padding:20px 12px;
+  text-align:center;cursor:pointer;
+  transition:all .2s;
+}
+.cat-tile:hover{box-shadow:var(--shadow-out-md);transform:translateY(-2px);}
+.cat-tile:active{box-shadow:var(--shadow-in);}
+.cat-icon{font-size:24px;margin-bottom:8px;}
+.cat-name{font-size:11.5px;font-weight:600;color:var(--text-2);line-height:1.3;}
+
+/* ── LISTING CARDS GRID ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;}
+
+.listing-card{
+  background:var(--bg);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-out-md);
+  overflow:hidden;
+  cursor:pointer;
+  transition:all .22s;
+  display:flex;flex-direction:column;
+}
+.listing-card:hover{box-shadow:var(--shadow-out-lg);transform:translateY(-3px);}
+.listing-card:active{box-shadow:var(--shadow-out);transform:translateY(0);}
+
+.lc-image{
+  aspect-ratio:16/8;
+  background:var(--surface-up);
+  display:flex;align-items:center;justify-content:center;
+  font-size:44px;
+  box-shadow:inset 0 3px 10px var(--neu-dark),inset 0 -1px 4px var(--neu-light);
+}
+.lc-body{padding:18px 20px;flex:1;display:flex;flex-direction:column;}
+.lc-meta{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.lc-title{font-size:16px;font-weight:700;letter-spacing:-0.02em;color:var(--text);margin-bottom:5px;}
+.lc-desc{font-size:12.5px;color:var(--text-2);line-height:1.5;flex:1;}
+.lc-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 20px;
+  background:var(--bg-alt);
+  box-shadow:inset 0 2px 6px var(--neu-dark),inset 0 -1px 3px var(--neu-light);
+}
+.lc-creator{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-3);}
+.lc-price{font-size:16px;font-weight:800;letter-spacing:-0.02em;color:var(--text);}
+.lc-sales{font-size:11px;color:var(--text-3);text-align:right;}
+
+/* ── BADGES ── */
+.badge{font-size:10.5px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:3px 9px;border-radius:6px;}
+.badge-persona{background:var(--bg);box-shadow:var(--shadow-in-sm);color:var(--accent);}
+.badge-skill{background:var(--bg);box-shadow:var(--shadow-in-sm);color:var(--green);}
+.badge-pending{background:var(--bg);box-shadow:var(--shadow-in-sm);color:var(--amber);}
+.badge-cat{font-size:11px;font-weight:600;color:var(--text-3);}
+
+/* avatar */
+.avatar{
+  border-radius:50%;
+  background:var(--bg);
+  box-shadow:var(--shadow-out);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:var(--accent);
+  flex-shrink:0;
+}
+.avatar-sm{width:26px;height:26px;font-size:11px;}
+.avatar-md{width:40px;height:40px;font-size:16px;}
+.avatar-lg{width:60px;height:60px;font-size:22px;}
+.avatar-xl{width:80px;height:80px;font-size:28px;}
+
+/* ── LISTINGS PAGE ── */
+.page-header{
+  background:var(--bg);padding:36px 32px 28px;
+}
+.page-header-inner{max-width:1280px;margin:0 auto;}
+.page-header h2{font-size:28px;font-weight:800;letter-spacing:-0.03em;color:var(--text);margin-bottom:20px;}
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.filter-btn{
+  background:var(--bg);
+  border-radius:100px;
+  box-shadow:var(--shadow-out);
+  border:none;font-family:inherit;
+  font-size:12.5px;font-weight:600;
+  color:var(--text-2);
+  padding:7px 16px;cursor:pointer;
+  transition:all .15s;
+}
+.filter-btn:hover{box-shadow:var(--shadow-out-md);color:var(--text);}
+.filter-btn.active{box-shadow:var(--shadow-in);color:var(--accent);}
+
+.listings-body{max-width:1280px;margin:0 auto;padding:36px 32px;}
+
+/* ── DETAIL PAGE ── */
+.detail-wrap{max-width:1200px;margin:0 auto;padding:40px 32px;}
+.detail-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;color:var(--text-3);
+  cursor:pointer;margin-bottom:32px;
+  padding:8px 16px;border-radius:var(--radius-sm);
+  background:var(--bg);box-shadow:var(--shadow-out);
+  transition:all .15s;border:none;font-family:inherit;
+}
+.detail-back:hover{color:var(--text);box-shadow:var(--shadow-out-md);}
+
+.detail-grid{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start;}
+
+.detail-image{
+  width:100%;aspect-ratio:16/8;
+  border-radius:var(--radius-lg);
+  background:var(--bg);
+  box-shadow:var(--shadow-in);
+  display:flex;align-items:center;justify-content:center;
+  font-size:80px;margin-bottom:28px;
+}
+.detail-title{font-size:36px;font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:6px;}
+.detail-tagline{font-size:15px;color:var(--text-2);margin-bottom:18px;line-height:1.55;}
+.detail-stats{display:flex;gap:16px;font-size:13px;color:var(--text-3);margin-bottom:28px;flex-wrap:wrap;}
+.detail-stats span{display:flex;align-items:center;gap:5px;}
+
+.dsection{margin-bottom:32px;}
+.dsection h3{
+  font-size:16px;font-weight:700;color:var(--text);
+  margin-bottom:14px;padding-bottom:10px;
+  border-bottom:2px solid var(--bg-alt);
+  letter-spacing:-0.01em;
+}
+.dsection p{font-size:14px;color:var(--text-2);line-height:1.75;}
+.dsection ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.dsection li{
+  font-size:13.5px;color:var(--text-2);
+  display:flex;align-items:flex-start;gap:10px;
+}
+.dsection li::before{content:'›';color:var(--accent);font-weight:700;font-size:15px;flex-shrink:0;}
+
+/* sidebar */
+.sidebar{position:sticky;top:80px;}
+.sidebar-card{
+  background:var(--bg);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-out-md);
+  overflow:hidden;margin-bottom:16px;
+}
+.sidebar-price-block{padding:24px;border-bottom:2px solid var(--bg-alt);}
+.sidebar-price{font-size:36px;font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:3px;}
+.sidebar-price-note{font-size:12px;color:var(--text-3);}
+.sidebar-buy{padding:18px 24px;display:flex;flex-direction:column;gap:10px;}
+.sidebar-buy .btn{width:100%;}
+.sidebar-meta{padding:18px 24px;border-top:2px solid var(--bg-alt);display:flex;flex-direction:column;gap:12px;}
+.smeta-row{display:flex;justify-content:space-between;font-size:12.5px;}
+.smeta-label{color:var(--text-3);}
+.smeta-value{color:var(--text);font-weight:600;}
+.platform-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.platform-tag{
+  background:var(--bg);box-shadow:var(--shadow-in-sm);
+  border-radius:6px;font-size:11px;padding:3px 8px;
+  color:var(--text-2);font-weight:600;
+}
+
+/* reviews */
+.review-card{
+  background:var(--bg);border-radius:var(--radius);
+  box-shadow:var(--shadow-out);
+  padding:20px;margin-bottom:14px;
+}
+.review-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.review-author{font-size:13.5px;font-weight:700;color:var(--text);}
+.review-date{font-size:11.5px;color:var(--text-3);}
+.stars{color:var(--amber);font-size:13px;letter-spacing:1px;margin-bottom:6px;}
+.review-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:5px;}
+.review-body{font-size:13px;color:var(--text-2);line-height:1.6;}
+
+/* rating bars */
+.rbar{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.rbar-label{font-size:11.5px;color:var(--text-3);width:36px;}
+.rbar-track{flex:1;height:5px;border-radius:3px;background:var(--bg);box-shadow:var(--shadow-in-sm);overflow:hidden;}
+.rbar-fill{height:100%;background:var(--accent);border-radius:3px;}
+.rbar-count{font-size:11.5px;color:var(--text-3);width:18px;text-align:right;}
+.overall-rating{display:flex;align-items:center;gap:20px;margin-bottom:24px;padding-bottom:20px;border-bottom:2px solid var(--bg-alt);}
+.overall-num{font-size:48px;font-weight:800;letter-spacing:-0.04em;color:var(--text);}
+
+/* creator profile card */
+.creator-card{
+  background:var(--bg);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-out-md);padding:20px;margin-bottom:16px;
+}
+.creator-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.creator-name{font-size:14px;font-weight:700;color:var(--text);}
+.creator-role{font-size:12px;color:var(--text-3);}
+.creator-bio{font-size:13px;color:var(--text-2);line-height:1.6;}
+
+/* platform banner */
+.platform-banner{
+  background:var(--bg);box-shadow:var(--shadow-in);
+  border-radius:var(--radius);
+  padding:14px 20px;margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;
+  font-size:13.5px;color:var(--text);
+}
+.platform-banner strong{color:var(--accent);font-weight:700;}
+
+/* ── CTA BAND ── */
+.cta-band{
+  background:var(--bg);padding:72px 32px;text-align:center;
+}
+.cta-band-inner{
+  max-width:600px;margin:0 auto;
+  background:var(--bg);
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-out-lg);
+  padding:56px 48px;
+}
+.cta-band h2{font-size:34px;font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:12px;}
+.cta-band h2 em{font-style:normal;color:var(--accent);}
+.cta-band p{font-size:15px;color:var(--text-2);margin-bottom:28px;line-height:1.65;}
+
+/* ── CREATOR PAGE ── */
+.creator-hero-wrap{max-width:1280px;margin:0 auto;padding:64px 32px 48px;text-align:center;}
+.creator-hero-wrap h1{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:16px;}
+.creator-hero-wrap h1 em{font-style:normal;color:var(--accent);}
+.creator-hero-wrap p{font-size:16px;color:var(--text-2);max-width:500px;margin:0 auto 32px;line-height:1.7;}
+
+.econ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:56px;}
+.econ-card{
+  background:var(--bg);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-out-md);
+  padding:32px;text-align:center;
+}
+.econ-n{font-size:52px;font-weight:800;letter-spacing:-0.05em;color:var(--text);line-height:1;margin-bottom:8px;}
+.econ-n span{color:var(--accent);}
+.econ-l{font-size:13px;color:var(--text-2);line-height:1.5;}
+
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;}
+.step-card{
+  background:var(--bg);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-out-md);
+  padding:28px;position:relative;
+}
+.step-num{
+  position:absolute;top:20px;right:20px;
+  font-size:42px;font-weight:800;letter-spacing:-0.04em;
+  color:var(--bg-alt);line-height:1;
+}
+.step-card h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.02em;}
+.step-card p{font-size:13px;color:var(--text-2);line-height:1.65;}
+
+.what-grid-wrap{
+  background:var(--bg);border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-out-lg);padding:40px;margin-bottom:48px;
+}
+.what-grid-wrap h2{font-size:22px;font-weight:800;letter-spacing:-0.03em;color:var(--text);margin-bottom:24px;}
+.what-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.what-col h4{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px;}
+.what-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.what-col li{font-size:13.5px;color:var(--text-2);display:flex;align-items:flex-start;gap:9px;}
+.what-col li::before{content:'›';color:var(--accent);font-weight:700;font-size:15px;flex-shrink:0;}
+
+/* ── ABOUT PAGE ── */
+.about-hero{max-width:1280px;margin:0 auto;padding:72px 32px 48px;text-align:center;}
+.about-hero h1{font-size:clamp(36px,4.5vw,56px);font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:18px;}
+.about-hero p{font-size:17px;color:var(--text-2);max-width:560px;margin:0 auto;line-height:1.7;}
+.about-body{max-width:820px;margin:0 auto;padding:16px 32px 72px;}
+.about-block{margin-bottom:48px;}
+.about-block h2{font-size:24px;font-weight:800;letter-spacing:-0.03em;color:var(--text);margin-bottom:16px;}
+.about-block p{font-size:15px;color:var(--text-2);line-height:1.8;}
+.about-block p+p{margin-top:14px;}
+.principles-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
+.principle{
+  background:var(--bg);border-radius:var(--radius);
+  box-shadow:var(--shadow-out);padding:22px;
+}
+.principle-icon{font-size:22px;margin-bottom:10px;}
+.principle h4{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.01em;}
+.principle p{font-size:13px;color:var(--text-2);line-height:1.6;}
+
+/* ── SUBMIT PAGE ── */
+.submit-wrap{max-width:760px;margin:0 auto;padding:48px 32px 72px;}
+.submit-wrap h2{font-size:28px;font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:6px;}
+.submit-wrap .page-sub{font-size:14px;color:var(--text-2);margin-bottom:36px;}
+
+/* ── FORM ELEMENTS ── */
+.form-group{margin-bottom:22px;}
+.form-label{font-size:12.5px;font-weight:700;color:var(--text-2);margin-bottom:8px;display:block;letter-spacing:0.01em;}
+.form-input,.form-textarea,.form-select{
+  width:100%;
+  background:var(--bg);
+  box-shadow:var(--shadow-in);
+  border:none;outline:none;
+  border-radius:var(--radius-sm);
+  padding:12px 16px;
+  font-size:14px;color:var(--text);
+  font-family:inherit;
+  transition:box-shadow .2s;
+}
+.form-input:focus,.form-textarea:focus,.form-select:focus{
+  box-shadow:var(--shadow-in),0 0 0 2px var(--accent-muted);
+}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.form-select option{background:var(--surface-up);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-hint{font-size:11.5px;color:var(--text-3);margin-top:5px;}
+.form-error{font-size:12px;color:var(--red);margin-top:5px;}
+
+.caps-list{
+  display:flex;flex-direction:column;gap:8px;margin-bottom:10px;
+  min-height:40px;
+}
+.cap-item{
+  background:var(--bg);box-shadow:var(--shadow-out);
+  border-radius:var(--radius-sm);
+  padding:9px 14px;
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--text-2);
+}
+.cap-remove{
+  margin-left:auto;background:none;border:none;
+  cursor:pointer;color:var(--text-3);font-size:16px;
+  transition:color .15s;
+}
+.cap-remove:hover{color:var(--red);}
+.add-cap-row{display:flex;gap:8px;}
+.add-cap-row .form-input{flex:1;}
+
+/* checkboxes / platform tags */
+.checkbox-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.checkbox-chip{
+  background:var(--bg);box-shadow:var(--shadow-out);
+  border-radius:var(--radius-sm);
+  padding:7px 14px;cursor:pointer;
+  font-size:12.5px;font-weight:600;color:var(--text-2);
+  transition:all .15s;user-select:none;
+}
+.checkbox-chip.selected{box-shadow:var(--shadow-in);color:var(--accent);}
+
+/* ── AUTH MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(26,29,46,0.5);
+  backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--bg);
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-out-lg);
+  width:420px;max-width:calc(100vw - 40px);
+  padding:40px;
+  position:relative;animation:modalIn .25s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px);}to{opacity:1;transform:none;}}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  background:var(--bg);box-shadow:var(--shadow-out);
+  border:none;border-radius:50%;
+  width:32px;height:32px;cursor:pointer;
+  font-size:16px;color:var(--text-3);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.modal-close:hover{box-shadow:var(--shadow-out-md);color:var(--text);}
+.modal h3{font-size:22px;font-weight:800;letter-spacing:-0.03em;color:var(--text);margin-bottom:6px;}
+.modal-sub{font-size:13.5px;color:var(--text-3);margin-bottom:28px;}
+.modal-switch{font-size:13px;color:var(--text-2);text-align:center;margin-top:16px;}
+.modal-switch a{color:var(--accent);font-weight:600;cursor:pointer;}
+.modal-switch a:hover{color:var(--accent-hover);}
+.modal-success{text-align:center;padding:12px 0;}
+.modal-success .big-icon{font-size:52px;margin-bottom:16px;}
+.modal-success h3{margin-bottom:8px;}
+.modal-success p{font-size:14px;color:var(--text-2);margin-bottom:24px;}
+
+/* ── PROFILE PAGE ── */
+.profile-wrap{max-width:1100px;margin:0 auto;padding:48px 32px;}
+.profile-header{
+  background:var(--bg);border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-out-lg);
+  padding:40px;margin-bottom:32px;
+  display:flex;align-items:flex-start;gap:32px;
+}
+.profile-info{flex:1;}
+.profile-name{font-size:28px;font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:4px;}
+.profile-role{font-size:14px;color:var(--text-3);margin-bottom:12px;}
+.profile-bio{font-size:14px;color:var(--text-2);line-height:1.7;max-width:500px;}
+.profile-stats{display:flex;gap:24px;margin-top:20px;}
+.pstat{text-align:center;}
+.pstat-n{font-size:22px;font-weight:800;letter-spacing:-0.03em;color:var(--text);}
+.pstat-l{font-size:11px;color:var(--text-3);}
+.profile-tabs{display:flex;gap:8px;margin-bottom:24px;}
+.ptab{
+  background:var(--bg);box-shadow:var(--shadow-out);
+  border:none;font-family:inherit;
+  border-radius:var(--radius-sm);
+  padding:9px 20px;font-size:13.5px;font-weight:600;
+  color:var(--text-2);cursor:pointer;transition:all .15s;
+}
+.ptab:hover{box-shadow:var(--shadow-out-md);color:var(--text);}
+.ptab.active{box-shadow:var(--shadow-in);color:var(--accent);}
+
+/* edit profile modal */
+.edit-avatar-row{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
+.avatar-input{display:none;}
+.avatar-change-btn{
+  background:var(--bg);box-shadow:var(--shadow-out);
+  border-radius:var(--radius-sm);
+  border:none;font-family:inherit;
+  font-size:12.5px;font-weight:600;color:var(--text-2);
+  padding:7px 14px;cursor:pointer;transition:all .15s;
+}
+.avatar-change-btn:hover{box-shadow:var(--shadow-out-md);}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:32px;right:32px;z-index:1000;
+  background:var(--bg);border-radius:var(--radius);
+  box-shadow:var(--shadow-out-lg);
+  padding:14px 20px;
+  font-size:13.5px;font-weight:600;color:var(--text);
+  display:flex;align-items:center;gap:10px;
+  opacity:0;transform:translateY(10px);
+  transition:all .3s;pointer-events:none;max-width:320px;
+}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.success .toast-icon{color:var(--green);}
+.toast.error .toast-icon{color:var(--red);}
+.toast-icon{font-size:18px;}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--bg);padding:56px 32px 36px;
+  border-top:none;
+}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-brand p{font-size:13px;color:var(--text-3);line-height:1.7;max-width:220px;margin-top:10px;}
+.footer-col h5{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col li{font-size:13px;color:var(--text-2);cursor:pointer;transition:color .15s;}
+.footer-col li:hover{color:var(--accent);}
+.footer-bottom{max-width:1280px;margin:0 auto;padding-top:24px;border-top:2px solid var(--bg-alt);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text-3);}
+
+/* ── EMPTY STATE ── */
+.empty-state{
+  text-align:center;padding:64px 32px;
+  background:var(--bg);border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-in);
+}
+.empty-state .icon{font-size:48px;margin-bottom:16px;}
+.empty-state h3{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.empty-state p{font-size:14px;color:var(--text-3);margin-bottom:20px;}
+
+/* ── NOTIFY BANNER ── */
+.notify-banner{
+  background:var(--bg);
+  box-shadow:var(--shadow-in);
+  border-radius:var(--radius);
+  padding:12px 20px;margin-bottom:24px;
+  font-size:13.5px;color:var(--text);
+  display:flex;align-items:center;gap:10px;
+}
+.notify-banner.info{border-left:3px solid var(--accent);}
+.notify-banner.warning{border-left:3px solid var(--amber);}
+
+/* ── MISC ── */
+.divider-text{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text-3);font-size:12.5px;}
+.divider-text::before,.divider-text::after{content:'';flex:1;height:1px;background:var(--neu-dark);opacity:.4;}
+.loading-dots{display:flex;gap:4px;align-items:center;justify-content:center;}
+.loading-dots span{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:bounce .8s infinite;}
+.loading-dots span:nth-child(2){animation-delay:.15s;}
+.loading-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;}
+  .hero-card{display:none;}
+  .detail-grid{grid-template-columns:1fr;}
+  .sidebar{position:static;}
+  .econ-grid,.steps-grid{grid-template-columns:1fr;}
+  .cat-grid{grid-template-columns:repeat(4,1fr);}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+  .principles-grid,.what-cols{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon">✓</span>
+  <span id="toast-msg"></span>
+</div>
+
+<!-- ══ AUTH MODAL ══ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('auth-modal')">✕</button>
+    <div id="auth-content"></div>
+  </div>
+</div>
+
+<!-- ══ EDIT PROFILE MODAL ══ -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('edit-modal')">✕</button>
+    <h3>Edit Profile</h3>
+    <p class="modal-sub">Update your creator profile</p>
+    <div class="form-group">
+      <label class="form-label">Display Name</label>
+      <input class="form-input" id="edit-name" type="text" placeholder="Your name or studio name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Bio</label>
+      <textarea class="form-textarea" id="edit-bio" placeholder="Tell operators a little about you and what you build..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Website (optional)</label>
+      <input class="form-input" id="edit-website" type="url" placeholder="https://...">
+    </div>
+    <button class="btn btn-accent" style="width:100%" onclick="saveProfile()">Save Changes</button>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" onclick="showPage('home')">
+      <div class="logo-mark">🏨</div>
+      HospitalityAgents
+    </a>
+    <div class="nav-links">
+      <button class="nav-link" onclick="showPage('listings')">Browse</button>
+      <button class="nav-link" onclick="showPage('about')">About</button>
+      <button class="nav-link" onclick="showPage('creator')">Sell</button>
+    </div>
+    <div class="nav-actions" id="nav-actions">
+      <!-- filled by renderNav() -->
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     HOME PAGE
+═══════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">✦ Built for the industry</div>
+      <h1>AI Agents & Skills Built for <em>Hotel Operators</em></h1>
+      <p class="hero-sub">Operator-tested configurations for revenue management, guest experience, sales, and more. Platform agnostic. Ready to deploy.</p>
+      <div class="hero-actions">
+        <button class="btn btn-accent btn-lg" onclick="showPage('listings')">Browse Agents & Skills</button>
+        <button class="btn btn-neu btn-lg" onclick="showPage('creator')">Start Selling</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill"><div class="stat-n" id="home-stat-listings">60+</div><div class="stat-l">Agents & skills</div></div>
+        <div class="stat-pill"><div class="stat-n">7</div><div class="stat-l">Categories</div></div>
+        <div class="stat-pill"><div class="stat-n">Any</div><div class="stat-l">AI platform</div></div>
+        <div class="stat-pill"><div class="stat-n">90%</div><div class="stat-l">To creators</div></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">⭐ Featured this week</div>
+      <div class="featured-listing" onclick="showDetail(1)">
+        <div class="fl-image">📊</div>
+        <div class="fl-meta">
+          <span class="badge badge-persona">Persona</span>
+          <span class="badge-cat">Revenue Management</span>
+        </div>
+        <div class="fl-title">Atlas</div>
+        <div class="fl-desc">Revenue Manager Agent — comp set monitoring, rate strategy, and pickup reports on autopilot.</div>
+        <div class="fl-footer">
+          <div>
+            <div class="fl-price">$99</div>
+            <div class="fl-sales">87 sold</div>
+          </div>
+          <button class="btn btn-accent">View →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="cat-strip">
+    <div class="cat-strip-inner">
+      <div class="cat-strip-label">Browse by department</div>
+      <div class="cat-grid">
+        <div class="cat-tile" onclick="filterAndGo('Revenue Management')"><div class="cat-icon">📈</div><div class="cat-name">Revenue Management</div></div>
+        <div class="cat-tile" onclick="filterAndGo('Guest Experience')"><div class="cat-icon">🌟</div><div class="cat-name">Guest Experience</div></div>
+        <div class="cat-tile" onclick="filterAndGo('Sales & Events')"><div class="cat-icon">🤝</div><div class="cat-name">Sales & Events</div></div>
+        <div class="cat-tile" onclick="filterAndGo('Front Office')"><div class="cat-icon">🏨</div><div class="cat-name">Front Office</div></div>
+        <div class="cat-tile" onclick="filterAndGo('F&B')"><div class="cat-icon">🍽️</div><div class="cat-name">Food & Beverage</div></div>
+        <div class="cat-tile" onclick="filterAndGo('Marketing')"><div class="cat-icon">📣</div><div class="cat-name">Marketing</div></div>
+        <div class="cat-tile" onclick="filterAndGo('Finance')"><div class="cat-icon">💳</div><div class="cat-name">Finance</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Personas -->
+  <div class="section">
+    <div class="section-header">
+      <div><div class="section-title">Top Personas</div><div class="section-sub">Full agent configs with personality, memory, and playbooks</div></div>
+      <span class="link-more" onclick="showPage('listings')">View all →</span>
+    </div>
+    <div class="cards-grid" id="home-personas"></div>
+  </div>
+
+  <!-- Top Skills -->
+  <div class="section" style="padding-top:0">
+    <div class="section-header">
+      <div><div class="section-title">Top Skills</div><div class="section-sub">Modular, single-purpose automation packs</div></div>
+      <span class="link-more" onclick="showPage('listings')">View all →</span>
+    </div>
+    <div class="cards-grid" id="home-skills"></div>
+  </div>
+
+  <!-- CTA Band -->
+  <div class="cta-band">
+    <div class="cta-band-inner">
+      <h2>Built something <em>that works?</em></h2>
+      <p>Package your best hotel AI workflow and earn every time an operator deploys it. Keep 90% of every sale.</p>
+      <button class="btn btn-accent btn-lg" onclick="handleSellCTA()">Start Selling →</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales & Events')">Sales & Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&B')">Food & Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LISTINGS PAGE
+═══════════════════════════════════════ -->
+<div id="page-listings" class="page">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <h2>Browse Agents & Skills</h2>
+      <div class="filters" id="listing-filters">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('persona',this)">Personas</button>
+        <button class="filter-btn" onclick="setFilter('skill',this)">Skills</button>
+        <span style="width:1px;height:18px;background:var(--neu-dark);opacity:.4;margin:0 2px"></span>
+        <button class="filter-btn" onclick="setFilter('Revenue Management',this)">Revenue</button>
+        <button class="filter-btn" onclick="setFilter('Guest Experience',this)">Guest Experience</button>
+        <button class="filter-btn" onclick="setFilter('Sales & Events',this)">Sales & Events</button>
+        <button class="filter-btn" onclick="setFilter('Front Office',this)">Front Office</button>
+        <button class="filter-btn" onclick="setFilter('F&B',this)">F&B</button>
+        <button class="filter-btn" onclick="setFilter('Marketing',this)">Marketing</button>
+        <button class="filter-btn" onclick="setFilter('Finance',this)">Finance</button>
+      </div>
+    </div>
+  </div>
+  <div class="listings-body">
+    <div class="cards-grid" id="listings-grid"></div>
+  </div>
+  <footer style="margin-top:40px">
+    <div class="footer-inner">
+      <div class="footer-brand"><div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div><p>The agent marketplace built for hotel operators.</p></div>
+      <div class="footer-col"><h5>Marketplace</h5><ul><li onclick="filterAndGo('Revenue Management')">Revenue Management</li><li onclick="filterAndGo('Guest Experience')">Guest Experience</li><li onclick="filterAndGo('Sales & Events')">Sales & Events</li></ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul><li onclick="handleSellCTA()">Start Selling</li><li onclick="showPage('creator')">Creator Guide</li></ul></div>
+      <div class="footer-col"><h5>Company</h5><ul><li onclick="showPage('about')">About</li><li>Contact</li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 HospitalityAgents.co · CVH Studio</span><span>Platform agnostic</span></div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DETAIL PAGE
+═══════════════════════════════════════ -->
+<div id="page-detail" class="page">
+  <div class="detail-wrap">
+    <button class="detail-back" onclick="showPage('listings')">← Back to marketplace</button>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SUBMIT LISTING PAGE
+═══════════════════════════════════════ -->
+<div id="page-submit" class="page">
+  <div class="submit-wrap">
+    <h2>Submit a Listing</h2>
+    <p class="page-sub">All listings are reviewed before going live. We aim to review within 48 hours.</p>
+
+    <div class="notify-banner info">
+      💡 <strong>Tip:</strong> Listings with detailed capabilities and at least one real use case get approved faster.
+    </div>
+
+    <!-- Step 1: Basic info -->
+    <div class="neu-panel" style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">1 — Basic Info</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Listing Name *</label>
+          <input class="form-input" id="s-name" type="text" placeholder="e.g. Atlas, Review Response Engine">
+          <div class="form-error" id="e-name"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type *</label>
+          <select class="form-select" id="s-type">
+            <option value="">Select type...</option>
+            <option value="persona">Persona — full agent configuration</option>
+            <option value="skill">Skill — modular, single-purpose</option>
+          </select>
+          <div class="form-error" id="e-type"></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-select" id="s-cat">
+            <option value="">Select category...</option>
+            <option>Revenue Management</option>
+            <option>Guest Experience</option>
+            <option>Sales & Events</option>
+            <option>Front Office</option>
+            <option>F&B</option>
+            <option>Marketing</option>
+            <option>Finance</option>
+          </select>
+          <div class="form-error" id="e-cat"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price (USD) *</label>
+          <input class="form-input" id="s-price" type="number" min="1" max="499" placeholder="e.g. 49">
+          <div class="form-hint">Suggested: Skills $9–$29 · Personas $49–$99</div>
+          <div class="form-error" id="e-price"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tagline * <span style="color:var(--text-3);font-weight:400">(one sentence, shown on card)</span></label>
+        <input class="form-input" id="s-tagline" type="text" maxlength="120" placeholder="e.g. Revenue Manager Agent — comp set monitoring, rate strategy, and pickup reports on autopilot">
+        <div class="form-hint"><span id="tagline-count">0</span>/120 characters</div>
+        <div class="form-error" id="e-tagline"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Emoji / Icon</label>
+        <input class="form-input" id="s-emoji" type="text" maxlength="4" placeholder="📊" style="width:80px;text-align:center;font-size:22px">
+        <div class="form-hint">Single emoji that represents this listing</div>
+      </div>
+    </div>
+
+    <!-- Step 2: Description -->
+    <div class="neu-panel" style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">2 — Description & About</div>
+
+      <div class="form-group">
+        <label class="form-label">Short Description * <span style="color:var(--text-3);font-weight:400">(shown on listings page)</span></label>
+        <textarea class="form-textarea" id="s-desc" rows="3" placeholder="2-3 sentences covering what this does and who it's for..."></textarea>
+        <div class="form-error" id="e-desc"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Full About Section * <span style="color:var(--text-3);font-weight:400">(shown on listing detail page)</span></label>
+        <textarea class="form-textarea" id="s-about" rows="6" placeholder="Detailed explanation — what problem does it solve, how was it tested, what's included in the package, setup requirements..."></textarea>
+        <div class="form-error" id="e-about"></div>
+      </div>
+    </div>
+
+    <!-- Step 3: Capabilities -->
+    <div class="neu-panel" style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">3 — Capabilities</div>
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:16px">List what operators can do with this. Be specific — vague capabilities get flagged in review.</p>
+
+      <div class="caps-list" id="caps-list">
+        <div class="empty-cap" style="font-size:13px;color:var(--text-3);padding:12px;text-align:center">No capabilities added yet</div>
+      </div>
+      <div class="add-cap-row">
+        <input class="form-input" id="cap-input" type="text" placeholder="e.g. Daily pickup report generation with commentary" onkeydown="if(event.key==='Enter')addCap()">
+        <button class="btn btn-neu" onclick="addCap()">+ Add</button>
+      </div>
+      <div class="form-error" id="e-caps"></div>
+    </div>
+
+    <!-- Step 4: Platform & Setup -->
+    <div class="neu-panel" style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">4 — Platform Compatibility</div>
+
+      <div class="form-group">
+        <label class="form-label">Compatible Platforms * <span style="color:var(--text-3);font-weight:400">(select all that apply)</span></label>
+        <div class="checkbox-grid" id="platform-chips">
+          <div class="checkbox-chip" onclick="toggleChip(this,'Claude')">Claude</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'GPT-4')">GPT-4</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'GPT-4o')">GPT-4o</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'Gemini')">Gemini</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'Llama')">Llama</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'Any LLM')">Any LLM</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'n8n')">n8n</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'Make')">Make</div>
+          <div class="checkbox-chip" onclick="toggleChip(this,'Zapier')">Zapier</div>
+        </div>
+        <div class="form-error" id="e-platforms"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Setup Requirements</label>
+        <textarea class="form-textarea" id="s-setup" rows="3" placeholder="What does an operator need to deploy this? Any required accounts, APIs, PMS integrations, or technical knowledge?"></textarea>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div style="display:flex;gap:12px;justify-content:flex-end">
+      <button class="btn btn-neu" onclick="showPage('creator')">Cancel</button>
+      <button class="btn btn-accent btn-lg" onclick="submitListing()">Submit for Review →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PROFILE PAGE
+═══════════════════════════════════════ -->
+<div id="page-profile" class="page">
+  <div class="profile-wrap" id="profile-content"></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CREATOR INFO PAGE
+═══════════════════════════════════════ -->
+<div id="page-creator" class="page">
+  <div class="creator-hero-wrap">
+    <div class="hero-eyebrow" style="display:inline-flex;margin-bottom:24px">✦ For builders</div>
+    <h1>Turn your hospitality workflows<br>into <em>recurring revenue</em></h1>
+    <p>Package your best AI configurations for hotel teams. List once, earn every time an operator deploys your work.</p>
+    <button class="btn btn-accent btn-lg" onclick="handleSellCTA()">Create a Creator Account →</button>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto;padding:0 32px 72px">
+    <div class="econ-grid">
+      <div class="econ-card"><div class="econ-n"><span>90</span>%</div><div class="econ-l">of every sale goes to you. We take 10% plus payment processing.</div></div>
+      <div class="econ-card"><div class="econ-n">$<span>0</span></div><div class="econ-l">to list. No monthly fees. You only pay when you earn.</div></div>
+      <div class="econ-card"><div class="econ-n" style="font-size:32px;letter-spacing:-0.02em">One-time</div><div class="econ-l">purchase model. Buyers pay once. No subscriptions to manage.</div></div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:28px"><div class="section-title">How it works</div></div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">01</div><h3>Package what already works</h3><p>Turn your best persona, skill, or workflow into a listing operators can deploy in under an hour.</p></div>
+      <div class="step-card"><div class="step-num">02</div><h3>Submit for review</h3><p>Every listing is reviewed before going live — to maintain the quality standard that makes buyers trust this marketplace.</p></div>
+      <div class="step-card"><div class="step-num">03</div><h3>Earn on every sale</h3><p>Get paid via Stripe. See your sales, reviews, and downloads in your creator dashboard.</p></div>
+    </div>
+
+    <div class="what-grid-wrap">
+      <h2>What belongs on HospitalityAgents</h2>
+      <div class="what-cols">
+        <div class="what-col">
+          <h4>Great fits ✓</h4>
+          <ul>
+            <li>System prompts and persona configs for specific hotel roles</li>
+            <li>Workflow automation playbooks for n8n, Make, Zapier, or Python</li>
+            <li>Prompt packs for repetitive hotel tasks</li>
+            <li>Memory systems adapted for hotel operations</li>
+            <li>PMS/channel manager integration guides with AI layers</li>
+            <li>Rate monitoring, OTA parity, competitive analysis tools</li>
+          </ul>
+        </div>
+        <div class="what-col">
+          <h4>Not a fit ✗</h4>
+          <ul>
+            <li>Generic AI productivity tools with no hospitality specificity</li>
+            <li>Untested configs — every listing should be operator-proven</li>
+            <li>Platform-locked tools requiring a proprietary runtime</li>
+            <li>Content without setup instructions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--bg);border-radius:var(--radius-xl);box-shadow:var(--shadow-out-lg);padding:48px;text-align:center">
+      <div style="font-size:30px;font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:10px">Ready to list your first workflow?</div>
+      <p style="color:var(--text-2);font-size:15px;margin-bottom:28px">Create your account, submit your listing, and start earning.</p>
+      <button class="btn btn-accent btn-lg" onclick="handleSellCTA()">Create a Creator Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ABOUT PAGE
+═══════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="about-hero">
+    <h1>Built for the industry,<br>by the industry</h1>
+    <p>HospitalityAgents exists because no one else was building this. A vertical marketplace for the AI workflows hotel operators actually need.</p>
+  </div>
+  <div class="about-body">
+    <div class="about-block">
+      <h2>Why this exists</h2>
+      <p>The general-purpose AI agent marketplaces are full of tools built by engineers for engineers. A skill for setting up tmux loops doesn't help a revenue manager identify rate compression. A generic CEO persona doesn't know the difference between ADR and RevPAR.</p>
+      <p>Hospitality is a $1.5 trillion industry with deeply specific, high-stakes workflows — and most AI tools treat it as an afterthought. HospitalityAgents is the marketplace where that changes.</p>
+    </div>
+    <div class="about-block">
+      <h2>Our principles</h2>
+      <div class="principles-grid">
+        <div class="principle"><div class="principle-icon">🏨</div><h4>Vertical-first</h4><p>Everything here is built specifically for hospitality. No generic tools dressed up with hotel emoji.</p></div>
+        <div class="principle"><div class="principle-icon">⚙️</div><h4>Platform agnostic</h4><p>Listings work with any major AI provider. We don't lock operators into a single vendor.</p></div>
+        <div class="principle"><div class="principle-icon">✓</div><h4>Operator-tested</h4><p>Every listing goes through a review. We prioritize configs used in real hotel environments.</p></div>
+        <div class="principle"><div class="principle-icon">💰</div><h4>Creator-first economics</h4><p>Creators keep 90% of every sale. We grow when they grow — and not before.</p></div>
+      </div>
+    </div>
+    <div class="about-block">
+      <h2>Who builds here</h2>
+      <p>Former operators who know the workflows, hospitality tech founders, AI engineers who've gone deep on the vertical, and consultants who've automated their own processes and want to package them.</p>
+      <p>If you've built something that works and want to earn every time another operator deploys it, <span style="color:var(--accent);cursor:pointer;font-weight:600" onclick="handleSellCTA()">start selling here →</span></p>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--radius-lg);box-shadow:var(--shadow-out);padding:32px;text-align:center">
+      <div style="font-size:22px;font-weight:800;letter-spacing:-0.03em;color:var(--text);margin-bottom:8px">A CVH Studio product</div>
+      <p style="font-size:13.5px;color:var(--text-3);max-width:380px;margin:0 auto">HospitalityAgents is built and operated by CVH, a venture and product studio focused on hospitality tech.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────
+  DATA & LOGIC
+───────────────────────────────────────── -->
+<script>
+// ═══════════ SEED DATA ═══════════
+const SEED_LISTINGS = [
+  {id:1,type:'persona',category:'Revenue Management',emoji:'📊',name:'Atlas',
+   tagline:'Revenue Manager Agent — comp set monitoring, rate strategy, and pickup reports on autopilot',
+   desc:'A production-ready Revenue Manager persona with full system prompt, memory architecture, and daily reporting playbook.',
+   price:99,sales:87,rating:4.8,reviews:14,version:2,
+   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools for hotel operators.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['Daily pickup report generation with commentary','Rate parity monitoring across OTA channels','Competitive set rate comparison and alert logic','Demand signal identification from booking pace','Weekly RevPAR variance analysis with recommendations','Group displacement analysis framework','Pricing decision documentation and audit trail'],
+   about:'Atlas is a Revenue Manager persona built from real hotel operations experience. It knows the difference between rate compression and demand suppression, understands segment mix, and knows how to read booking pace against the same time last year.\n\nIncludes a full system prompt, a MEMORY.md architecture for persistent context across sessions, a PLAYBOOK.md with daily/weekly/monthly rhythms, and a setup guide for PMS data connection.',
+   reviewList:[
+     {author:'Sarah M.',title:'Finally understands RevPAR',stars:5,date:'Mar 28, 2026',body:'Atlas actually understands the language — pace, pickup, compression. First time I\'ve trusted AI output enough to put it in front of ownership.'},
+     {author:'James T.',title:'Strong foundation, minor tweaks needed',stars:4,date:'Mar 15, 2026',body:'The daily pickup report template is excellent. Had to adjust the comp set logic for our market but the base prompt is solid.'},
+     {author:'Priya K.',title:'Worth every dollar',stars:5,date:'Mar 2, 2026',body:'We\'re a small independent and can\'t afford a full-time revenue manager. Atlas fills that gap. The weekly variance memo saves me 3 hours.'}
+   ],approved:true},
+  {id:2,type:'persona',category:'Guest Experience',emoji:'🌟',name:'Sage',
+   tagline:'Guest Experience Agent — review management, pre-arrival personalization, and post-stay follow-up',
+   desc:'End-to-end guest communication persona with tone calibration for luxury, lifestyle, or select-service properties.',
+   price:79,sales:112,rating:4.9,reviews:22,version:3,
+   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['OTA review response drafting across Tripadvisor, Booking, Expedia, Google','Tone calibration for property tier','Pre-arrival message sequences (3-touch)','In-stay service recovery response templates','Post-stay follow-up and win-back messaging','Sentiment analysis framework for review patterns'],
+   about:'Sage is a Guest Experience persona tuned for the specific communication challenges hotel teams face: responding to negative OTA reviews without admitting liability, writing pre-arrival messages that feel personal, and handling in-stay complaints in a way that prevents public posts.\n\nv3 adds a brand voice intake questionnaire so Sage can calibrate to your property\'s specific personality on first run.',
+   reviewList:[
+     {author:'Marco R.',title:'Review response time dropped from 3 days to same-day',stars:5,date:'Mar 30, 2026',body:'Sage drafts a response in seconds that actually sounds like us. GM reviews and approves, takes 5 minutes total now.'},
+     {author:'Leila F.',title:'Best investment for our boutique',stars:5,date:'Mar 10, 2026',body:'The pre-arrival sequence alone is worth it. Guests keep commenting at check-in that they loved getting our messages.'}
+   ],approved:true},
+  {id:3,type:'persona',category:'Sales & Events',emoji:'🤝',name:'Harper',
+   tagline:'Sales & Events Agent — RFP responses, group lead qualification, and BEO prep',
+   desc:'A full hotel sales persona for group and events. Qualifies incoming leads, drafts RFP responses, and generates BEO first drafts.',
+   price:89,sales:43,rating:4.7,reviews:9,version:1,
+   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['RFP response drafting from scratch','Group lead qualification scoring framework','Displacement analysis decision support','BEO first draft generation from event notes','Sales proposal narrative generation'],
+   about:'Harper is built for the hotel sales manager who spends more time on admin than actually selling. It knows the group sales workflow from inbound lead to signed contract.',
+   reviewList:[{author:'David L.',title:'Finally, RFPs that don\'t take all afternoon',stars:5,date:'Mar 20, 2026',body:'Used to spend 2-3 hours on a complex RFP response. Harper gets me to a strong first draft in 20 minutes.'}],approved:true},
+  {id:4,type:'persona',category:'Front Office',emoji:'🏨',name:'Morgan',
+   tagline:'GM Morning Brief Agent — daily ops summary, escalation flags, and ownership-ready reporting',
+   desc:'Delivers a structured morning brief for GMs: previous day performance, open issues, and flagged escalations.',
+   price:69,sales:61,rating:4.6,reviews:11,version:2,
+   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['Daily GM morning brief generation','Previous night performance summary with commentary','Day-of arrival/departure count and VIP flag','Occupancy and rate forecast for next 7 days','Ownership report formatting'],
+   about:'Morgan transforms raw daily data into a structured morning report. Feed it your numbers and it produces a brief a GM can review in 3 minutes and forward to ownership without editing.',
+   reviewList:[{author:'Nina P.',title:'Saved my mornings',stars:5,date:'Mar 22, 2026',body:'I was assembling this report manually every morning. Now I paste the key numbers and Morgan has a clean brief ready in 90 seconds.'}],approved:true},
+  {id:5,type:'skill',category:'Guest Experience',emoji:'⭐',name:'Review Response Engine',
+   tagline:'Draft brand-consistent OTA review responses in under 60 seconds — across all major platforms',
+   desc:'A prompt pack and decision framework for responding to reviews on Tripadvisor, Booking.com, Expedia, and Google.',
+   price:19,sales:203,rating:4.8,reviews:31,version:4,
+   creator:'Lighthouse Labs',creatorInitial:'L',creatorBio:'Building hospitality reputation tools for independent operators.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['Platform-specific response formats','Negative review framework without admitting liability','Management response templates for 12 complaint categories','Brand voice calibration guide'],
+   about:'A focused, modular skill for the single most time-consuming guest communication task: review responses. 40+ response starters sorted by sentiment and platform.',
+   reviewList:[{author:'Tom H.',title:'Best $19 I\'ve spent on hotel ops',stars:5,date:'Mar 29, 2026',body:'This is now part of the standard weekly workflow for every front office manager. Response time down from 5 days to same-day.'}],approved:true},
+  {id:6,type:'skill',category:'Sales & Events',emoji:'📋',name:'RFP Response Drafter',
+   tagline:'Generate complete group RFP responses from a lead brief — corporate, SMERF, and association ready',
+   desc:'Prompt pack and template library for drafting hotel RFP responses.',
+   price:29,sales:88,rating:4.6,reviews:16,version:2,
+   creator:'Events Intelligence Co.',creatorInitial:'E',creatorBio:'Former hotel sales managers building tools for the industry.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['Corporate group RFP response template','SMERF segment response framework','Association and conference response format','F&B minimum calculation helper'],
+   about:'Written by former hotel sales managers who have responded to thousands of RFPs. The prompts know the language meeting planners use.',
+   reviewList:[{author:'Rachel M.',title:'Cut RFP time in half',stars:5,date:'Mar 18, 2026',body:'This gets me to a strong draft in a fraction of the time. The SMERF template is something I would have spent weeks building myself.'}],approved:true},
+  {id:7,type:'skill',category:'Revenue Management',emoji:'💹',name:'Rate Parity Monitor',
+   tagline:'Identify and document OTA rate parity violations — ready for channel manager escalation',
+   desc:'A workflow and prompt pack for systematically checking rate parity across OTA channels.',
+   price:15,sales:147,rating:4.5,reviews:28,version:3,
+   creator:'RevOps AI',creatorInitial:'R',creatorBio:'Revenue management tools for independent and boutique hotels.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['Parity check prompt framework','Violation documentation template','Channel manager escalation message drafts','Weekly parity audit report format'],
+   about:'A practical skill for revenue managers who check parity manually. Structures the process, formats findings, and drafts escalation communications.',
+   reviewList:[{author:'Ben K.',title:'Practical and immediate ROI',stars:4,date:'Mar 12, 2026',body:'The violation documentation format is what I was missing — now I actually have records to send to channel managers.'}],approved:true},
+  {id:8,type:'skill',category:'Guest Experience',emoji:'✉️',name:'Pre-Arrival Messaging Suite',
+   tagline:'3-touch pre-arrival email and SMS sequence — personalized and conversion-focused',
+   desc:'A prompt pack for generating personalized pre-arrival message sequences with upsell logic.',
+   price:12,sales:176,rating:4.9,reviews:37,version:2,
+   creator:'Lighthouse Labs',creatorInitial:'L',creatorBio:'Building hospitality reputation tools.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['3-touch email sequence (7 days, 3 days, day-of)','SMS variation for each touch','Upgrade offer framing for leisure and business travelers','F&B and spa upsell language'],
+   about:'Pre-arrival communication that feels personal and generates ancillary revenue. Built for hotels that want to upsell without sounding like a retail promo blast.',
+   reviewList:[{author:'Camille S.',title:'Upgrade attachment rate went up 18%',stars:5,date:'Mar 25, 2026',body:'The upgrade framing in the 3-day email is exactly right — it presents the upgrade as a service, not a pitch.'}],approved:true},
+  {id:9,type:'skill',category:'Revenue Management',emoji:'📅',name:'Daily Pickup Report',
+   tagline:'Structured pickup analysis prompt — paste your numbers, get your report',
+   desc:'Stop building pickup reports manually. Feed daily booking pace and get a formatted, commentated pickup report.',
+   price:9,sales:312,rating:4.7,reviews:48,version:5,
+   creator:'RevOps AI',creatorInitial:'R',creatorBio:'Revenue management tools for independent and boutique hotels.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['Daily pickup vs STLY commentary','Segment mix shift identification','Forward 30/60/90 day pace summary','Alert flags for unusual pace patterns'],
+   about:'The most-used skill on HospitalityAgents. Simple, high-value, immediately deployable. Paste your daily numbers, get a formatted pickup report with narrative commentary.',
+   reviewList:[{author:'Yuki T.',title:'Used every single day',stars:5,date:'Mar 31, 2026',body:'Takes 2 minutes instead of 20. The commentary catches things I\'d miss when I\'m going fast.'}],approved:true},
+  {id:10,type:'skill',category:'F&B',emoji:'🍽️',name:'F&B Upsell Agent',
+   tagline:'In-room dining, outlet, and event upsell prompts tuned for hotel F&B context',
+   desc:'A skill for generating F&B upsell copy, server scripting, and in-room dining menu descriptions.',
+   price:19,sales:64,rating:4.4,reviews:12,version:1,
+   creator:'Hospitality Copy Co.',creatorInitial:'H',creatorBio:'Language tools for hotel teams.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['In-room dining menu description rewriting','Outlet upsell prompts for FOH teams','Event catering proposal language','Wine and beverage pairing suggestion framework'],
+   about:'F&B language that sells without feeling pushy. Built by people who have worked restaurant and banquet operations in hotels.',
+   reviewList:[{author:'Sofia R.',title:'Great for menu rewrites',stars:4,date:'Mar 8, 2026',body:'Used this to rewrite our entire room service menu. Orders and average check both went up in the first month.'}],approved:true},
+  {id:11,type:'skill',category:'Marketing',emoji:'📣',name:'OTA Listing Optimizer',
+   tagline:'Rewrite your Booking.com and Expedia listings for conversion',
+   desc:'A prompt pack for optimizing hotel listings across major OTA platforms.',
+   price:14,sales:93,rating:4.6,reviews:19,version:2,
+   creator:'Direct Booking Lab',creatorInitial:'D',creatorBio:'Distribution strategy tools for independent hotels.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['OTA headline rewriting framework','Amenity prioritization guide','Photo caption optimization for conversion','Seasonal listing variation prompts'],
+   about:'Your OTA listing is your digital front desk. Most hotels have listings written years ago by someone who\'s no longer there. This skill audits and rewrites them.',
+   reviewList:[{author:'Andre M.',title:'Immediate uplift on Booking.com',stars:5,date:'Mar 14, 2026',body:'Rewrote our listing using this skill. Conversion rate is up.'}],approved:true},
+  {id:12,type:'skill',category:'Finance',emoji:'💳',name:'Expense Reconciliation Agent',
+   tagline:'Structured prompt workflow for hotel AP and expense reconciliation',
+   desc:'A prompt pack for accounts payable and expense reconciliation tasks common to hotel finance teams.',
+   price:24,sales:37,rating:4.3,reviews:8,version:1,
+   creator:'Hotel Finance Tools',creatorInitial:'H',creatorBio:'Financial workflow tools for hospitality accounting.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['AP reconciliation prompt framework','Month-end accrual documentation template','Variance explanation narrative generator','Budget vs actual commentary generator'],
+   about:'Built for hotel controllers who spend too much time formatting reports. Structures the reconciliation workflow and generates documentation auditors need.',
+   reviewList:[{author:'Finance Director',title:'Solid for month-end',stars:4,date:'Mar 1, 2026',body:'The variance narrative generator is the best part. Gets us 80% of the way there in minutes.'}],approved:true}
+];
+
+// ═══════════ STATE ═══════════
+let currentUser = null;
+let currentFilter = 'all';
+let selectedPlatforms = [];
+let capabilities = [];
+
+// ═══════════ STORAGE HELPERS ═══════════
+const store = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
+  del: k => localStorage.removeItem(k)
+};
+
+function getUsers() { return store.get('ha_users') || {}; }
+function saveUsers(u) { store.set('ha_users', u); }
+function getUserListings() { return store.get('ha_user_listings') || []; }
+function saveUserListings(l) { store.set('ha_user_listings', l); }
+
+function getAllListings() {
+  const userListings = getUserListings().filter(l => l.approved);
+  return [...SEED_LISTINGS, ...userListings];
+}
+
+function getAllListingsIncPending() {
+  const userListings = getUserListings();
+  return [...SEED_LISTINGS, ...userListings];
+}
+
+// ═══════════ AUTH ═══════════
+function initAuth() {
+  const saved = store.get('ha_session');
+  if (saved) {
+    const users = getUsers();
+    if (users[saved.email]) { currentUser = users[saved.email]; }
+  }
+}
+
+function renderNav() {
+  const el = document.getElementById('nav-actions');
+  if (currentUser) {
+    const initials = (currentUser.name || currentUser.email).substring(0,2).toUpperCase();
+    el.innerHTML = `
+      <button class="btn btn-neu btn-sm" onclick="showPage('submit')">+ List Agent</button>
+      <div class="avatar avatar-sm" style="cursor:pointer;font-size:11px;width:36px;height:36px" onclick="showPage('profile')" title="My Profile">${initials}</div>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Log out</button>
+    `;
+  } else {
+    el.innerHTML = `
+      <button class="btn btn-ghost btn-sm" onclick="openLogin()">Log in</button>
+      <button class="btn btn-accent btn-sm" onclick="openSignup()">Sign up</button>
+    `;
+  }
+}
+
+function openLogin() {
+  document.getElementById('auth-content').innerHTML = `
+    <h3>Welcome back</h3>
+    <p class="modal-sub">Sign in to your creator account</p>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" id="l-email" type="email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input class="form-input" id="l-pw" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="form-error" id="l-err"></div>
+    </div>
+    <button class="btn btn-accent" style="width:100%;margin-top:4px" onclick="doLogin()">Sign In</button>
+    <div class="modal-switch">Don't have an account? <a onclick="openSignup()">Sign up free</a></div>
+  `;
+  openModal('auth-modal');
+  setTimeout(()=>document.getElementById('l-email')?.focus(),100);
+}
+
+function openSignup() {
+  document.getElementById('auth-content').innerHTML = `
+    <h3>Create your account</h3>
+    <p class="modal-sub">Join as a creator or buyer — it's free</p>
+    <div class="form-group">
+      <label class="form-label">Display Name</label>
+      <input class="form-input" id="r-name" type="text" placeholder="Your name or studio name" onkeydown="if(event.key==='Enter')doSignup()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" id="r-email" type="email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doSignup()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input class="form-input" id="r-pw" type="password" placeholder="At least 8 characters" onkeydown="if(event.key==='Enter')doSignup()">
+      <div class="form-error" id="r-err"></div>
+    </div>
+    <button class="btn btn-accent" style="width:100%;margin-top:4px" onclick="doSignup()">Create Account</button>
+    <div class="modal-switch">Already have an account? <a onclick="openLogin()">Sign in</a></div>
+  `;
+  openModal('auth-modal');
+  setTimeout(()=>document.getElementById('r-name')?.focus(),100);
+}
+
+function doLogin() {
+  const email = document.getElementById('l-email').value.trim().toLowerCase();
+  const pw = document.getElementById('l-pw').value;
+  const users = getUsers();
+  if (!users[email] || users[email].password !== btoa(pw)) {
+    document.getElementById('l-err').textContent = 'Invalid email or password.';
+    return;
+  }
+  currentUser = users[email];
+  store.set('ha_session', { email });
+  closeModal('auth-modal');
+  renderNav();
+  showToast('Welcome back, ' + (currentUser.name || 'creator') + '! 👋', 'success');
+}
+
+function doSignup() {
+  const name = document.getElementById('r-name').value.trim();
+  const email = document.getElementById('r-email').value.trim().toLowerCase();
+  const pw = document.getElementById('r-pw').value;
+  const errEl = document.getElementById('r-err');
+  if (!name) { errEl.textContent = 'Please enter your name.'; return; }
+  if (!email.includes('@')) { errEl.textContent = 'Please enter a valid email.'; return; }
+  if (pw.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
+  const users = getUsers();
+  if (users[email]) { errEl.textContent = 'An account with this email already exists.'; return; }
+  const newUser = { email, name, password: btoa(pw), bio: '', website: '', joined: Date.now(), listings: 0 };
+  users[email] = newUser;
+  saveUsers(users);
+  currentUser = newUser;
+  store.set('ha_session', { email });
+  document.getElementById('auth-content').innerHTML = `
+    <div class="modal-success">
+      <div class="big-icon">🎉</div>
+      <h3>You're in!</h3>
+      <p>Your creator account is ready. Start by submitting your first listing.</p>
+      <button class="btn btn-accent" style="width:100%" onclick="closeModal('auth-modal');showPage('submit')">Submit Your First Listing →</button>
+      <button class="btn btn-neu" style="width:100%;margin-top:8px" onclick="closeModal('auth-modal');showPage('listings')">Browse first</button>
+    </div>
+  `;
+  renderNav();
+}
+
+function logout() {
+  currentUser = null;
+  store.del('ha_session');
+  renderNav();
+  showPage('home');
+  showToast('Logged out.', 'success');
+}
+
+// ═══════════ MODALS ═══════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+// ═══════════ TOAST ═══════════
+let toastTimer;
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  document.getElementById('toast-icon').textContent = type === 'success' ? '✓' : '✕';
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ═══════════ RENDER CARD ═══════════
+function renderCard(item) {
+  const isPending = !item.approved;
+  return `
+    <div class="listing-card" onclick="${isPending ? '' : 'showDetail('+item.id+')'}">
+      <div class="lc-image">${item.emoji || '🤖'}</div>
+      <div class="lc-body">
+        <div class="lc-meta">
+          <span class="badge ${item.type==='persona'?'badge-persona':'badge-skill'}">${item.type==='persona'?'Persona':'Skill'}</span>
+          ${isPending ? '<span class="badge badge-pending">Pending Review</span>' : ''}
+          <span class="badge-cat">${item.category}</span>
+        </div>
+        <div class="lc-title">${item.name}</div>
+        <div class="lc-desc">${item.tagline}</div>
+      </div>
+      <div class="lc-footer">
+        <div class="lc-creator">
+          <div class="avatar avatar-sm" style="font-size:10px">${(item.creatorInitial||'?')}</div>
+          ${item.creator}
+        </div>
+        <div style="text-align:right">
+          <div class="lc-price">$${item.price}</div>
+          <div class="lc-sales">${item.sales||0} sold</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════ RENDER DETAIL ═══════════
+function showDetail(id) {
+  const all = getAllListings();
+  const item = all.find(l => l.id === id);
+  if (!item) return;
+
+  const star = n => '★'.repeat(Math.round(n)) + '☆'.repeat(5-Math.round(n));
+  const bars = [5,4,3,2,1].map(s => {
+    const cnt = (item.reviewList||[]).filter(r=>r.stars===s).length;
+    const pct = item.reviewList?.length ? (cnt/item.reviewList.length)*100 : 0;
+    return `<div class="rbar"><div class="rbar-label">${s} ★</div><div class="rbar-track"><div class="rbar-fill" style="width:${pct}%"></div></div><div class="rbar-count">${cnt}</div></div>`;
+  }).join('');
+
+  const reviews = (item.reviewList||[]).map(r=>`
+    <div class="review-card">
+      <div class="review-hdr"><span class="review-author">${r.author}</span><span class="review-date">${r.date}</span></div>
+      <div class="stars">${star(r.stars)}</div>
+      <div class="review-title">${r.title}</div>
+      <div class="review-body">${r.body}</div>
+    </div>
+  `).join('');
+
+  const caps = (item.capabilities||[]).map(c=>`<li>${c}</li>`).join('');
+  const ptags = (item.platforms||[]).map(p=>`<span class="platform-tag">${p}</span>`).join('');
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-grid">
+      <div>
+        <div class="detail-image">${item.emoji||'🤖'}</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span class="badge ${item.type==='persona'?'badge-persona':'badge-skill'}">${item.type==='persona'?'Persona':'Skill'}</span>
+          <span class="badge-cat">${item.category}</span>
+        </div>
+        <div class="detail-title">${item.name}</div>
+        <div class="detail-tagline">${item.tagline}</div>
+        <div class="detail-stats">
+          <span>★ ${item.rating||'New'} (${item.reviewList?.length||0} reviews)</span>
+          <span>·</span>
+          <span>${item.sales||0} sold</span>
+          <span>·</span>
+          <span>v${item.version||1}</span>
+        </div>
+        <div class="platform-banner">
+          <span>⚙️</span>
+          <div><strong>Platform agnostic</strong> — works with ${(item.platforms||[]).join(', ')}</div>
+        </div>
+        <div class="dsection">
+          <h3>About this listing</h3>
+          <p>${(item.about||'').replace(/\n/g,'<br><br>')}</p>
+        </div>
+        ${caps ? `<div class="dsection"><h3>What's included</h3><ul>${caps}</ul></div>` : ''}
+        ${item.reviewList?.length ? `
+          <div class="dsection">
+            <h3>Customer reviews</h3>
+            <div class="overall-rating">
+              <div class="overall-num">${item.rating||'–'}</div>
+              <div style="flex:1"><div class="stars" style="margin-bottom:8px">${star(Math.round(item.rating||0))}</div>${bars}</div>
+            </div>
+            ${reviews}
+          </div>` : ''}
+      </div>
+      <div class="sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-price-block">
+            <div class="sidebar-price">$${item.price}</div>
+            <div class="sidebar-price-note">One-time purchase · Yours forever</div>
+          </div>
+          <div class="sidebar-buy">
+            <button class="btn btn-accent" onclick="handleBuy(${item.id})">Buy Now</button>
+            <button class="btn btn-neu">Add to Wishlist</button>
+          </div>
+          <div class="sidebar-meta">
+            <div class="smeta-row"><span class="smeta-label">Type</span><span class="smeta-value">${item.type==='persona'?'Persona':'Skill'}</span></div>
+            <div class="smeta-row"><span class="smeta-label">Category</span><span class="smeta-value">${item.category}</span></div>
+            <div class="smeta-row"><span class="smeta-label">Version</span><span class="smeta-value">v${item.version||1}</span></div>
+            <div class="smeta-row" style="flex-direction:column;gap:8px">
+              <span class="smeta-label">Platforms</span>
+              <div class="platform-tags">${ptags}</div>
+            </div>
+          </div>
+        </div>
+        <div class="creator-card">
+          <div class="creator-top">
+            <div class="avatar avatar-md">${item.creatorInitial||'?'}</div>
+            <div><div class="creator-name">${item.creator}</div><div class="creator-role">Verified Creator</div></div>
+          </div>
+          <div class="creator-bio">${item.creatorBio||''}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  showPage('detail');
+}
+
+function handleBuy(id) {
+  if (!currentUser) { openLogin(); return; }
+  showToast('Redirecting to checkout… (Stripe integration coming soon)', 'success');
+}
+
+// ═══════════ LISTING FILTER ═══════════
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderListingsGrid();
+}
+
+function filterAndGo(cat) {
+  currentFilter = cat;
+  showPage('listings');
+  setTimeout(() => {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      const map = {'Revenue Management':'Revenue','Guest Experience':'Guest Experience','Sales & Events':'Sales & Events','Front Office':'Front Office','F&B':'F&B','Marketing':'Marketing','Finance':'Finance'};
+      b.classList.toggle('active', b.textContent.trim() === (map[cat]||cat));
+    });
+    renderListingsGrid();
+  }, 20);
+}
+
+function renderListingsGrid() {
+  const all = getAllListings();
+  const filtered = all.filter(l => {
+    if (currentFilter === 'all') return true;
+    if (currentFilter === 'persona' || currentFilter === 'skill') return l.type === currentFilter;
+    return l.category === currentFilter;
+  });
+  const grid = document.getElementById('listings-grid');
+  grid.innerHTML = filtered.length
+    ? filtered.map(renderCard).join('')
+    : `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No listings found</h3><p>Try a different filter or category</p></div>`;
+}
+
+// ═══════════ HOME RENDER ═══════════
+function renderHome() {
+  const all = getAllListings();
+  const personas = all.filter(l=>l.type==='persona').slice(0,4);
+  const skills = all.filter(l=>l.type==='skill').sort((a,b)=>b.sales-a.sales).slice(0,4);
+  document.getElementById('home-personas').innerHTML = personas.map(renderCard).join('');
+  document.getElementById('home-skills').innerHTML = skills.map(renderCard).join('');
+  document.getElementById('home-stat-listings').textContent = (all.length) + '+';
+}
+
+// ═══════════ PROFILE PAGE ═══════════
+function renderProfile() {
+  if (!currentUser) { openLogin(); return; }
+  const ul = getUserListings().filter(l => l.creatorEmail === currentUser.email);
+  const initials = (currentUser.name||currentUser.email).substring(0,2).toUpperCase();
+
+  document.getElementById('profile-content').innerHTML = `
+    <div class="profile-header">
+      <div class="avatar avatar-xl">${initials}</div>
+      <div class="profile-info">
+        <div class="profile-name">${currentUser.name||'Creator'}</div>
+        <div class="profile-role">Creator · Joined ${new Date(currentUser.joined||Date.now()).toLocaleDateString('en-US',{month:'long',year:'numeric'})}</div>
+        ${currentUser.bio ? `<div class="profile-bio">${currentUser.bio}</div>` : '<div class="profile-bio" style="color:var(--text-3)"><em>No bio yet — <span style="color:var(--accent);cursor:pointer" onclick="openEditProfile()">add one</span></em></div>'}
+        ${currentUser.website ? `<div style="margin-top:8px;font-size:13px;color:var(--accent)">${currentUser.website}</div>` : ''}
+        <div class="profile-stats">
+          <div class="pstat"><div class="pstat-n">${ul.length}</div><div class="pstat-l">My listings</div></div>
+          <div class="pstat"><div class="pstat-n">${ul.filter(l=>l.approved).length}</div><div class="pstat-l">Approved</div></div>
+          <div class="pstat"><div class="pstat-n">${ul.filter(l=>!l.approved).length}</div><div class="pstat-l">Pending review</div></div>
+        </div>
+      </div>
+      <button class="btn btn-neu btn-sm" onclick="openEditProfile()" style="align-self:flex-start">Edit Profile</button>
+    </div>
+
+    <div class="profile-tabs">
+      <button class="ptab active" id="ptab-listings" onclick="switchTab('listings')">My Listings</button>
+      <button class="ptab" id="ptab-purchases" onclick="switchTab('purchases')">Purchases</button>
+    </div>
+
+    <div id="ptab-content">
+      ${renderMyListings(ul)}
+    </div>
+  `;
+}
+
+function renderMyListings(ul) {
+  if (!ul.length) return `
+    <div class="empty-state">
+      <div class="icon">📦</div>
+      <h3>No listings yet</h3>
+      <p>Submit your first agent or skill to get started</p>
+      <button class="btn btn-accent" onclick="showPage('submit')">Submit a Listing</button>
+    </div>`;
+  return `<div class="cards-grid">${ul.map(renderCard).join('')}</div>
+    <div style="text-align:center;margin-top:28px">
+      <button class="btn btn-accent" onclick="showPage('submit')">+ Submit Another Listing</button>
+    </div>`;
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.getElementById('ptab-'+tab).classList.add('active');
+  const el = document.getElementById('ptab-content');
+  if (tab === 'listings') {
+    const ul = getUserListings().filter(l => l.creatorEmail === currentUser.email);
+    el.innerHTML = renderMyListings(ul);
+  } else {
+    el.innerHTML = `<div class="empty-state"><div class="icon">🛒</div><h3>No purchases yet</h3><p>Browse the marketplace and find your first tool</p><button class="btn btn-accent" onclick="showPage('listings')">Browse Listings</button></div>`;
+  }
+}
+
+function openEditProfile() {
+  document.getElementById('edit-name').value = currentUser.name || '';
+  document.getElementById('edit-bio').value = currentUser.bio || '';
+  document.getElementById('edit-website').value = currentUser.website || '';
+  openModal('edit-modal');
+}
+
+function saveProfile() {
+  const name = document.getElementById('edit-name').value.trim();
+  const bio = document.getElementById('edit-bio').value.trim();
+  const website = document.getElementById('edit-website').value.trim();
+  if (!name) { showToast('Name cannot be empty.', 'error'); return; }
+  const users = getUsers();
+  currentUser.name = name;
+  currentUser.bio = bio;
+  currentUser.website = website;
+  users[currentUser.email] = currentUser;
+  saveUsers(users);
+  store.set('ha_session', { email: currentUser.email });
+  closeModal('edit-modal');
+  renderNav();
+  renderProfile();
+  showToast('Profile updated!', 'success');
+}
+
+// ═══════════ SUBMIT LISTING ═══════════
+function handleSellCTA() {
+  if (currentUser) { showPage('submit'); }
+  else { openSignup(); }
+}
+
+document.getElementById('s-tagline')?.addEventListener('input', function() {
+  document.getElementById('tagline-count').textContent = this.value.length;
+});
+
+function addCap() {
+  const inp = document.getElementById('cap-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  capabilities.push(val);
+  inp.value = '';
+  renderCaps();
+}
+
+function removeCap(i) {
+  capabilities.splice(i,1);
+  renderCaps();
+}
+
+function renderCaps() {
+  const el = document.getElementById('caps-list');
+  if (!capabilities.length) {
+    el.innerHTML = '<div class="empty-cap" style="font-size:13px;color:var(--text-3);padding:12px;text-align:center">No capabilities added yet</div>';
+    return;
+  }
+  el.innerHTML = capabilities.map((c,i) => `
+    <div class="cap-item">
+      <span>${c}</span>
+      <button class="cap-remove" onclick="removeCap(${i})">×</button>
+    </div>
+  `).join('');
+}
+
+function toggleChip(el, val) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    if (!selectedPlatforms.includes(val)) selectedPlatforms.push(val);
+  } else {
+    selectedPlatforms = selectedPlatforms.filter(p=>p!==val);
+  }
+}
+
+function clearErr(id) { const e = document.getElementById(id); if(e) e.textContent=''; }
+
+function submitListing() {
+  // Validate
+  const name = document.getElementById('s-name').value.trim();
+  const type = document.getElementById('s-type').value;
+  const cat = document.getElementById('s-cat').value;
+  const price = parseInt(document.getElementById('s-price').value);
+  const tagline = document.getElementById('s-tagline').value.trim();
+  const desc = document.getElementById('s-desc').value.trim();
+  const about = document.getElementById('s-about').value.trim();
+  const emoji = document.getElementById('s-emoji').value.trim() || '🤖';
+
+  let valid = true;
+  const err = (id, msg) => { document.getElementById(id).textContent = msg; valid = false; };
+  ['e-name','e-type','e-cat','e-price','e-tagline','e-desc','e-about','e-caps','e-platforms'].forEach(clearErr);
+
+  if (!name) err('e-name','Required');
+  if (!type) err('e-type','Required');
+  if (!cat) err('e-cat','Required');
+  if (!price || price < 1) err('e-price','Enter a valid price');
+  if (!tagline) err('e-tagline','Required');
+  if (!desc) err('e-desc','Required');
+  if (!about) err('e-about','Required');
+  if (capabilities.length < 2) err('e-caps','Add at least 2 capabilities');
+  if (!selectedPlatforms.length) err('e-platforms','Select at least one platform');
+
+  if (!valid) { showToast('Please fix the errors above.', 'error'); return; }
+
+  const existing = getUserListings();
+  const newId = Date.now();
+  const newListing = {
+    id: newId,
+    type, category: cat, emoji, name, tagline, desc, about,
+    price, version: 1, sales: 0, rating: null, reviews: 0,
+    capabilities, platforms: selectedPlatforms,
+    creator: currentUser.name || currentUser.email,
+    creatorInitial: (currentUser.name||'?').substring(0,1).toUpperCase(),
+    creatorBio: currentUser.bio || '',
+    creatorEmail: currentUser.email,
+    reviewList: [],
+    approved: false,
+    submittedAt: Date.now()
+  };
+  existing.push(newListing);
+  saveUserListings(existing);
+
+  // Reset form
+  ['s-name','s-type','s-cat','s-price','s-tagline','s-desc','s-about','s-setup','s-emoji','cap-input'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  capabilities = [];
+  selectedPlatforms = [];
+  document.querySelectorAll('.checkbox-chip').forEach(c=>c.classList.remove('selected'));
+  renderCaps();
+  document.getElementById('tagline-count').textContent = '0';
+
+  showToast('Listing submitted for review! We\'ll notify you within 48 hours. ✓', 'success');
+  showPage('profile');
+}
+
+// ═══════════ PAGE ROUTING ═══════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  window.scrollTo(0,0);
+
+  if (name === 'home') renderHome();
+  if (name === 'listings') { currentFilter='all'; renderListingsGrid(); document.querySelectorAll('.filter-btn').forEach((b,i)=>{b.classList.toggle('active',i===0);}); }
+  if (name === 'submit') {
+    if (!currentUser) { openLogin(); return; }
+    capabilities = []; selectedPlatforms = [];
+    renderCaps();
+  }
+  if (name === 'profile') {
+    if (!currentUser) { openLogin(); return; }
+    renderProfile();
+  }
+}
+
+// ═══════════ INIT ═══════════
+initAuth();
+renderNav();
+renderHome();
+
+// Tagline char counter hook (after page load)
+setTimeout(() => {
+  const tl = document.getElementById('s-tagline');
+  if (tl) tl.addEventListener('input', function(){ document.getElementById('tagline-count').textContent = this.value.length; });
+}, 500);
+</script>
+</body>
+</html>
