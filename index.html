@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 :root {
   --bg: #DFE3EA;
@@ -1301,40 +1302,77 @@ const SEED_LISTINGS = [
    reviewList:[{author:'Finance Director',title:'Solid for month-end',stars:4,date:'Mar 1, 2026',body:'The variance narrative generator is the best part. Gets us 80% of the way there in minutes.'}],approved:true}
 ];
 
+// ═══════════ SUPABASE ═══════════
+const { createClient } = supabase;
+const SUPABASE_URL = 'https://rpnkpgtjqtozgsynqspb.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwbmtwZ3RqcXRvemdzeW5xc3BiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5Mjk5ODEsImV4cCI6MjA5MTUwNTk4MX0.kjvNM3eB8bw_dl8s5TDPOfRPyXtHKVhP9lHRp16AoR8';
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // ═══════════ STATE ═══════════
 let currentUser = null;
 let currentFilter = 'all';
 let selectedPlatforms = [];
 let capabilities = [];
+let cachedListings = [...SEED_LISTINGS];
 
-// ═══════════ STORAGE HELPERS ═══════════
-const store = {
-  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
-  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
-  del: k => localStorage.removeItem(k)
-};
+// ═══════════ LISTING HELPERS ═══════════
+function getAllListings() { return cachedListings; }
 
-function getUsers() { return store.get('ha_users') || {}; }
-function saveUsers(u) { store.set('ha_users', u); }
-function getUserListings() { return store.get('ha_user_listings') || []; }
-function saveUserListings(l) { store.set('ha_user_listings', l); }
-
-function getAllListings() {
-  const userListings = getUserListings().filter(l => l.approved);
-  return [...SEED_LISTINGS, ...userListings];
+function dbToListing(row) {
+  return {
+    id: row.id,
+    type: row.type,
+    category: row.category,
+    emoji: row.emoji || '🤖',
+    name: row.name,
+    tagline: row.tagline,
+    desc: row.description,
+    about: row.about,
+    price: row.price,
+    version: row.version || 1,
+    sales: row.sales || 0,
+    rating: row.rating || null,
+    reviews: row.review_count || 0,
+    capabilities: row.capabilities || [],
+    platforms: row.platforms || [],
+    creator: row.creator_name,
+    creatorInitial: row.creator_initial || '?',
+    creatorBio: row.creator_bio || '',
+    creator_id: row.creator_id,
+    reviewList: [],
+    approved: row.approved,
+    submittedAt: row.created_at
+  };
 }
 
-function getAllListingsIncPending() {
-  const userListings = getUserListings();
-  return [...SEED_LISTINGS, ...userListings];
+async function refreshListings() {
+  const { data } = await sb.from('listings').select('*').eq('approved', true);
+  if (data && data.length) {
+    cachedListings = [...SEED_LISTINGS, ...data.map(dbToListing)];
+  }
+}
+
+async function fetchMyListings() {
+  if (!currentUser) return [];
+  const { data } = await sb.from('listings').select('*').eq('creator_id', currentUser.id).order('created_at', { ascending: false });
+  return (data || []).map(dbToListing);
 }
 
 // ═══════════ AUTH ═══════════
-function initAuth() {
-  const saved = store.get('ha_session');
-  if (saved) {
-    const users = getUsers();
-    if (users[saved.email]) { currentUser = users[saved.email]; }
+async function initAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await loadProfile(session.user);
+  await refreshListings();
+  renderNav();
+  renderHome();
+}
+
+async function loadProfile(authUser) {
+  const { data } = await sb.from('profiles').select('*').eq('id', authUser.id).single();
+  if (data) {
+    currentUser = { id: authUser.id, email: authUser.email, ...data };
+  } else {
+    currentUser = { id: authUser.id, email: authUser.email, name: authUser.email.split('@')[0], bio: '', website: '' };
   }
 }
 
@@ -1399,22 +1437,26 @@ function openSignup() {
   setTimeout(()=>document.getElementById('r-name')?.focus(),100);
 }
 
-function doLogin() {
+async function doLogin() {
   const email = document.getElementById('l-email').value.trim().toLowerCase();
   const pw = document.getElementById('l-pw').value;
-  const users = getUsers();
-  if (!users[email] || users[email].password !== btoa(pw)) {
-    document.getElementById('l-err').textContent = 'Invalid email or password.';
+  const errEl = document.getElementById('l-err');
+  const btn = document.querySelector('#auth-content .btn-accent');
+  if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (error) {
+    if (errEl) errEl.textContent = 'Invalid email or password.';
+    if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
     return;
   }
-  currentUser = users[email];
-  store.set('ha_session', { email });
+  await loadProfile(data.user);
   closeModal('auth-modal');
   renderNav();
   showToast('Welcome back, ' + (currentUser.name || 'creator') + '! 👋', 'success');
 }
 
-function doSignup() {
+async function doSignup() {
   const name = document.getElementById('r-name').value.trim();
   const email = document.getElementById('r-email').value.trim().toLowerCase();
   const pw = document.getElementById('r-pw').value;
@@ -1422,13 +1464,20 @@ function doSignup() {
   if (!name) { errEl.textContent = 'Please enter your name.'; return; }
   if (!email.includes('@')) { errEl.textContent = 'Please enter a valid email.'; return; }
   if (pw.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
-  const users = getUsers();
-  if (users[email]) { errEl.textContent = 'An account with this email already exists.'; return; }
-  const newUser = { email, name, password: btoa(pw), bio: '', website: '', joined: Date.now(), listings: 0 };
-  users[email] = newUser;
-  saveUsers(users);
-  currentUser = newUser;
-  store.set('ha_session', { email });
+
+  const btn = document.querySelector('#auth-content .btn-accent');
+  if (btn) { btn.textContent = 'Creating account…'; btn.disabled = true; }
+
+  const { data, error } = await sb.auth.signUp({ email, password: pw });
+  if (error) {
+    errEl.textContent = error.message;
+    if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
+    return;
+  }
+
+  await sb.from('profiles').insert({ id: data.user.id, name, bio: '', website: '' });
+  currentUser = { id: data.user.id, email, name, bio: '', website: '' };
+  renderNav();
   document.getElementById('auth-content').innerHTML = `
     <div class="modal-success">
       <div class="big-icon">🎉</div>
@@ -1438,12 +1487,11 @@ function doSignup() {
       <button class="btn btn-neu" style="width:100%;margin-top:8px" onclick="closeModal('auth-modal');showPage('listings')">Browse first</button>
     </div>
   `;
-  renderNav();
 }
 
-function logout() {
+async function logout() {
+  await sb.auth.signOut();
   currentUser = null;
-  store.del('ha_session');
   renderNav();
   showPage('home');
   showToast('Logged out.', 'success');
@@ -1639,23 +1687,24 @@ function renderHome() {
 }
 
 // ═══════════ PROFILE PAGE ═══════════
-function renderProfile() {
+async function renderProfile() {
   if (!currentUser) { openLogin(); return; }
-  const ul = getUserListings().filter(l => l.creatorEmail === currentUser.email);
-  const initials = (currentUser.name||currentUser.email).substring(0,2).toUpperCase();
+  document.getElementById('profile-content').innerHTML = `<div style="text-align:center;padding:60px;color:var(--text-3)">Loading profile…</div>`;
+  const myListings = await fetchMyListings();
+  const initials = (currentUser.name || currentUser.email).substring(0,2).toUpperCase();
 
   document.getElementById('profile-content').innerHTML = `
     <div class="profile-header">
       <div class="avatar avatar-xl">${initials}</div>
       <div class="profile-info">
         <div class="profile-name">${currentUser.name||'Creator'}</div>
-        <div class="profile-role">Creator · Joined ${new Date(currentUser.joined||Date.now()).toLocaleDateString('en-US',{month:'long',year:'numeric'})}</div>
+        <div class="profile-role">Creator · Joined ${new Date(currentUser.created_at||Date.now()).toLocaleDateString('en-US',{month:'long',year:'numeric'})}</div>
         ${currentUser.bio ? `<div class="profile-bio">${currentUser.bio}</div>` : '<div class="profile-bio" style="color:var(--text-3)"><em>No bio yet — <span style="color:var(--accent);cursor:pointer" onclick="openEditProfile()">add one</span></em></div>'}
         ${currentUser.website ? `<div style="margin-top:8px;font-size:13px;color:var(--accent)">${currentUser.website}</div>` : ''}
         <div class="profile-stats">
-          <div class="pstat"><div class="pstat-n">${ul.length}</div><div class="pstat-l">My listings</div></div>
-          <div class="pstat"><div class="pstat-n">${ul.filter(l=>l.approved).length}</div><div class="pstat-l">Approved</div></div>
-          <div class="pstat"><div class="pstat-n">${ul.filter(l=>!l.approved).length}</div><div class="pstat-l">Pending review</div></div>
+          <div class="pstat"><div class="pstat-n">${myListings.length}</div><div class="pstat-l">My listings</div></div>
+          <div class="pstat"><div class="pstat-n">${myListings.filter(l=>l.approved).length}</div><div class="pstat-l">Approved</div></div>
+          <div class="pstat"><div class="pstat-n">${myListings.filter(l=>!l.approved).length}</div><div class="pstat-l">Pending review</div></div>
         </div>
       </div>
       <button class="btn btn-neu btn-sm" onclick="openEditProfile()" style="align-self:flex-start">Edit Profile</button>
@@ -1667,12 +1716,12 @@ function renderProfile() {
     </div>
 
     <div id="ptab-content">
-      ${renderMyListings(ul)}
+      ${renderMyListingsHTML(myListings)}
     </div>
   `;
 }
 
-function renderMyListings(ul) {
+function renderMyListingsHTML(ul) {
   if (!ul.length) return `
     <div class="empty-state">
       <div class="icon">📦</div>
@@ -1686,13 +1735,14 @@ function renderMyListings(ul) {
     </div>`;
 }
 
-function switchTab(tab) {
+async function switchTab(tab) {
   document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
   document.getElementById('ptab-'+tab).classList.add('active');
   const el = document.getElementById('ptab-content');
   if (tab === 'listings') {
-    const ul = getUserListings().filter(l => l.creatorEmail === currentUser.email);
-    el.innerHTML = renderMyListings(ul);
+    el.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-3)">Loading…</div>`;
+    const myListings = await fetchMyListings();
+    el.innerHTML = renderMyListingsHTML(myListings);
   } else {
     el.innerHTML = `<div class="empty-state"><div class="icon">🛒</div><h3>No purchases yet</h3><p>Browse the marketplace and find your first tool</p><button class="btn btn-accent" onclick="showPage('listings')">Browse Listings</button></div>`;
   }
@@ -1705,18 +1755,16 @@ function openEditProfile() {
   openModal('edit-modal');
 }
 
-function saveProfile() {
+async function saveProfile() {
   const name = document.getElementById('edit-name').value.trim();
   const bio = document.getElementById('edit-bio').value.trim();
   const website = document.getElementById('edit-website').value.trim();
   if (!name) { showToast('Name cannot be empty.', 'error'); return; }
-  const users = getUsers();
-  currentUser.name = name;
-  currentUser.bio = bio;
-  currentUser.website = website;
-  users[currentUser.email] = currentUser;
-  saveUsers(users);
-  store.set('ha_session', { email: currentUser.email });
+
+  const { error } = await sb.from('profiles').update({ name, bio, website }).eq('id', currentUser.id);
+  if (error) { showToast('Error saving. Please try again.', 'error'); return; }
+
+  currentUser = { ...currentUser, name, bio, website };
   closeModal('edit-modal');
   renderNav();
   renderProfile();
@@ -1772,8 +1820,7 @@ function toggleChip(el, val) {
 
 function clearErr(id) { const e = document.getElementById(id); if(e) e.textContent=''; }
 
-function submitListing() {
-  // Validate
+async function submitListing() {
   const name = document.getElementById('s-name').value.trim();
   const type = document.getElementById('s-type').value;
   const cat = document.getElementById('s-cat').value;
@@ -1796,31 +1843,27 @@ function submitListing() {
   if (!about) err('e-about','Required');
   if (capabilities.length < 2) err('e-caps','Add at least 2 capabilities');
   if (!selectedPlatforms.length) err('e-platforms','Select at least one platform');
-
   if (!valid) { showToast('Please fix the errors above.', 'error'); return; }
 
-  const existing = getUserListings();
-  const newId = Date.now();
-  const newListing = {
-    id: newId,
-    type, category: cat, emoji, name, tagline, desc, about,
-    price, version: 1, sales: 0, rating: null, reviews: 0,
-    capabilities, platforms: selectedPlatforms,
-    creator: currentUser.name || currentUser.email,
-    creatorInitial: (currentUser.name||'?').substring(0,1).toUpperCase(),
-    creatorBio: currentUser.bio || '',
-    creatorEmail: currentUser.email,
-    reviewList: [],
-    approved: false,
-    submittedAt: Date.now()
-  };
-  existing.push(newListing);
-  saveUserListings(existing);
+  const submitBtn = document.querySelector('[onclick="submitListing()"]');
+  if (submitBtn) { submitBtn.textContent = 'Submitting…'; submitBtn.disabled = true; }
 
-  // Reset form
+  const { error } = await sb.from('listings').insert({
+    type, category: cat, emoji, name, tagline,
+    description: desc, about, price,
+    capabilities, platforms: selectedPlatforms,
+    creator_id: currentUser.id,
+    creator_name: currentUser.name || currentUser.email,
+    creator_initial: (currentUser.name || '?').substring(0,1).toUpperCase(),
+    creator_bio: currentUser.bio || '',
+    approved: false
+  });
+
+  if (submitBtn) { submitBtn.textContent = 'Submit for Review'; submitBtn.disabled = false; }
+  if (error) { showToast('Error submitting. Please try again.', 'error'); return; }
+
   ['s-name','s-type','s-cat','s-price','s-tagline','s-desc','s-about','s-setup','s-emoji','cap-input'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
+    const el = document.getElementById(id); if (el) el.value = '';
   });
   capabilities = [];
   selectedPlatforms = [];
@@ -1828,7 +1871,7 @@ function submitListing() {
   renderCaps();
   document.getElementById('tagline-count').textContent = '0';
 
-  showToast('Listing submitted for review! We\'ll notify you within 48 hours. ✓', 'success');
+  showToast("Listing submitted! We'll notify you within 48 hours. ✓", 'success');
   showPage('profile');
 }
 
@@ -1854,8 +1897,6 @@ function showPage(name) {
 
 // ═══════════ INIT ═══════════
 initAuth();
-renderNav();
-renderHome();
 
 // Tagline char counter hook (after page load)
 setTimeout(() => {
