@@ -62,7 +62,7 @@ nav{
 }
 .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;height:60px;gap:32px;}
 .logo{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:10px;letter-spacing:-0.02em;text-decoration:none;}
-.logo-mark{width:30px;height:30px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:transparent;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;}
 .nav-links{display:flex;align-items:center;gap:2px;flex:1;}
 .nav-link{font-size:13.5px;font-weight:500;color:var(--text-2);cursor:pointer;padding:6px 12px;border-radius:var(--radius-sm);transition:all .15s;border:none;background:transparent;font-family:inherit;}
 .nav-link:hover{color:var(--text);background:var(--accent-light);}
@@ -513,9 +513,9 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       <div class="footer-col"><h5>Marketplace</h5><ul>
         <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
         <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
-        <li onclick="filterAndGo('Sales & Events')">Sales & Events</li>
+        <li onclick="filterAndGo('Sales & Events')">Sales &amp; Events</li>
         <li onclick="filterAndGo('Front Office')">Front Office</li>
-        <li onclick="filterAndGo('F&B')">Food & Beverage</li>
+        <li onclick="filterAndGo('F&B')">Food &amp; Beverage</li>
       </ul></div>
       <div class="footer-col"><h5>Creators</h5><ul>
         <li onclick="handleSellCTA()">Start Selling</li>
@@ -523,6 +523,7 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       </ul></div>
       <div class="footer-col"><h5>Company</h5><ul>
         <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
         <li>Terms of Service</li>
         <li>Privacy</li>
         <li>Contact</li>
@@ -560,14 +561,35 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
   <div class="listings-body">
     <div class="cards-grid" id="listings-grid"></div>
   </div>
-  <footer style="margin-top:40px">
+  <footer>
     <div class="footer-inner">
-      <div class="footer-brand"><div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div><p>The agent marketplace built for hotel operators.</p></div>
-      <div class="footer-col"><h5>Marketplace</h5><ul><li onclick="filterAndGo('Revenue Management')">Revenue Management</li><li onclick="filterAndGo('Guest Experience')">Guest Experience</li><li onclick="filterAndGo('Sales & Events')">Sales & Events</li></ul></div>
-      <div class="footer-col"><h5>Creators</h5><ul><li onclick="handleSellCTA()">Start Selling</li><li onclick="showPage('creator')">Creator Guide</li></ul></div>
-      <div class="footer-col"><h5>Company</h5><ul><li onclick="showPage('about')">About</li><li>Contact</li></ul></div>
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales & Events')">Sales &amp; Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&B')">Food &amp; Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 HospitalityAgents.co · CVH Studio</span><span>Platform agnostic</span></div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
   </footer>
 </div>
 
@@ -579,6 +601,36 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
     <button class="detail-back" onclick="showPage('listings')">← Back to marketplace</button>
     <div id="detail-content"></div>
   </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales &amp; Events')">Sales &amp; Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&amp;B')">Food &amp; Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
+  </footer>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -737,6 +789,36 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       <button class="btn btn-accent btn-lg" onclick="submitListing()">Submit for Review →</button>
     </div>
   </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales &amp; Events')">Sales &amp; Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&amp;B')">Food &amp; Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
+  </footer>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -744,6 +826,36 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
 ═══════════════════════════════════════ -->
 <div id="page-profile" class="page">
   <div class="profile-wrap" id="profile-content"></div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales &amp; Events')">Sales &amp; Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&amp;B')">Food &amp; Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
+  </footer>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -803,6 +915,36 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       <button class="btn btn-accent btn-lg" onclick="handleSellCTA()">Create a Creator Account →</button>
     </div>
   </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales &amp; Events')">Sales &amp; Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&amp;B')">Food &amp; Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
+  </footer>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -838,6 +980,36 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       <p style="font-size:13.5px;color:var(--text-3);max-width:380px;margin:0 auto">HospitalityAgents is built and operated by CVH, a venture and product studio focused on hospitality tech.</p>
     </div>
   </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales &amp; Events')">Sales &amp; Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&amp;B')">Food &amp; Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
+  </footer>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -879,18 +1051,30 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--text);margin-bottom:8px">Who we work with</div>
       <p style="font-size:15px;color:var(--text-2);margin-bottom:28px;line-height:1.7">We partner with hospitality technology companies that want to add an AI layer to their existing product suite.</p>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
-        ${[
-          ['Property Management Systems','Opera, Mews, Cloudbeds, and others looking to surface AI workflows inside their platforms.'],
-          ['Revenue Management Systems','IDeaS, Duetto, Atomize — bring AI-generated pickup and strategy commentary to your users.'],
-          ['Channel Managers','SiteMinder, Cloudbeds, RateGain — embed parity monitoring and OTA optimization agents.'],
-          ['CRM & Guest Experience Platforms','Revinate, Medallia, Canary — add pre-arrival, review response, and win-back AI agents.'],
-          ['Sales & Events Technology','Delphi, Tripleseat — automate RFP drafting and group lead scoring inside your workflow.'],
-          ['Hospitality Consultancies','Package your methodology as marketplace listings and earn on every deployment.']
-        ].map(([title,desc])=>`
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
-          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">${title}</div>
-          <div style="font-size:13px;color:var(--text-2);line-height:1.65">${desc}</div>
-        </div>`).join('')}
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">Property Management Systems</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65">Opera, Mews, Cloudbeds, and others looking to surface AI workflows inside their platforms.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">Revenue Management Systems</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65">IDeaS, Duetto, Atomize — bring AI-generated pickup and strategy commentary to your users.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">Channel Managers</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65">SiteMinder, Cloudbeds, RateGain — embed parity monitoring and OTA optimization agents.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">CRM &amp; Guest Experience Platforms</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65">Revinate, Medallia, Canary — add pre-arrival, review response, and win-back AI agents.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">Sales &amp; Events Technology</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65">Delphi, Tripleseat — automate RFP drafting and group lead scoring inside your workflow.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">Hospitality Consultancies</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65">Package your methodology as marketplace listings and earn on every deployment.</div>
+        </div>
       </div>
     </div>
 
@@ -957,6 +1141,37 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
     </div>
 
   </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-mark">🏨</div> HospitalityAgents</div>
+        <p>The agent marketplace built for hotel operators, by people who know the industry.</p>
+      </div>
+      <div class="footer-col"><h5>Marketplace</h5><ul>
+        <li onclick="filterAndGo('Revenue Management')">Revenue Management</li>
+        <li onclick="filterAndGo('Guest Experience')">Guest Experience</li>
+        <li onclick="filterAndGo('Sales & Events')">Sales &amp; Events</li>
+        <li onclick="filterAndGo('Front Office')">Front Office</li>
+        <li onclick="filterAndGo('F&B')">Food &amp; Beverage</li>
+      </ul></div>
+      <div class="footer-col"><h5>Creators</h5><ul>
+        <li onclick="handleSellCTA()">Start Selling</li>
+        <li onclick="showPage('creator')">Creator Guide</li>
+      </ul></div>
+      <div class="footer-col"><h5>Company</h5><ul>
+        <li onclick="showPage('about')">About</li>
+        <li onclick="showPage('partners')">For Software Co's</li>
+        <li>Terms of Service</li>
+        <li>Privacy</li>
+        <li>Contact</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HospitalityAgents.co · CVH Studio</span>
+      <span>Platform agnostic · Works with any AI stack</span>
+    </div>
+  </footer>
 </div>
 
 <!-- ─────────────────────────────────────────
