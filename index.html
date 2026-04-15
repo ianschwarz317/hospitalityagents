@@ -233,6 +233,10 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
 .footer-col li:hover{color:var(--text);}
 .footer-bottom{max-width:1280px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text-3);}
 
+.creator-hero-wrap{border-bottom:1px solid var(--border);padding:80px 32px 64px;text-align:center;position:relative;overflow:hidden;}
+.creator-hero-wrap h1{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,58px);font-weight:400;line-height:1.06;letter-spacing:-0.02em;margin-bottom:20px;max-width:720px;margin-left:auto;margin-right:auto;}
+.creator-hero-wrap h1 em{font-style:italic;}
+.creator-hero-wrap p{font-size:16px;color:var(--text-2);line-height:1.75;margin-bottom:36px;max-width:560px;margin-left:auto;margin-right:auto;}
 .creator-hero{border-bottom:1px solid var(--border);padding:80px 32px 64px;text-align:center;position:relative;overflow:hidden;}
 .creator-hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(0,0,0,0.02) 0%,transparent 70%);pointer-events:none;}
 .creator-hero-inner{max-width:720px;margin:0 auto;position:relative;}
@@ -245,22 +249,22 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
 .creator-section h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;color:var(--text);margin-bottom:8px;}
 .creator-section .section-sub{font-size:14px;color:var(--text-3);margin-bottom:28px;}
 
-.econ-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
+.econ-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px;}
 .econ-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;}
-.econ-pct{font-family:'Playfair Display',serif;font-size:48px;font-weight:400;margin-bottom:6px;}
-.econ-label{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
-.econ-desc{font-size:13px;color:var(--text-2);line-height:1.65;}
+.econ-pct,.econ-n{font-family:'Playfair Display',serif;font-size:48px;font-weight:400;letter-spacing:-0.03em;line-height:1;margin-bottom:8px;color:var(--text);}
+.econ-label,.econ-l{font-size:13.5px;color:var(--text-2);line-height:1.6;}
+.econ-desc,.econ-l{font-size:13.5px;color:var(--text-2);line-height:1.6;}
 .steps-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px;}
 .step-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;}
 .step-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--text-3);margin-bottom:12px;}
 .step-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;}
-.step-desc{font-size:13px;color:var(--text-2);line-height:1.65;}
+.step-desc{font-size:13px;color:var(--text-2);line-height:1.65;}.step-card h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;letter-spacing:-0.01em;}
 .what-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
-.what-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:24px;}
-.what-card h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;}
-.what-card ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
-.what-card li{font-size:13px;color:var(--text-2);display:flex;align-items:flex-start;gap:8px;}
-.what-card li::before{content:'→';color:var(--text-3);font-size:11px;margin-top:2px;flex-shrink:0;}
+.what-card,.what-col{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:24px;}
+.what-card h4,.what-col h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;}
+.what-card ul,.what-col ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.what-card li,.what-col li{font-size:13px;color:var(--text-2);display:flex;align-items:flex-start;gap:8px;}
+.what-card li::before,.what-col li::before{content:'→';color:var(--text-3);font-size:11px;margin-top:2px;flex-shrink:0;}
 .what-card.no li::before{content:'✕';color:var(--red);}
 
 .about-hero{border-bottom:1px solid var(--border);padding:80px 32px 64px;text-align:center;}
@@ -357,7 +361,7 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
   .hero-card{display:none;}
   .detail-grid{grid-template-columns:1fr;}
   .sidebar{position:static;}
-  .econ-grid,.steps-grid{grid-template-columns:1fr;}
+  .econ-grid,.steps-grid,.what-cols{grid-template-columns:1fr;}
   .cat-grid{grid-template-columns:repeat(4,1fr);}
   .footer-inner{grid-template-columns:1fr 1fr;}
   .principles-grid,.what-cols{grid-template-columns:1fr;}
@@ -879,7 +883,7 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
     <div class="econ-grid">
       <div class="econ-card"><div class="econ-n"><span>90</span>%</div><div class="econ-l">of every sale goes to you. We take 10% plus payment processing.</div></div>
       <div class="econ-card"><div class="econ-n">$<span>0</span></div><div class="econ-l">to list. No monthly fees. You only pay when you earn.</div></div>
-      <div class="econ-card"><div class="econ-n" style="font-size:32px;letter-spacing:-0.02em">One-time</div><div class="econ-l">purchase model. Buyers pay once. No subscriptions to manage.</div></div>
+      <div class="econ-card"><div class="econ-n">One-time</div><div class="econ-l">purchase model. Buyers pay once. No subscriptions to manage.</div></div>
     </div>
 
     <div style="text-align:center;margin-bottom:28px"><div class="section-title">How it works</div></div>
@@ -889,8 +893,8 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       <div class="step-card"><div class="step-num">03</div><h3>Earn on every sale</h3><p>Get paid via Stripe. See your sales, reviews, and downloads in your creator dashboard.</p></div>
     </div>
 
-    <div class="what-grid-wrap">
-      <h2>What belongs on HospitalityAgents</h2>
+    <div style="margin-top:56px">
+      <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:400;color:var(--text);margin-bottom:24px">What belongs on HospitalityAgents</h2>
       <div class="what-cols">
         <div class="what-col">
           <h4>Great fits ✓</h4>
@@ -915,8 +919,8 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
       </div>
     </div>
 
-    <div style="background:var(--bg);border-radius:var(--radius-xl);box-shadow:var(--shadow-out-lg);padding:48px;text-align:center">
-      <div style="font-size:30px;font-weight:800;letter-spacing:-0.04em;color:var(--text);margin-bottom:10px">Ready to list your first workflow?</div>
+    <div style="background:var(--surface);border-radius:var(--radius-xl);border:1px solid var(--border);padding:48px;text-align:center;margin-top:56px">
+      <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--text);margin-bottom:10px">Ready to list your first workflow?</div>
       <p style="color:var(--text-2);font-size:15px;margin-bottom:28px">Create your account, submit your listing, and start earning.</p>
       <button class="btn btn-accent btn-lg" onclick="handleSellCTA()">Create a Creator Account →</button>
     </div>
