@@ -1,0 +1,21 @@
+{
+  "name": "HospitalityAgents.co",
+  "short_name": "HospitalityAgents",
+  "description": "The AI agent marketplace built for hotel operators. Browse, purchase, and deploy operator-tested AI agents and skills for revenue management, guest experience, sales, and more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a2744",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "lang": "en-US",
+  "dir": "ltr"
+}

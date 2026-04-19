@@ -1,0 +1,57 @@
+# HospitalityAgents.co
+
+> The AI agent and skills marketplace built specifically for hotel operators. Browse, purchase, and deploy operator-tested AI configurations for revenue management, guest experience, sales, front office, F&B, marketing, and finance.
+
+## What is HospitalityAgents?
+
+HospitalityAgents.co is a vertical marketplace for hospitality-specific AI tools. Unlike general-purpose AI marketplaces, every listing on HospitalityAgents is built for hotel operations — written by people who understand ADR, RevPAR, OTA parity, pickup reports, RFPs, BEOs, and the real workflows hotel teams use every day.
+
+Listings come in two forms:
+- **Personas** — Full agent configurations with system prompts, memory architecture, and operational playbooks. Designed to be deployed as a named AI agent for a specific hotel role (e.g., revenue manager, GM brief assistant, sales agent).
+- **Skills** — Modular, single-purpose prompt packs for specific recurring tasks (e.g., review response, rate parity monitoring, pre-arrival messaging, pickup report generation).
+
+## Key Pages
+
+- https://hospitalityagents.co — Home / marketplace overview
+- https://hospitalityagents.co#listings — Browse all agents and skills
+- https://hospitalityagents.co#about — About HospitalityAgents and CVH Studio
+- https://hospitalityagents.co#creator — Developer guide (sell your AI tools)
+- https://hospitalityagents.co#partners — For hospitality software companies
+- https://hospitalityagents.co#request — Request a custom agent
+- https://hospitalityagents.co#contact — Contact
+- https://hospitalityagents.co#terms — Terms of Service
+- https://hospitalityagents.co#privacy — Privacy Policy
+
+## Categories
+
+- **Revenue Management** — Rate strategy, pickup reports, parity monitoring, comp set analysis
+- **Guest Experience** — Review response, pre-arrival messaging, in-stay communication, win-back
+- **Sales & Events** — RFP response, group lead qualification, BEO drafting, proposal generation
+- **Front Office** — GM morning briefs, daily ops summaries, escalation flagging
+- **Food & Beverage** — Menu descriptions, upsell scripting, catering proposals
+- **Marketing** — OTA listing optimization, direct booking copy, campaign briefs
+- **Finance** — Expense reconciliation, variance commentary, month-end documentation
+
+## Featured Listings
+
+- **Atlas** (Persona, Revenue Management, $99) — Revenue Manager agent with comp set monitoring, rate strategy, and pickup reports
+- **Sage** (Persona, Guest Experience, $79) — Guest Experience agent for review management, pre-arrival personalization, and post-stay follow-up
+- **Harper** (Persona, Sales & Events, $89) — Sales agent for RFP responses, group lead qualification, and BEO prep
+- **Morgan** (Persona, Front Office, $69) — GM Morning Brief agent for daily ops summaries and ownership reporting
+- **Daily Pickup Report** (Skill, Revenue Management, $9) — Paste your numbers, get a formatted pickup report with commentary
+- **Review Response Engine** (Skill, Guest Experience, $19) — Brand-consistent OTA review responses in under 60 seconds
+- **Pre-Arrival Messaging Suite** (Skill, Guest Experience, $12) — 3-touch pre-arrival email and SMS sequences with upsell logic
+
+## For Developers
+
+Hospitality professionals with AI expertise can list their own agents and skills. Developers keep 90% of every sale. Listings are reviewed before publication to ensure quality and hospitality specificity.
+
+Compatible AI platforms vary by listing — each listing specifies which platforms it supports (Claude, GPT-4, GPT-4o, Gemini, Llama, n8n, Make, Zapier, etc.).
+
+## Company
+
+HospitalityAgents.co is a product of CVH Studio, a venture and product studio focused on hospitality technology.
+
+Contact: hello@hospitalityagents.co
+Developer support: developers@hospitalityagents.co
+Partnership inquiries: partners@hospitalityagents.co
