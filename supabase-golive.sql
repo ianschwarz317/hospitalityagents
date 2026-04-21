@@ -212,3 +212,23 @@ create policy "Admin can read all profiles"
 --    URL: https://hospitalityagents.co/api/notify
 --    Header: x-webhook-secret: [your chosen secret]
 -- 3. Set matching env var WEBHOOK_SECRET in Vercel
+
+
+-- ── 7. WAITLIST TABLE (email capture) ────────────────────
+create table if not exists waitlist (
+  id         uuid primary key default gen_random_uuid(),
+  email      text not null unique,
+  created_at timestamptz default now()
+);
+
+alter table waitlist enable row level security;
+
+drop policy if exists "Anyone can join waitlist" on waitlist;
+create policy "Anyone can join waitlist"
+  on waitlist for insert
+  with check (true);
+
+
+-- ── 8. ADD pms_systems column to listings ────────────────
+alter table listings
+  add column if not exists pms_systems text[] default '{}';
