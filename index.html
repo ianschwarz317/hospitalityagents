@@ -1901,7 +1901,7 @@ async function submitEmailBar() {
   const btn = document.querySelector('.email-bar-btn');
   btn.textContent = '…'; btn.disabled = true;
   await sb.from('waitlist').insert({ email, created_at: new Date().toISOString() }).then(()=>{}).catch(()=>{});
-  document.querySelector('.email-bar').innerHTML = '<p class="email-success-bar">✓ You're on the list — we'll be in touch when new agents drop.</p><button class="email-bar-close" onclick="dismissEmailBar()">×</button>';
+  document.querySelector('.email-bar').innerHTML = '<p class="email-success-bar">✓ You’re on the list — we’ll be in touch when new agents drop.</p><button class="email-bar-close" onclick="dismissEmailBar()">×</button>';
   setTimeout(()=>dismissEmailBar(), 4000);
 }
 
