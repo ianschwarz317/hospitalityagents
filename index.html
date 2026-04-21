@@ -387,18 +387,6 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
 .lc-pms{display:flex;flex-wrap:wrap;gap:3px;padding:0 20px 12px;}
 
 /* ── Founding Developer badge ── */
-.founding-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#1a2744 0%,#2d3f6e 100%);border:1px solid rgba(59,108,244,0.4);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:#fff;margin-bottom:20px;}
-.founding-badge-dot{width:7px;height:7px;border-radius:50%;background:#3B6CF4;animation:pulse 2s infinite;}
-.founding-callout{background:linear-gradient(135deg,rgba(26,39,68,0.04) 0%,rgba(59,108,244,0.06) 100%);border:1px solid rgba(59,108,244,0.18);border-radius:var(--radius-xl);padding:36px 40px;margin-top:48px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;}
-.founding-callout h3{font-family:"Playfair Display",serif;font-size:24px;font-weight:400;color:var(--text);margin-bottom:8px;}
-.founding-callout p{font-size:14px;color:var(--text-2);line-height:1.7;}
-.founding-perks{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:14px;}
-.founding-perks li{font-size:13px;color:var(--text-2);display:flex;align-items:center;gap:8px;}
-.founding-perks li::before{content:"✦";color:#3B6CF4;font-size:10px;}
-.founding-count{text-align:center;padding:24px 32px;background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);min-width:160px;}
-.founding-count-n{font-family:"Playfair Display",serif;font-size:48px;font-weight:400;color:var(--text);line-height:1;}
-.founding-count-l{font-size:12px;color:var(--text-3);margin-top:4px;}
-.founding-spots{font-size:11px;color:#3B6CF4;font-weight:600;margin-top:6px;}
 
 /* ── Mobile fixes ── */
 @media(max-width:768px){
@@ -439,8 +427,6 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
   .email-bar{flex-direction:column;gap:10px;padding:16px 20px;}
   .email-bar-form{width:100%;}
   .email-bar-input{flex:1;width:auto;}
-  .founding-callout{grid-template-columns:1fr;gap:20px;}
-  .founding-count{min-width:auto;}
   .cta-band{padding:56px 20px;}
   .econ-grid,.steps-grid{grid-template-columns:1fr;}
 }
@@ -541,6 +527,13 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
   .stat-pill{border-right:none;padding-right:0;}
   .marquee-item{padding:0 20px;}
 }
+
+
+/* ── Developer count block ── */
+.builder-count-block{text-align:center;padding:48px 32px;margin-top:48px;border-top:1px solid var(--border);}
+.builder-count-n{font-family:"Playfair Display",serif;font-size:72px;font-weight:400;color:var(--text);line-height:1;letter-spacing:-0.03em;margin-bottom:10px;}
+.builder-count-l{font-size:14px;color:var(--text-3);font-weight:500;}
+@media(max-width:768px){.builder-count-block{padding:32px 20px;}.builder-count-n{font-size:56px;}}
 
 </style>
 <link rel="manifest" href="/site.webmanifest">
@@ -745,9 +738,6 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
       <div class="marquee-item"><strong>Food &amp; Beverage</strong><div class="marquee-dot"></div></div>
       <div class="marquee-item"><strong>Marketing</strong><div class="marquee-dot"></div></div>
       <div class="marquee-item"><strong>Finance &amp; Accounting</strong><div class="marquee-dot"></div></div>
-      <div class="marquee-item">90% to Developers<div class="marquee-dot"></div></div>
-      <div class="marquee-item">60+ Listings<div class="marquee-dot"></div></div>
-      <div class="marquee-item">Claude · GPT-4 · Gemini<div class="marquee-dot"></div></div>
       <!-- duplicate for seamless loop -->
       <div class="marquee-item"><strong>Revenue Management</strong><div class="marquee-dot"></div></div>
       <div class="marquee-item"><strong>Guest Experience</strong><div class="marquee-dot"></div></div>
@@ -756,9 +746,6 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
       <div class="marquee-item"><strong>Food &amp; Beverage</strong><div class="marquee-dot"></div></div>
       <div class="marquee-item"><strong>Marketing</strong><div class="marquee-dot"></div></div>
       <div class="marquee-item"><strong>Finance &amp; Accounting</strong><div class="marquee-dot"></div></div>
-      <div class="marquee-item">90% to Developers<div class="marquee-dot"></div></div>
-      <div class="marquee-item">60+ Listings<div class="marquee-dot"></div></div>
-      <div class="marquee-item">Claude · GPT-4 · Gemini<div class="marquee-dot"></div></div>
     </div>
   </div>
 
@@ -1192,26 +1179,10 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
       </div>
     </div>
 
-    <!-- Founding Developer callout -->
-    <div class="founding-callout">
-      <div>
-        <div class="founding-badge"><div class="founding-badge-dot"></div> Founding Developer Program</div>
-        <h3>Get in before we open the doors</h3>
-        <p>The first 25 developers to list on HospitalityAgents get permanent founding status — with benefits that don't go away when we scale.</p>
-        <ul class="founding-perks">
-          <li>Permanently featured in the "Founding Developers" section</li>
-          <li>Priority placement in category browse for 12 months</li>
-          <li>Direct line to the CVH team for listing feedback</li>
-          <li>Early access to new marketplace features before public launch</li>
-          <li>Founding Developer badge on your profile and all listings</li>
-        </ul>
-        <button class="btn btn-accent" style="margin-top:24px" onclick="handleSellCTA()">Claim Your Founding Spot →</button>
-      </div>
-      <div class="founding-count">
-        <div class="founding-count-n" id="founding-n">3</div>
-        <div class="founding-count-l">Founding Developers</div>
-        <div class="founding-spots">22 spots remaining</div>
-      </div>
+    <!-- Developer count block -->
+    <div class="builder-count-block">
+      <div class="builder-count-n" id="builder-n">3</div>
+      <div class="builder-count-l">developers building on HospitalityAgents</div>
     </div>
 
     <div style="background:var(--surface);border-radius:var(--radius-xl);border:1px solid var(--border);padding:48px;text-align:center;margin-top:24px">
