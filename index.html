@@ -605,6 +605,7 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
 ═══════════════════════════════════════ -->
 <div id="page-home" class="page active">
   <div class="hero">
+    <div class="hero-ghost">Hotels</div>
     <div class="hero-left">
       <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div> Built for the industry</div>
       <h1>AI Agents &amp; Skills Built for <em>Hotel Operators</em></h1>
@@ -657,6 +658,36 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
     </div>
   </div>
 
+  <!-- ── MARQUEE TICKER ── -->
+  <div class="marquee-strip">
+    <div class="marquee-track" id="marquee-track">
+      <div class="marquee-item"><strong>Revenue Management</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Guest Experience</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Sales &amp; Events</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Front Office</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Food &amp; Beverage</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Marketing</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Finance &amp; Accounting</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item">90% to Developers<div class="marquee-dot"></div></div>
+      <div class="marquee-item">60+ Listings<div class="marquee-dot"></div></div>
+      <div class="marquee-item">Claude · GPT-4 · Gemini<div class="marquee-dot"></div></div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-item"><strong>Revenue Management</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Guest Experience</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Sales &amp; Events</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Front Office</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Food &amp; Beverage</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Marketing</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><strong>Finance &amp; Accounting</strong><div class="marquee-dot"></div></div>
+      <div class="marquee-item">90% to Developers<div class="marquee-dot"></div></div>
+      <div class="marquee-item">60+ Listings<div class="marquee-dot"></div></div>
+      <div class="marquee-item">Claude · GPT-4 · Gemini<div class="marquee-dot"></div></div>
+    </div>
+  </div>
+
+
+  <div class="section-divider-accent"></div>
+
   <div class="section">
     <div class="section-header">
       <div><div class="section-title">Top Personas</div><div class="section-sub">Full agent configs with personality, memory, and playbooks</div></div>
@@ -664,6 +695,8 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
     </div>
     <div class="cards-grid" id="home-personas"></div>
   </div>
+
+  <div class="section-divider"></div>
 
   <div class="section" style="padding-top:0">
     <div class="section-header">
@@ -2514,6 +2547,11 @@ function initHashRouting() {
 
 // ═══════════ INIT ═══════════
 initAuth();
+
+// Nav scroll shadow
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 10);
+}, {passive: true});
 
 setTimeout(() => {
   const tl = document.getElementById('s-tagline');
