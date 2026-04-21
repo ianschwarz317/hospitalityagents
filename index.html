@@ -464,6 +464,84 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
   .cat-strip{padding:40px 24px;}
   .listings-body,.detail-wrap,.profile-wrap,.submit-wrap,.creator-body,.about-body,.legal-wrap{padding-left:24px;padding-right:24px;}
 }
+
+/* ── Hero ghost word ── */
+.hero{position:relative;overflow:hidden;}
+.hero::before{content:"Hotels";position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-family:"Playfair Display",serif;font-size:clamp(160px,18vw,260px);font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(26,39,68,0.06);line-height:1;pointer-events:none;user-select:none;white-space:nowrap;letter-spacing:-0.04em;z-index:0;}
+.hero-left,.hero-card{position:relative;z-index:1;}
+
+/* ── Hero stronger stats ── */
+.hero-stats{border-top:1px solid var(--border);padding-top:24px;margin-top:8px;}
+.stat-n{font-size:36px;}
+.stat-pill{padding-right:48px;border-right:1px solid var(--border);}
+.stat-pill:last-child{border-right:none;padding-right:0;}
+
+/* ── Marquee ticker ── */
+.marquee-strip{background:var(--accent);padding:14px 0;overflow:hidden;position:relative;}
+.marquee-track{display:flex;gap:0;animation:marquee 30s linear infinite;width:max-content;align-items:center;}
+.marquee-track:hover{animation-play-state:paused;}
+.marquee-item{display:flex;align-items:center;gap:20px;padding:0 32px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.7);white-space:nowrap;}
+.marquee-item strong{color:#fff;font-weight:600;}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── Dark CTA band ── */
+.cta-band{background:var(--accent)!important;border-top:none!important;border-bottom:none!important;}
+.cta-band::before{background:radial-gradient(ellipse,rgba(59,108,244,0.25) 0%,transparent 70%)!important;}
+.cta-band-inner h2{color:#fff!important;}
+.cta-band-inner h2 em{color:rgba(255,255,255,0.75);}
+.cta-band-inner p{color:rgba(255,255,255,0.7)!important;}
+.cta-band .btn-accent{background:#fff!important;color:var(--accent)!important;}
+.cta-band .btn-accent:hover{background:#f0f4ff!important;}
+
+/* ── Card hovers — more drama ── */
+.listing-card{transition:all .25s cubic-bezier(.2,.8,.2,1);}
+.listing-card:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 20px 40px rgba(26,39,68,0.14)!important;border-color:var(--accent)!important;}
+.listing-card:hover .lc-title{color:var(--accent);}
+
+/* ── Category tiles — stronger hover ── */
+.cat-tile{transition:all .2s cubic-bezier(.2,.8,.2,1);}
+.cat-tile:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 20px rgba(26,39,68,0.1);border-color:var(--accent)!important;}
+.cat-icon{transition:transform .2s;}
+.cat-tile:hover .cat-icon{transform:scale(1.2);}
+
+/* ── Hero headline — bigger ── */
+.hero h1{font-size:clamp(48px,6vw,84px)!important;line-height:0.98!important;letter-spacing:-0.03em!important;}
+
+/* ── Section dividers ── */
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);margin:0 32px;}
+.section-divider-accent{height:2px;background:linear-gradient(90deg,var(--accent),#3B6CF4,transparent);margin:0;}
+
+/* ── Stronger section titles ── */
+.section-title{font-size:34px!important;letter-spacing:-0.02em!important;}
+
+/* ── Nav scroll shadow ── */
+nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
+
+/* ── Hero eyebrow stronger ── */
+.hero-eyebrow{border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600!important;}
+.hero-eyebrow-dot{background:var(--accent)!important;}
+
+/* ── Dark featured hero card ── */
+.hero-card{background:var(--accent)!important;border-color:rgba(255,255,255,0.1)!important;}
+.hero-card-label{color:rgba(255,255,255,0.5)!important;}
+.fl-image{background:rgba(255,255,255,0.06)!important;border-color:rgba(255,255,255,0.1)!important;}
+.fl-title{color:#fff!important;}
+.fl-desc{color:rgba(255,255,255,0.65)!important;}
+.fl-price{color:#fff!important;}
+.fl-sales{color:rgba(255,255,255,0.45)!important;}
+.hero-card .badge-persona{background:rgba(59,108,244,0.3)!important;color:#93c5fd!important;border-color:rgba(59,108,244,0.4)!important;}
+.hero-card .badge-cat{color:rgba(255,255,255,0.5)!important;}
+.hero-card .btn-accent{background:#fff!important;color:var(--accent)!important;}
+
+/* ── mobile tension overrides ── */
+@media(max-width:768px){
+  .hero h1{font-size:38px!important;}
+  .section-title{font-size:26px!important;}
+  .stat-pill{border-right:none;padding-right:0;}
+  .marquee-item{padding:0 20px;}
+}
+
 </style>
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#1a2744">
