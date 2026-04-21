@@ -148,6 +148,24 @@ nav{
 .badge{font-size:10px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:2px 8px;border-radius:4px;}
 .badge-persona{background:rgba(59,108,244,0.08);color:#3B6CF4;border:1px solid rgba(59,108,244,0.15);}
 .badge-skill{background:rgba(22,163,74,0.08);color:#16a34a;border:1px solid rgba(22,163,74,0.15);}
+.badge-agent{background:rgba(147,51,234,0.08);color:#9333ea;border:1px solid rgba(147,51,234,0.15);}
+.badge-addon{background:rgba(234,88,12,0.08);color:#ea580c;border:1px solid rgba(234,88,12,0.15);}
+.badge-free{background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2);font-weight:700;}
+
+/* ── Freemium sidebar layout ── */
+.tier-block{padding:20px 24px;border-bottom:1px solid var(--border);}
+.tier-label{font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.tier-label-free{color:#059669;}
+.tier-free-access{font-size:13.5px;color:var(--text);font-weight:600;margin-bottom:4px;}
+.tier-free-desc{font-size:12.5px;color:var(--text-2);line-height:1.6;margin-bottom:14px;}
+.tier-divider{text-align:center;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);padding:10px 0;background:var(--surface-up);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.tier-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;}
+.tier-price{font-family:"Playfair Display",serif;font-size:32px;font-weight:400;color:var(--text);letter-spacing:-0.02em;line-height:1;}
+.tier-price-unit{font-size:13px;color:var(--text-3);}
+
+/* ── Listing card freemium chip ── */
+.lc-price-wrap{display:flex;align-items:center;gap:6px;justify-content:flex-end;}
+.free-chip{font-size:10px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#059669;background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.2);padding:2px 6px;border-radius:4px;}
 .badge-pending{background:rgba(217,119,6,0.08);color:#d97706;border:1px solid rgba(217,119,6,0.15);}
 .badge-cat{font-size:11px;font-weight:500;color:var(--text-3);}
 
@@ -517,6 +535,9 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
 .fl-price{color:#fff!important;}
 .fl-sales{color:rgba(255,255,255,0.45)!important;}
 .hero-card .badge-persona{background:rgba(59,108,244,0.3)!important;color:#93c5fd!important;border-color:rgba(59,108,244,0.4)!important;}
+.hero-card .badge-agent{background:rgba(147,51,234,0.25)!important;color:#c4b5fd!important;border-color:rgba(147,51,234,0.4)!important;}
+.hero-card .badge-addon{background:rgba(234,88,12,0.25)!important;color:#fdba74!important;border-color:rgba(234,88,12,0.4)!important;}
+.hero-card .badge-skill{background:rgba(22,163,74,0.25)!important;color:#86efac!important;border-color:rgba(22,163,74,0.4)!important;}
 .hero-card .badge-cat{color:rgba(255,255,255,0.5)!important;}
 .hero-card .btn-accent{background:#fff!important;color:var(--accent)!important;}
 
@@ -681,7 +702,7 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
       <h1>AI Agents &amp; Skills Built for <em>Hotel Operators</em></h1>
       <p class="hero-sub">Operator-tested configurations for revenue management, guest experience, sales, and more. Each listing specifies its compatible AI platforms — find what works for your stack.</p>
       <div class="hero-actions">
-        <button class="btn btn-accent btn-lg" onclick="showPage('listings')">Browse Agents &amp; Skills</button>
+        <button class="btn btn-accent btn-lg" onclick="showPage('listings')">Browse the Marketplace</button>
         <button class="btn btn-neu btn-lg" onclick="showPage('creator')">Start Building</button>
       </div>
       <div class="hero-stats">
@@ -754,7 +775,7 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
 
   <div class="section">
     <div class="section-header">
-      <div><div class="section-title">Top Personas</div><div class="section-sub">Full agent configs with personality, memory, and playbooks</div></div>
+      <div><div class="section-title">Featured Listings</div><div class="section-sub">Hand-picked agents, personas, skills, and add-ons</div></div>
       <span class="link-more" onclick="showPage('listings')">View all →</span>
     </div>
     <div class="cards-grid" id="home-personas"></div>
@@ -764,7 +785,7 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
 
   <div class="section" style="padding-top:0">
     <div class="section-header">
-      <div><div class="section-title">Top Skills</div><div class="section-sub">Modular, single-purpose automation packs</div></div>
+      <div><div class="section-title">Popular Skills &amp; Add-ons</div><div class="section-sub">Modular tools and plug-ins that drop into your stack</div></div>
       <span class="link-more" onclick="showPage('listings')">View all →</span>
     </div>
     <div class="cards-grid" id="home-skills"></div>
@@ -817,11 +838,13 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
 <div id="page-listings" class="page">
   <div class="page-header">
     <div class="page-header-inner">
-      <h2>Browse Agents &amp; Skills</h2>
+      <h2>Browse the Marketplace</h2>
       <div class="filters" id="listing-filters">
         <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
         <button class="filter-btn" onclick="setFilter('persona',this)">Personas</button>
+        <button class="filter-btn" onclick="setFilter('agent',this)">Agents</button>
         <button class="filter-btn" onclick="setFilter('skill',this)">Skills</button>
+        <button class="filter-btn" onclick="setFilter('addon',this)">Add-ons</button>
         <span style="width:1px;height:18px;background:var(--border);margin:0 2px"></span>
         <button class="filter-btn" onclick="setFilter('Revenue Management',this)">Revenue</button>
         <button class="filter-btn" onclick="setFilter('Guest Experience',this)">Guest Experience</button>
@@ -949,8 +972,10 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
           <label class="form-label">Type *</label>
           <select class="form-select" id="s-type">
             <option value="">Select type...</option>
-            <option value="persona">Persona — full agent configuration</option>
-            <option value="skill">Skill — modular, single-purpose</option>
+            <option value="persona">Persona — system prompt + personality + playbook</option>
+            <option value="agent">Agent — autonomous worker or standalone platform</option>
+            <option value="skill">Skill — modular, single-purpose prompt pack</option>
+            <option value="addon">Add-on — plug-in for an existing product or platform</option>
           </select>
           <div class="form-error" id="e-type"></div>
         </div>
@@ -971,9 +996,9 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
           <div class="form-error" id="e-cat"></div>
         </div>
         <div class="form-group">
-          <label class="form-label">Price (USD) *</label>
-          <input class="form-input" id="s-price" type="number" min="1" max="499" placeholder="e.g. 49">
-          <div class="form-hint">Suggested: Skills $9–$29 · Personas $49–$99</div>
+          <label class="form-label">Paid Tier Price (USD) *</label>
+          <input class="form-input" id="s-price" type="number" min="1" max="999" placeholder="e.g. 49">
+          <div class="form-hint">Suggested: Skills $9–$29 · Personas $49–$99 · Agents/Add-ons $99+</div>
           <div class="form-error" id="e-price"></div>
         </div>
       </div>
@@ -1000,7 +1025,36 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
     </div>
 
     <div class="neu-panel" style="margin-bottom:20px">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">3 — Capabilities</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">3 — Freemium Tier <span style="color:#059669;margin-left:6px">Required</span></div>
+      <div class="notify-banner" style="border-left:3px solid #059669;margin-bottom:20px">
+        🎁 <strong>HospitalityAgents requires every listing to offer a free tier.</strong> Operators need a zero-risk way to try before they buy — this is a non-negotiable policy.
+      </div>
+      <div class="form-group">
+        <label class="form-label">Free Tier Format *</label>
+        <select class="form-select" id="s-free-type">
+          <option value="">How do buyers access the free version?</option>
+          <option value="free-prompt">Free prompt / starter pack</option>
+          <option value="free-trial">Free trial (time-limited)</option>
+          <option value="free-tier">Free tier (usage-limited, no time limit)</option>
+          <option value="limited-version">Limited-feature version</option>
+          <option value="free-download">Free download (full access, paid unlocks premium add-ons)</option>
+        </select>
+        <div class="form-error" id="e-free-type"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">What buyers get for FREE *</label>
+        <textarea class="form-textarea" id="s-free-desc" rows="3" placeholder="Describe exactly what someone gets without paying. Be specific — e.g. &quot;Base system prompt with 3 sample use cases&quot; or &quot;14-day free trial with full access&quot;..."></textarea>
+        <div class="form-error" id="e-free-desc"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">What the PAID tier adds *</label>
+        <textarea class="form-textarea" id="s-paid-desc" rows="3" placeholder="What do buyers unlock after paying? E.g. &quot;Full playbook, memory architecture, 20+ additional prompt variations, priority support&quot;..."></textarea>
+        <div class="form-error" id="e-paid-desc"></div>
+      </div>
+    </div>
+
+    <div class="neu-panel" style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">4 — Capabilities</div>
       <p style="font-size:13px;color:var(--text-2);margin-bottom:16px">List what operators can do with this. Be specific — vague capabilities get flagged in review.</p>
       <div class="caps-list" id="caps-list">
         <div class="empty-cap" style="font-size:13px;color:var(--text-3);padding:12px;text-align:center">No capabilities added yet</div>
@@ -1013,7 +1067,7 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
     </div>
 
     <div class="neu-panel" style="margin-bottom:20px">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">4 — Platform Compatibility</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">5 — Platform Compatibility</div>
       <div class="form-group">
         <label class="form-label">Compatible Platforms * <span style="color:var(--text-3);font-weight:400">(select all that apply)</span></label>
         <div class="checkbox-grid" id="platform-chips">
@@ -1143,7 +1197,20 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
     <div class="econ-grid" style="margin-top:48px">
       <div class="econ-card"><div class="econ-n">90%</div><div class="econ-l">of every sale goes to you. We take 10% plus payment processing.</div></div>
       <div class="econ-card"><div class="econ-n">$0</div><div class="econ-l">to list. No monthly fees. You only pay when you earn.</div></div>
-      <div class="econ-card"><div class="econ-n">One-time</div><div class="econ-l">purchase model. Buyers pay once. No subscriptions to manage.</div></div>
+      <div class="econ-card"><div class="econ-n">4</div><div class="econ-l">listing types welcome: personas, agents, skills, and add-ons.</div></div>
+    </div>
+
+    <!-- Freemium policy -->
+    <div style="margin-top:48px;padding:32px 36px;background:linear-gradient(135deg,rgba(5,150,105,0.04) 0%,rgba(5,150,105,0.08) 100%);border:1px solid rgba(5,150,105,0.2);border-radius:var(--radius-xl)">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#059669;margin-bottom:10px">✓ Required for all listings</div>
+      <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:400;color:var(--text);margin-bottom:10px">Every listing offers a free tier</div>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.75;margin-bottom:14px">Hotel operators are careful buyers. A free tier gives them a zero-risk way to evaluate your work — and gives you a higher conversion rate once they do decide to buy.</p>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px">
+        <div style="background:rgba(255,255,255,0.6);border:1px solid rgba(5,150,105,0.15);border-radius:var(--radius);padding:14px 16px;font-size:13px;color:var(--text-2)"><strong style="color:var(--text)">Skills:</strong> Free starter pack, paid adds full template library</div>
+        <div style="background:rgba(255,255,255,0.6);border:1px solid rgba(5,150,105,0.15);border-radius:var(--radius);padding:14px 16px;font-size:13px;color:var(--text-2)"><strong style="color:var(--text)">Personas:</strong> Free system prompt, paid adds playbook + memory</div>
+        <div style="background:rgba(255,255,255,0.6);border:1px solid rgba(5,150,105,0.15);border-radius:var(--radius);padding:14px 16px;font-size:13px;color:var(--text-2)"><strong style="color:var(--text)">Agents:</strong> Free trial, free tier, or limited-feature version</div>
+        <div style="background:rgba(255,255,255,0.6);border:1px solid rgba(5,150,105,0.15);border-radius:var(--radius);padding:14px 16px;font-size:13px;color:var(--text-2)"><strong style="color:var(--text)">Add-ons:</strong> Free plan or usage-limited free tier</div>
+      </div>
     </div>
 
     <div style="text-align:center;margin:48px 0 28px"><div class="section-title">How it works</div></div>
@@ -1159,12 +1226,12 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
         <div class="what-col">
           <h4>Great fits ✓</h4>
           <ul>
-            <li>System prompts and persona configs for specific hotel roles</li>
-            <li>Workflow automation playbooks for n8n, Make, Zapier, or Python</li>
-            <li>Prompt packs for repetitive hotel tasks</li>
+            <li>Persona configs — system prompts + playbooks for specific hotel roles</li>
+            <li>Autonomous agents — standalone AI platforms or scripted workers</li>
+            <li>Skills — modular prompt packs for repetitive hotel tasks</li>
+            <li>Add-ons — plug-ins for PMS, channel managers, or existing hospitality tools</li>
+            <li>Workflow automation for n8n, Make, Zapier, or Python</li>
             <li>Memory systems adapted for hotel operations</li>
-            <li>PMS/channel manager integration guides with AI layers</li>
-            <li>Rate monitoring, OTA parity, competitive analysis tools</li>
           </ul>
         </div>
         <div class="what-col">
@@ -1236,6 +1303,7 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
     <div class="about-block">
       <h2>Why this exists</h2>
       <p>The general-purpose AI agent marketplaces are full of tools built by engineers for engineers. A skill for setting up tmux loops doesn't help a revenue manager identify rate compression. A generic CEO persona doesn't know the difference between ADR and RevPAR.</p>
+      <p>HospitalityAgents is open to four kinds of listings — <strong>personas</strong> (full agent configurations), <strong>agents</strong> (autonomous workers and standalone platforms), <strong>skills</strong> (modular prompt packs), and <strong>add-ons</strong> (plug-ins to existing hospitality products). Every listing offers a free tier so operators can evaluate before buying.</p>
       <p>Hospitality is a $1.5 trillion industry with deeply specific, high-stakes workflows — and most AI tools treat it as an afterthought. HospitalityAgents is the marketplace where that changes.</p>
     </div>
     <div class="about-block">
@@ -1816,7 +1884,7 @@ const SEED_LISTINGS = [
      {author:'Sarah M.',title:'Finally understands RevPAR',stars:5,date:'Mar 28, 2026',body:'Atlas actually understands the language — pace, pickup, compression. First time I\'ve trusted AI output enough to put it in front of ownership.'},
      {author:'James T.',title:'Strong foundation, minor tweaks needed',stars:4,date:'Mar 15, 2026',body:'The daily pickup report template is excellent. Had to adjust the comp set logic for our market but the base prompt is solid.'},
      {author:'Priya K.',title:'Worth every dollar',stars:5,date:'Mar 2, 2026',body:'We\'re a small independent and can\'t afford a full-time revenue manager. Atlas fills that gap. The weekly variance memo saves me 3 hours.'}
-   ],approved:true},
+   ],freeType:'free-prompt',freeDesc:'Atlas base system prompt + 1 sample pickup report',paidDesc:'Full MEMORY.md architecture, PLAYBOOK.md with daily/weekly/monthly rhythms, PMS connection guide, priority support',approved:true},
   {id:2,pms:['Opera','Cloudbeds','Apaleo','Any PMS'],type:'persona',category:'Guest Experience',emoji:'🌟',name:'Sage',
    tagline:'Guest Experience Agent — review management, pre-arrival personalization, and post-stay follow-up',
    desc:'End-to-end guest communication persona with tone calibration for luxury, lifestyle, or select-service properties.',
@@ -1828,7 +1896,7 @@ const SEED_LISTINGS = [
    reviewList:[
      {author:'Marco R.',title:'Review response time dropped from 3 days to same-day',stars:5,date:'Mar 30, 2026',body:'Sage drafts a response in seconds that actually sounds like us. GM reviews and approves, takes 5 minutes total now.'},
      {author:'Leila F.',title:'Best investment for our boutique',stars:5,date:'Mar 10, 2026',body:'The pre-arrival sequence alone is worth it. Guests keep commenting at check-in that they loved getting our messages.'}
-   ],approved:true},
+   ],freeType:'free-prompt',freeDesc:'Sage base prompt + 5 review response starters',paidDesc:'Full tone calibration system, 40+ templates, pre-arrival sequences, brand voice intake questionnaire',approved:true},
   {id:3,pms:['Opera','Mews','Salesforce','Any PMS'],type:'persona',category:'Sales & Events',emoji:'🤝',name:'Harper',
    tagline:'Sales & Events Agent — RFP responses, group lead qualification, and BEO prep',
    desc:'A full hotel sales persona for group and events. Qualifies incoming leads, drafts RFP responses, and generates BEO first drafts.',
@@ -1837,7 +1905,7 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['RFP response drafting from scratch','Group lead qualification scoring framework','Displacement analysis decision support','BEO first draft generation from event notes','Sales proposal narrative generation'],
    about:'Harper is built for the hotel sales manager who spends more time on admin than actually selling. It knows the group sales workflow from inbound lead to signed contract.',
-   reviewList:[{author:'David L.',title:'Finally, RFPs that don\'t take all afternoon',stars:5,date:'Mar 20, 2026',body:'Used to spend 2-3 hours on a complex RFP response. Harper gets me to a strong first draft in 20 minutes.'}],approved:true},
+   reviewList:[{author:'David L.',title:'Finally, RFPs that don\'t take all afternoon',stars:5,date:'Mar 20, 2026',body:'Used to spend 2-3 hours on a complex RFP response. Harper gets me to a strong first draft in 20 minutes.'}],freeType:'free-prompt',freeDesc:'Harper base prompt + 1 sample RFP response',paidDesc:'Full group-qualification framework, displacement analysis tools, BEO generator, 20+ segment templates',approved:true},
   {id:4,pms:['Opera','Mews','Cloudbeds','Any PMS'],type:'persona',category:'Front Office',emoji:'🏨',name:'Morgan',
    tagline:'GM Morning Brief Agent — daily ops summary, escalation flags, and ownership-ready reporting',
    desc:'Delivers a structured morning brief for GMs: previous day performance, open issues, and flagged escalations.',
@@ -1846,7 +1914,7 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['Daily GM morning brief generation','Previous night performance summary with commentary','Day-of arrival/departure count and VIP flag','Occupancy and rate forecast for next 7 days','Ownership report formatting'],
    about:'Morgan transforms raw daily data into a structured morning report. Feed it your numbers and it produces a brief a GM can review in 3 minutes and forward to ownership without editing.',
-   reviewList:[{author:'Nina P.',title:'Saved my mornings',stars:5,date:'Mar 22, 2026',body:'I was assembling this report manually every morning. Now I paste the key numbers and Morgan has a clean brief ready in 90 seconds.'}],approved:true},
+   reviewList:[{author:'Nina P.',title:'Saved my mornings',stars:5,date:'Mar 22, 2026',body:'I was assembling this report manually every morning. Now I paste the key numbers and Morgan has a clean brief ready in 90 seconds.'}],freeType:'free-prompt',freeDesc:'Morgan base prompt + 1 sample morning brief',paidDesc:'Full ownership report formatting, 7-day forecast module, VIP flag logic, historical variance tools',approved:true},
   {id:5,pms:[],type:'skill',category:'Guest Experience',emoji:'⭐',name:'Review Response Engine',
    tagline:'Draft brand-consistent OTA review responses in under 60 seconds — across all major platforms',
    desc:'A prompt pack and decision framework for responding to reviews on Tripadvisor, Booking.com, Expedia, and Google.',
@@ -1855,7 +1923,7 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['Platform-specific response formats','Negative review framework without admitting liability','Management response templates for 12 complaint categories','Brand voice calibration guide'],
    about:'A focused, modular skill for the single most time-consuming guest communication task: review responses. 40+ response starters sorted by sentiment and platform.',
-   reviewList:[{author:'Tom H.',title:'Best $19 I\'ve spent on hotel ops',stars:5,date:'Mar 29, 2026',body:'This is now part of the standard weekly workflow for every front office manager. Response time down from 5 days to same-day.'}],approved:true},
+   reviewList:[{author:'Tom H.',title:'Best $19 I\'ve spent on hotel ops',stars:5,date:'Mar 29, 2026',body:'This is now part of the standard weekly workflow for every front office manager. Response time down from 5 days to same-day.'}],freeType:'free-prompt',freeDesc:'10 starter response templates',paidDesc:'Full 40+ template library, platform-specific formats, brand voice calibration, negative review framework',approved:true},
   {id:6,pms:[],type:'skill',category:'Sales & Events',emoji:'📋',name:'RFP Response Drafter',
    tagline:'Generate complete group RFP responses from a lead brief — corporate, SMERF, and association ready',
    desc:'Prompt pack and template library for drafting hotel RFP responses.',
@@ -1864,8 +1932,8 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['Corporate group RFP response template','SMERF segment response framework','Association and conference response format','F&B minimum calculation helper'],
    about:'Written by former hotel sales managers who have responded to thousands of RFPs. The prompts know the language meeting planners use.',
-   reviewList:[{author:'Rachel M.',title:'Cut RFP time in half',stars:5,date:'Mar 18, 2026',body:'This gets me to a strong draft in a fraction of the time. The SMERF template is something I would have spent weeks building myself.'}],approved:true},
-  {id:7,pms:['SiteMinder','Cloudbeds','Opera'],type:'skill',category:'Revenue Management',emoji:'💹',name:'Rate Parity Monitor',
+   reviewList:[{author:'Rachel M.',title:'Cut RFP time in half',stars:5,date:'Mar 18, 2026',body:'This gets me to a strong draft in a fraction of the time. The SMERF template is something I would have spent weeks building myself.'}],freeType:'free-prompt',freeDesc:'Corporate RFP template pack',paidDesc:'Full SMERF + association templates, F&B minimum calculator, proposal narrative generator',approved:true},
+  {id:7,pms:['SiteMinder','Cloudbeds','Opera'],type:'addon',category:'Revenue Management',emoji:'💹',name:'Rate Parity Monitor',
    tagline:'Identify and document OTA rate parity violations — ready for channel manager escalation',
    desc:'A workflow and prompt pack for systematically checking rate parity across OTA channels.',
    price:15,sales:147,rating:4.5,reviews:28,version:3,
@@ -1873,7 +1941,7 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['Parity check prompt framework','Violation documentation template','Channel manager escalation message drafts','Weekly parity audit report format'],
    about:'A practical skill for revenue managers who check parity manually. Structures the process, formats findings, and drafts escalation communications.',
-   reviewList:[{author:'Ben K.',title:'Practical and immediate ROI',stars:4,date:'Mar 12, 2026',body:'The violation documentation format is what I was missing — now I actually have records to send to channel managers.'}],approved:true},
+   reviewList:[{author:'Ben K.',title:'Practical and immediate ROI',stars:4,date:'Mar 12, 2026',body:'The violation documentation format is what I was missing — now I actually have records to send to channel managers.'}],freeType:'free-trial',freeDesc:'14-day free trial',paidDesc:'Full parity monitoring automation, violation documentation, channel manager escalation drafts',approved:true},
   {id:8,pms:[],type:'skill',category:'Guest Experience',emoji:'✉️',name:'Pre-Arrival Messaging Suite',
    tagline:'3-touch pre-arrival email and SMS sequence — personalized and conversion-focused',
    desc:'A prompt pack for generating personalized pre-arrival message sequences with upsell logic.',
@@ -1882,7 +1950,7 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['3-touch email sequence (7 days, 3 days, day-of)','SMS variation for each touch','Upgrade offer framing for leisure and business travelers','F&B and spa upsell language'],
    about:'Pre-arrival communication that feels personal and generates ancillary revenue. Built for hotels that want to upsell without sounding like a retail promo blast.',
-   reviewList:[{author:'Camille S.',title:'Upgrade attachment rate went up 18%',stars:5,date:'Mar 25, 2026',body:'The upgrade framing in the 3-day email is exactly right — it presents the upgrade as a service, not a pitch.'}],approved:true},
+   reviewList:[{author:'Camille S.',title:'Upgrade attachment rate went up 18%',stars:5,date:'Mar 25, 2026',body:'The upgrade framing in the 3-day email is exactly right — it presents the upgrade as a service, not a pitch.'}],freeType:'free-prompt',freeDesc:'Day-of arrival message template',paidDesc:'Full 3-touch sequence, SMS variations, upsell logic for leisure and business travelers',approved:true},
   {id:9,pms:['Opera','Mews','Cloudbeds','Apaleo','Any PMS'],type:'skill',category:'Revenue Management',emoji:'📅',name:'Daily Pickup Report',
    tagline:'Structured pickup analysis prompt — paste your numbers, get your report',
    desc:'Stop building pickup reports manually. Feed daily booking pace and get a formatted, commentated pickup report.',
@@ -1891,8 +1959,8 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['Daily pickup vs STLY commentary','Segment mix shift identification','Forward 30/60/90 day pace summary','Alert flags for unusual pace patterns'],
    about:'The most-used skill on HospitalityAgents. Simple, high-value, immediately deployable. Paste your daily numbers, get a formatted pickup report with narrative commentary.',
-   reviewList:[{author:'Yuki T.',title:'Used every single day',stars:5,date:'Mar 31, 2026',body:'Takes 2 minutes instead of 20. The commentary catches things I\'d miss when I\'m going fast.'}],approved:true},
-  {id:10,pms:[],type:'skill',category:'F&B',emoji:'🍽️',name:'F&B Upsell Agent',
+   reviewList:[{author:'Yuki T.',title:'Used every single day',stars:5,date:'Mar 31, 2026',body:'Takes 2 minutes instead of 20. The commentary catches things I\'d miss when I\'m going fast.'}],freeType:'free-prompt',freeDesc:'Basic pickup report template (no commentary)',paidDesc:'Full STLY commentary, segment mix shift detection, 30/60/90 day forecasts, alert flags',approved:true},
+  {id:10,pms:[],type:'agent',category:'F&B',emoji:'🍽️',name:'F&B Upsell Agent',
    tagline:'In-room dining, outlet, and event upsell prompts tuned for hotel F&B context',
    desc:'A skill for generating F&B upsell copy, server scripting, and in-room dining menu descriptions.',
    price:19,sales:64,rating:4.4,reviews:12,version:1,
@@ -1900,8 +1968,8 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['In-room dining menu description rewriting','Outlet upsell prompts for FOH teams','Event catering proposal language','Wine and beverage pairing suggestion framework'],
    about:'F&B language that sells without feeling pushy. Built by people who have worked restaurant and banquet operations in hotels.',
-   reviewList:[{author:'Sofia R.',title:'Great for menu rewrites',stars:4,date:'Mar 8, 2026',body:'Used this to rewrite our entire room service menu. Orders and average check both went up in the first month.'}],approved:true},
-  {id:11,pms:['SiteMinder','Cloudbeds'],type:'skill',category:'Marketing',emoji:'📣',name:'OTA Listing Optimizer',
+   reviewList:[{author:'Sofia R.',title:'Great for menu rewrites',stars:4,date:'Mar 8, 2026',body:'Used this to rewrite our entire room service menu. Orders and average check both went up in the first month.'}],freeType:'free-tier',freeDesc:'10 menu description rewrites/month',paidDesc:'Unlimited usage, outlet upsell library, event catering language, wine pairing framework',approved:true},
+  {id:11,pms:['SiteMinder','Cloudbeds'],type:'addon',category:'Marketing',emoji:'📣',name:'OTA Listing Optimizer',
    tagline:'Rewrite your Booking.com and Expedia listings for conversion',
    desc:'A prompt pack for optimizing hotel listings across major OTA platforms.',
    price:14,sales:93,rating:4.6,reviews:19,version:2,
@@ -1909,8 +1977,8 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['OTA headline rewriting framework','Amenity prioritization guide','Photo caption optimization for conversion','Seasonal listing variation prompts'],
    about:'Your OTA listing is your digital front desk. Most hotels have listings written years ago by someone who\'s no longer there. This skill audits and rewrites them.',
-   reviewList:[{author:'Andre M.',title:'Immediate uplift on Booking.com',stars:5,date:'Mar 14, 2026',body:'Rewrote our listing using this skill. Conversion rate is up.'}],approved:true},
-  {id:12,pms:['M3','Opera','Any PMS'],type:'skill',category:'Finance',emoji:'💳',name:'Expense Reconciliation Agent',
+   reviewList:[{author:'Andre M.',title:'Immediate uplift on Booking.com',stars:5,date:'Mar 14, 2026',body:'Rewrote our listing using this skill. Conversion rate is up.'}],freeType:'limited-version',freeDesc:'Audit mode (shows issues, no rewrites)',paidDesc:'Full rewrite mode, seasonal variation prompts, amenity prioritization, conversion optimization',approved:true},
+  {id:12,pms:['M3','Opera','Any PMS'],type:'agent',category:'Finance',emoji:'💳',name:'Expense Reconciliation Agent',
    tagline:'Structured prompt workflow for hotel AP and expense reconciliation',
    desc:'A prompt pack for accounts payable and expense reconciliation tasks common to hotel finance teams.',
    price:24,sales:37,rating:4.3,reviews:8,version:1,
@@ -1918,8 +1986,22 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['AP reconciliation prompt framework','Month-end accrual documentation template','Variance explanation narrative generator','Budget vs actual commentary generator'],
    about:'Built for hotel controllers who spend too much time formatting reports. Structures the reconciliation workflow and generates documentation auditors need.',
-   reviewList:[{author:'Finance Director',title:'Solid for month-end',stars:4,date:'Mar 1, 2026',body:'The variance narrative generator is the best part. Gets us 80% of the way there in minutes.'}],approved:true}
+   reviewList:[{author:'Finance Director',title:'Solid for month-end',stars:4,date:'Mar 1, 2026',body:'The variance narrative generator is the best part. Gets us 80% of the way there in minutes.'}],freeType:'free-trial',freeDesc:'7-day free trial',paidDesc:'Full AP automation, month-end accrual templates, variance narrative generator, budget vs actual commentary',approved:true}
 ];
+
+
+function typeBadgeClass(t) {
+  return t === 'persona' ? 'badge-persona'
+    : t === 'agent' ? 'badge-agent'
+    : t === 'addon' ? 'badge-addon'
+    : 'badge-skill';
+}
+function typeLabel(t) {
+  return t === 'persona' ? 'Persona'
+    : t === 'agent' ? 'Agent'
+    : t === 'addon' ? 'Add-on'
+    : 'Skill';
+}
 
 // ═══════════ SUPABASE ═══════════
 const { createClient } = supabase;
@@ -1947,7 +2029,7 @@ function dbToListing(row) {
     capabilities: row.capabilities || [], platforms: row.platforms || [],
     creator: row.creator_name, creatorInitial: row.creator_initial || '?',
     creatorBio: row.creator_bio || '', creator_id: row.creator_id,
-    pms: row.pms_systems || [], reviewList: [], approved: row.approved, submittedAt: row.created_at
+    pms: row.pms_systems || [], freeType: row.free_tier_type, freeDesc: row.free_tier_desc, paidDesc: row.paid_tier_desc, reviewList: [], approved: row.approved, submittedAt: row.created_at
   };
 }
 
@@ -2155,7 +2237,7 @@ function renderCard(item) {
       <div class="lc-image">${item.emoji || '🤖'}</div>
       <div class="lc-body">
         <div class="lc-meta">
-          <span class="badge ${item.type==='persona'?'badge-persona':'badge-skill'}">${item.type==='persona'?'Persona':'Skill'}</span>
+          <span class="badge ${typeBadgeClass(item.type)}">${typeLabel(item.type)}</span>
           ${isPending ? '<span class="badge badge-pending">Pending Review</span>' : ''}
           <span class="badge-cat">${item.category}</span>
         </div>
@@ -2169,7 +2251,7 @@ function renderCard(item) {
           ${item.creator}
         </div>
         <div style="text-align:right">
-          <div class="lc-price">$${item.price}</div>
+          <div class="lc-price-wrap"><span class="free-chip">Free tier</span><div class="lc-price">$${item.price}</div></div>
           <div class="lc-sales">${item.sales||0} sold</div>
         </div>
       </div>
@@ -2202,7 +2284,7 @@ function showDetail(id) {
       <div>
         <div class="detail-image">${item.emoji||'🤖'}</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <span class="badge ${item.type==='persona'?'badge-persona':'badge-skill'}">${item.type==='persona'?'Persona':'Skill'}</span>
+          <span class="badge ${typeBadgeClass(item.type)}">${typeLabel(item.type)}</span>
           <span class="badge-cat">${item.category}</span>
         </div>
         <div class="detail-title">${item.name}</div>
@@ -2233,16 +2315,21 @@ function showDetail(id) {
       </div>
       <div class="sidebar">
         <div class="sidebar-card">
-          <div class="sidebar-price-block">
-            <div class="sidebar-price">$${item.price}</div>
-            <div class="sidebar-price-note">One-time purchase · Immediate access</div>
+          <div class="tier-block">
+            <div class="tier-label tier-label-free">✓ Free Tier</div>
+            <div class="tier-free-access">${item.freeType||'Free starter version'}</div>
+            <div class="tier-free-desc">${item.freeDesc||'Try it before you buy.'}</div>
+            <button class="btn btn-neu" style="width:100%" onclick="handleGetFree(${item.id})">Get Free Version</button>
           </div>
-          <div class="sidebar-buy">
-            <button class="btn btn-accent" onclick="handleBuy(${item.id})">Buy Now</button>
-            <button class="btn btn-neu">Add to Wishlist</button>
+          <div class="tier-divider">Unlock more ↓</div>
+          <div class="tier-block" style="border-bottom:none">
+            <div class="tier-label">Paid Tier</div>
+            <div class="tier-price-row"><span class="tier-price">$${item.price}</span><span class="tier-price-unit">one-time</span></div>
+            <div class="tier-free-desc" style="margin-top:10px">${item.paidDesc||'Full features, lifetime access.'}</div>
+            <button class="btn btn-accent" style="width:100%;margin-top:6px" onclick="handleBuy(${item.id})">Unlock Full Version</button>
           </div>
           <div class="sidebar-meta">
-            <div class="smeta-row"><span class="smeta-label">Type</span><span class="smeta-value">${item.type==='persona'?'Persona':'Skill'}</span></div>
+            <div class="smeta-row"><span class="smeta-label">Type</span><span class="smeta-value">${typeLabel(item.type)}</span></div>
             <div class="smeta-row"><span class="smeta-label">Category</span><span class="smeta-value">${item.category}</span></div>
             <div class="smeta-row"><span class="smeta-label">Version</span><span class="smeta-value">v${item.version||1}</span></div>
             ${item.pms&&item.pms.length?`<div class="smeta-row" style="flex-direction:column;gap:8px"><span class="smeta-label">Works with</span><div class="works-with-tags">${item.pms.map(p=>`<span class="ww-tag">${p}</span>`).join('')}</div></div>`:''}
@@ -2268,6 +2355,11 @@ function showDetail(id) {
 function handleBuy(id) {
   if (!currentUser) { openLogin(); return; }
   showToast('Redirecting to checkout… (Stripe integration coming soon)', 'success');
+}
+
+function handleGetFree(id) {
+  if (!currentUser) { openLogin(); return; }
+  showToast('Free tier access unlocked — check your email for delivery details.', 'success');
 }
 
 // ═══════════ LISTING FILTER ═══════════
@@ -2325,8 +2417,12 @@ function renderListingsGrid() {
 // ═══════════ HOME RENDER ═══════════
 function renderHome() {
   const all = getAllListings();
-  document.getElementById('home-personas').innerHTML = all.filter(l=>l.type==='persona').slice(0,4).map(renderCard).join('');
-  document.getElementById('home-skills').innerHTML = all.filter(l=>l.type==='skill').sort((a,b)=>b.sales-a.sales).slice(0,4).map(renderCard).join('');
+  // Featured: mix of personas and agents (full-solution types)
+  const featured = all.filter(l=>l.type==='persona'||l.type==='agent').slice(0,4);
+  document.getElementById('home-personas').innerHTML = featured.map(renderCard).join('');
+  // Popular: skills and add-ons sorted by sales
+  const popular = all.filter(l=>l.type==='skill'||l.type==='addon').sort((a,b)=>b.sales-a.sales).slice(0,4);
+  document.getElementById('home-skills').innerHTML = popular.map(renderCard).join('');
   document.getElementById('home-stat-listings').textContent = (all.length) + '+';
 }
 
@@ -2448,7 +2544,11 @@ async function submitListing() {
   const about = document.getElementById('s-about').value.trim();
   let valid = true;
   const err = (id, msg) => { document.getElementById(id).textContent = msg; valid = false; };
-  ['e-name','e-type','e-cat','e-price','e-tagline','e-desc','e-about','e-caps','e-platforms'].forEach(clearErr);
+  const freeType = document.getElementById('s-free-type').value;
+  const freeDesc = document.getElementById('s-free-desc').value.trim();
+  const paidDesc = document.getElementById('s-paid-desc').value.trim();
+
+  ['e-name','e-type','e-cat','e-price','e-tagline','e-desc','e-about','e-caps','e-platforms','e-free-type','e-free-desc','e-paid-desc'].forEach(clearErr);
   if (!name) err('e-name','Required');
   if (!type) err('e-type','Required');
   if (!cat) err('e-cat','Required');
@@ -2456,6 +2556,9 @@ async function submitListing() {
   if (!tagline) err('e-tagline','Required');
   if (!desc) err('e-desc','Required');
   if (!about) err('e-about','Required');
+  if (!freeType) err('e-free-type','Choose how buyers access the free tier');
+  if (!freeDesc) err('e-free-desc','Describe what the free tier includes');
+  if (!paidDesc) err('e-paid-desc','Describe what the paid tier adds');
   if (capabilities.length < 2) err('e-caps','Add at least 2 capabilities');
   if (!selectedPlatforms.length) err('e-platforms','Select at least one platform');
   if (!valid) { showToast('Please fix the errors above.', 'error'); return; }
@@ -2465,14 +2568,16 @@ async function submitListing() {
     type, category: cat, emoji: '🤖', name, tagline, description: desc, about, price,
     capabilities, platforms: selectedPlatforms,
     pms_systems: selectedPMS,
+    free_tier_type: freeType, free_tier_desc: freeDesc, paid_tier_desc: paidDesc,
     creator_id: currentUser.id, creator_name: currentUser.name || currentUser.email,
     creator_initial: (currentUser.name || '?').substring(0,1).toUpperCase(),
     creator_bio: currentUser.bio || '', approved: false
   });
   if (btn) { btn.textContent = 'Submit for Review'; btn.disabled = false; }
   if (error) { showToast('Error submitting. Please try again.', 'error'); return; }
-  ['s-name','s-type','s-cat','s-price','s-tagline','s-desc','s-about','s-setup','cap-input'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  ['s-name','s-type','s-cat','s-price','s-tagline','s-desc','s-about','s-setup','s-free-desc','s-paid-desc','cap-input'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   capabilities = []; selectedPlatforms = []; selectedPMS = [];
+  document.getElementById('s-free-type').value = '';
   document.querySelectorAll('.checkbox-chip').forEach(c=>c.classList.remove('selected'));
   renderCaps();
   document.getElementById('tagline-count').textContent = '0';
@@ -2573,6 +2678,7 @@ function showPage(name) {
   if (name === 'submit') {
     if (!currentUser) { openLogin(); return; }
     capabilities = []; selectedPlatforms = []; selectedPMS = [];
+  document.getElementById('s-free-type').value = '';
     renderCaps();
   }
   if (name === 'profile') {

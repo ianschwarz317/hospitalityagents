@@ -232,3 +232,27 @@ create policy "Anyone can join waitlist"
 -- ── 8. ADD pms_systems column to listings ────────────────
 alter table listings
   add column if not exists pms_systems text[] default '{}';
+
+
+-- ── 9. FREEMIUM + EXPANDED TYPES ─────────────────────────
+-- Adds the three freemium columns and widens the type check.
+
+alter table listings
+  add column if not exists free_tier_type text,
+  add column if not exists free_tier_desc text,
+  add column if not exists paid_tier_desc text;
+
+-- Drop old type check and add new one with all 4 types
+do $$
+begin
+  if exists (
+    select 1 from information_schema.check_constraints
+    where constraint_name like 'listings_type_check%'
+  ) then
+    alter table listings drop constraint if exists listings_type_check;
+  end if;
+end $$;
+
+alter table listings
+  add constraint listings_type_check
+  check (type in ('persona', 'agent', 'skill', 'addon'));
