@@ -36,7 +36,7 @@ export default async function handler(req, res) {
               <table style="width:100%;border-collapse:collapse">
                 <tr><td style="padding:6px 0;color:#999;font-size:13px">Type</td><td style="padding:6px 0;font-size:13px;font-weight:600">${record.type} · ${record.category}</td></tr>
                 <tr><td style="padding:6px 0;color:#999;font-size:13px">Price</td><td style="padding:6px 0;font-size:13px;font-weight:600">$${record.price}</td></tr>
-                <tr><td style="padding:6px 0;color:#999;font-size:13px">Creator</td><td style="padding:6px 0;font-size:13px;font-weight:600">${record.creator_name}</td></tr>
+                <tr><td style="padding:6px 0;color:#999;font-size:13px">Developer</td><td style="padding:6px 0;font-size:13px;font-weight:600">${record.creator_name}</td></tr>
                 <tr><td style="padding:6px 0;color:#999;font-size:13px">Submitted</td><td style="padding:6px 0;font-size:13px;font-weight:600">${new Date(record.created_at).toLocaleString()}</td></tr>
               </table>
             </div>
