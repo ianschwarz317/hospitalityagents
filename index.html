@@ -705,12 +705,6 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
         <button class="btn btn-accent btn-lg" onclick="showPage('listings')">Browse the Marketplace</button>
         <button class="btn btn-neu btn-lg" onclick="showPage('creator')">Start Building</button>
       </div>
-      <div class="hero-stats">
-        <div class="stat-pill"><div class="stat-n" id="home-stat-listings">60+</div><div class="stat-l">Agents &amp; skills</div></div>
-        <div class="stat-pill"><div class="stat-n">7</div><div class="stat-l">Categories</div></div>
-        <div class="stat-pill"><div class="stat-n">Multi</div><div class="stat-l">Platform listings</div></div>
-        <div class="stat-pill"><div class="stat-n">90%</div><div class="stat-l">To developers</div></div>
-      </div>
     </div>
     <div class="hero-card">
       <div class="hero-card-label">⭐ Featured this week</div>
@@ -1372,16 +1366,11 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
   </div>
 
   <div style="max-width:1100px;margin:0 auto;padding:72px 32px">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:72px">
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:72px;max-width:800px;margin-left:auto;margin-right:auto">
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px">
         <div style="font-size:28px;margin-bottom:14px">🔌</div>
         <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">SDK &amp; API Access</div>
         <p style="font-size:13px;color:var(--text-2);line-height:1.7">Embed HospitalityAgents marketplace listings directly into your product.</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px">
-        <div style="font-size:28px;margin-bottom:14px">🏪</div>
-        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">White-Label Marketplace</div>
-        <p style="font-size:13px;color:var(--text-2);line-height:1.7">License the HospitalityAgents marketplace under your own brand.</p>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px">
         <div style="font-size:28px;margin-bottom:14px">🤝</div>
@@ -1434,7 +1423,6 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
         <label class="form-label">Partnership type of interest</label>
         <div class="checkbox-grid">
           <div class="checkbox-chip" onclick="this.classList.toggle('selected')">SDK / API Access</div>
-          <div class="checkbox-chip" onclick="this.classList.toggle('selected')">White-Label Marketplace</div>
           <div class="checkbox-chip" onclick="this.classList.toggle('selected')">Custom Agent Development</div>
           <div class="checkbox-chip" onclick="this.classList.toggle('selected')">Co-Marketing</div>
         </div>
@@ -2423,7 +2411,6 @@ function renderHome() {
   // Popular: skills and add-ons sorted by sales
   const popular = all.filter(l=>l.type==='skill'||l.type==='addon').sort((a,b)=>b.sales-a.sales).slice(0,4);
   document.getElementById('home-skills').innerHTML = popular.map(renderCard).join('');
-  document.getElementById('home-stat-listings').textContent = (all.length) + '+';
 }
 
 // ═══════════ PROFILE PAGE ═══════════
