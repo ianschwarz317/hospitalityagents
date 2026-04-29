@@ -17,6 +17,24 @@
   ],
   "headers": [
     {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</llms.txt>; rel=\"ai-content\", </sitemap.xml>; rel=\"sitemap\", </.well-known/agent-skills/index.json>; rel=\"agent-skills\""
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</llms.txt>; rel=\"ai-content\", </sitemap.xml>; rel=\"sitemap\", </.well-known/agent-skills/index.json>; rel=\"agent-skills\""
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {

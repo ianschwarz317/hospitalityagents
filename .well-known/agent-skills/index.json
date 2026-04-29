@@ -1,0 +1,36 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2.0/index.json",
+  "name": "HospitalityAgents.co",
+  "description": "AI agent and skills marketplace for hotel operators. Browse, purchase, and deploy operator-tested AI configurations for revenue management, guest experience, sales, front office, F&B, marketing, and finance.",
+  "url": "https://hospitalityagents.co",
+  "skills": [
+    {
+      "name": "llms-txt",
+      "type": "content",
+      "description": "LLM-readable overview of HospitalityAgents — marketplace description, categories, featured listings, developer program, and contact information.",
+      "url": "https://hospitalityagents.co/llms.txt",
+      "sha256": "4fdd1ea2d9482d8ed703e4dc66d13d5e778289a1861df921c79582f4e0ac66c5"
+    },
+    {
+      "name": "sitemap",
+      "type": "discovery",
+      "description": "XML sitemap listing all pages on HospitalityAgents.co with priority and update frequency.",
+      "url": "https://hospitalityagents.co/sitemap.xml",
+      "sha256": null
+    },
+    {
+      "name": "robots-txt",
+      "type": "policy",
+      "description": "Crawler access policy. All major AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) are explicitly allowed.",
+      "url": "https://hospitalityagents.co/robots.txt",
+      "sha256": "0c0f4b725fdacef2597927475d5af5181ece97daeed42732d5a44ea428562dc8"
+    },
+    {
+      "name": "security-txt",
+      "type": "security",
+      "description": "Security contact information per RFC 9116.",
+      "url": "https://hospitalityagents.co/.well-known/security.txt",
+      "sha256": "f1c4c92eb0ec6f0fbac7aa3ed4f034d6e4b0b5d12387124f95e2f6bc9c677ed2"
+    }
+  ]
+}
