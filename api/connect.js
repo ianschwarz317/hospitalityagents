@@ -11,13 +11,10 @@ export default async function handler(req, res) {
   if (!userId || !email) return res.status(400).json({ error: 'Missing user data' });
 
   try {
-    // Check if user already has a connected account
     const { data: profile } = await sb.from('profiles').select('stripe_account_id').eq('id', userId).single();
-
     let accountId = profile?.stripe_account_id;
 
     if (!accountId) {
-      // Create a new Connected Account
       const account = await stripe.accounts.create({
         type: 'express',
         email,
@@ -28,18 +25,19 @@ export default async function handler(req, res) {
         metadata: { user_id: userId }
       });
       accountId = account.id;
-
-      // Store the account ID
       await sb.from('profiles').update({ stripe_account_id: accountId }).eq('id', userId);
     }
 
-    if (action === 'dashboard') {
-      // Return a login link to the Stripe Express dashboard
+    // Check if onboarding is complete
+    const account = await stripe.accounts.retrieve(accountId);
+    const onboarded = account.details_submitted;
+
+    if (action === 'dashboard' && onboarded) {
       const loginLink = await stripe.accounts.createLoginLink(accountId);
       return res.status(200).json({ url: loginLink.url });
     }
 
-    // Create an onboarding link
+    // If not onboarded (or action isn't dashboard), send to onboarding
     const accountLink = await stripe.accountLinks.create({
       account: accountId,
       refresh_url: `${process.env.SITE_URL}/profile?connect=refresh`,

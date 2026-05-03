@@ -2475,10 +2475,9 @@ async function renderProfile() {
       </div>
       <div style="display:flex;flex-direction:column;gap:6px;align-self:flex-start">
         <button class="btn btn-neu btn-sm" onclick="openEditProfile()">Edit Profile</button>
-        ${currentUser.role !== 'buyer' ? (currentUser.stripe_account_id
-          ? '<button class="btn btn-neu btn-sm" onclick="openStripeDashboard()">💳 Stripe Dashboard</button>'
-          : '<button class="btn btn-accent btn-sm" onclick="connectStripe()">💳 Connect Stripe to Get Paid</button>'
-        ) : ''}
+        ${currentUser.role !== 'buyer'
+          ? '<button class="btn btn-accent btn-sm" onclick="connectStripe()">💳 ' + (currentUser.stripe_account_id ? 'Stripe Dashboard' : 'Connect Stripe to Get Paid') + '</button>'
+          : ''}
       </div>
     </div>
     <div class="profile-tabs">
@@ -2530,14 +2529,14 @@ async function connectStripe() {
     const res = await fetch('/api/connect', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: currentUser.id, email: currentUser.email })
+      body: JSON.stringify({ userId: currentUser.id, email: currentUser.email, action: currentUser.stripe_account_id ? 'dashboard' : 'onboard' })
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
-    else { showToast(data.error || 'Error connecting Stripe — please try again.', 'error'); if (btn) { btn.textContent = 'Connect Stripe to Get Paid'; btn.disabled = false; } }
+    else { showToast(data.error || 'Error connecting Stripe — please try again.', 'error'); if (btn) { btn.textContent = currentUser.stripe_account_id ? 'Stripe Dashboard' : 'Connect Stripe to Get Paid'; btn.disabled = false; } }
   } catch (err) {
     showToast('Connection error — please try again.', 'error');
-    if (btn) { btn.textContent = 'Connect Stripe to Get Paid'; btn.disabled = false; }
+    if (btn) { btn.textContent = currentUser.stripe_account_id ? 'Stripe Dashboard' : 'Connect Stripe to Get Paid'; btn.disabled = false; }
   }
 }
 
