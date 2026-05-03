@@ -2534,9 +2534,9 @@ async function connectStripe() {
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
-    else { showToast('Error connecting Stripe.', 'error'); if (btn) { btn.textContent = 'Connect Stripe to Get Paid'; btn.disabled = false; } }
+    else { showToast(data.error || 'Error connecting Stripe — please try again.', 'error'); if (btn) { btn.textContent = 'Connect Stripe to Get Paid'; btn.disabled = false; } }
   } catch (err) {
-    showToast('Error connecting Stripe.', 'error');
+    showToast('Connection error — please try again.', 'error');
     if (btn) { btn.textContent = 'Connect Stripe to Get Paid'; btn.disabled = false; }
   }
 }
