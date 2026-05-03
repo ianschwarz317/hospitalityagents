@@ -10,6 +10,10 @@
       "handle": "filesystem"
     },
     {
+      "src": "/(listings|about|creator|partners|request|contact|terms|privacy|submit|profile|detail|home)",
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/404.html",
       "status": 404

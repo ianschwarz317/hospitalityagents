@@ -606,7 +606,7 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://hospitalityagents.co/#listings"
+      "urlTemplate": "https://hospitalityagents.co/listings"
     },
     "query-input": "required name=search_term_string"
   }
@@ -2051,7 +2051,7 @@ async function initAuth() {
   if (session) await loadProfile(session.user);
   await refreshListings();
   renderNav();
-  initHashRouting();
+  initRouting();
   initEmailBar();
 }
 
@@ -2639,7 +2639,7 @@ function showPage(name) {
   pageEl.classList.add('active');
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   window.scrollTo(0,0);
-  history.pushState(null, '', '#' + name);
+  history.pushState(null, '', '/' + (name === 'home' ? '' : name));
   document.title = pageTitles[name] || 'HospitalityAgents.co';
 
   if (name === 'home') renderHome();
@@ -2657,15 +2657,26 @@ function showPage(name) {
 }
 
 // ═══════════ HASH ROUTING ═══════════
-function initHashRouting() {
+function initRouting() {
   const validPages = Object.keys(pageTitles);
-  function routeFromHash() {
-    const hash = window.location.hash.replace('#','');
-    if (hash && validPages.includes(hash)) showPage(hash);
-    else renderHome();
+
+  function routeFromPath() {
+    // Support old hash URLs — redirect them to clean paths
+    if (window.location.hash) {
+      const h = window.location.hash.replace('#','');
+      if (validPages.includes(h)) {
+        history.replaceState(null, '', '/' + (h === 'home' ? '' : h));
+        showPage(h);
+        return;
+      }
+    }
+    const path = window.location.pathname.replace(/^\//, '').replace(/\/$/,'');
+    if (path && validPages.includes(path)) showPage(path);
+    else showPage('home');
   }
-  window.addEventListener('popstate', routeFromHash);
-  if (window.location.hash) routeFromHash();
+
+  window.addEventListener('popstate', routeFromPath);
+  routeFromPath();
 }
 
 // ═══════════ INIT ═══════════

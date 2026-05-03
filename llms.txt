@@ -13,14 +13,14 @@ Listings come in two forms:
 ## Key Pages
 
 - https://hospitalityagents.co — Home / marketplace overview
-- https://hospitalityagents.co#listings — Browse all agents and skills
-- https://hospitalityagents.co#about — About HospitalityAgents and CVH Studio
-- https://hospitalityagents.co#creator — Developer guide (sell your AI tools)
-- https://hospitalityagents.co#partners — For hospitality software companies
-- https://hospitalityagents.co#request — Request a custom agent
-- https://hospitalityagents.co#contact — Contact
-- https://hospitalityagents.co#terms — Terms of Service
-- https://hospitalityagents.co#privacy — Privacy Policy
+- https://hospitalityagents.co/listings — Browse all agents and skills
+- https://hospitalityagents.co/about — About HospitalityAgents and CVH Studio
+- https://hospitalityagents.co/creator — Developer guide (sell your AI tools)
+- https://hospitalityagents.co/partners — For hospitality software companies
+- https://hospitalityagents.co/request — Request a custom agent
+- https://hospitalityagents.co/contact — Contact
+- https://hospitalityagents.co/terms — Terms of Service
+- https://hospitalityagents.co/privacy — Privacy Policy
 
 ## Categories
 
