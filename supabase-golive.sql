@@ -291,3 +291,14 @@ create policy "Admin can read all purchases"
 -- ── 11. PRICING MODEL COLUMN ─────────────────────────────
 alter table listings
   add column if not exists pricing_model text default 'onetime';
+
+
+-- ── 12. USER ROLE FIELD ──────────────────────────────────
+alter table profiles
+  add column if not exists role text default 'both';
+
+-- ── 13. DELIVERY FIELDS ──────────────────────────────────
+alter table listings
+  add column if not exists delivery_method text default 'file',
+  add column if not exists delivery_content text,
+  add column if not exists free_delivery_content text;

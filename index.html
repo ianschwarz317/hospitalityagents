@@ -1124,6 +1124,41 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
       </div>
     </div>
 
+    <div class="neu-panel" style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px">6 — Delivery</div>
+      <div class="form-group">
+        <label class="form-label">How do buyers access the full version? *</label>
+        <select class="form-select" id="s-delivery-method" onchange="toggleDeliveryFields()">
+          <option value="file">File download — I will upload the deliverable</option>
+          <option value="access_code">Access code / URL — buyers get a code or link to my platform</option>
+        </select>
+      </div>
+      <div id="delivery-file-fields">
+        <div class="form-group">
+          <label class="form-label">Upload paid tier deliverable *</label>
+          <input class="form-input" id="s-paid-file" type="file">
+          <div class="form-hint">ZIP, PDF, TXT, MD, or JSON — max 50MB</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Upload free tier deliverable (optional)</label>
+          <input class="form-input" id="s-free-file" type="file">
+          <div class="form-hint">What buyers get before paying. Leave blank if free tier is description-only.</div>
+        </div>
+      </div>
+      <div id="delivery-code-fields" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Paid tier access code or URL *</label>
+          <input class="form-input" id="s-access-code" type="text" placeholder="e.g. https://myplatform.com/activate?code=XYZ or a license key">
+          <div class="form-hint">This is revealed to buyers only after purchase.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Free tier access (optional)</label>
+          <input class="form-input" id="s-free-access" type="text" placeholder="e.g. https://myplatform.com/free-trial or a trial code">
+        </div>
+      </div>
+      <div class="form-error" id="e-delivery"></div>
+    </div>
+
     <div style="display:flex;gap:12px;justify-content:flex-end">
       <button class="btn btn-neu" onclick="showPage('creator')">Cancel</button>
       <button class="btn btn-accent btn-lg" onclick="submitListing()">Submit for Review →</button>
@@ -1866,7 +1901,7 @@ window.pageTitles = pageTitles;
 
 // ═══════════ SEED DATA ═══════════
 const SEED_LISTINGS = [
-  {id:1,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Any PMS'],type:'persona',category:'Revenue Management',emoji:'📊',name:'Atlas',
+  {id:1,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Any PMS'],type:'persona',category:'Revenue Management',emoji:'📊',name:'Atlas',
    tagline:'Revenue Manager Agent — comp set monitoring, rate strategy, and pickup reports on autopilot',
    desc:'A production-ready Revenue Manager persona with full system prompt, memory architecture, and daily reporting playbook.',
    price:99,sales:87,rating:4.8,reviews:14,version:2,
@@ -1879,7 +1914,7 @@ const SEED_LISTINGS = [
      {author:'James T.',title:'Strong foundation, minor tweaks needed',stars:4,date:'Mar 15, 2026',body:'The daily pickup report template is excellent. Had to adjust the comp set logic for our market but the base prompt is solid.'},
      {author:'Priya K.',title:'Worth every dollar',stars:5,date:'Mar 2, 2026',body:'We\'re a small independent and can\'t afford a full-time revenue manager. Atlas fills that gap. The weekly variance memo saves me 3 hours.'}
    ],freeType:'free-prompt',freeDesc:'Atlas base system prompt + 1 sample pickup report',paidDesc:'Full MEMORY.md architecture, PLAYBOOK.md with daily/weekly/monthly rhythms, PMS connection guide, priority support',approved:true},
-  {id:2,pricingModel:'onetime',pms:['Opera','Cloudbeds','Apaleo','Any PMS'],type:'persona',category:'Guest Experience',emoji:'🌟',name:'Sage',
+  {id:2,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Cloudbeds','Apaleo','Any PMS'],type:'persona',category:'Guest Experience',emoji:'🌟',name:'Sage',
    tagline:'Guest Experience Agent — review management, pre-arrival personalization, and post-stay follow-up',
    desc:'End-to-end guest communication persona with tone calibration for luxury, lifestyle, or select-service properties.',
    price:79,sales:112,rating:4.9,reviews:22,version:3,
@@ -1891,7 +1926,7 @@ const SEED_LISTINGS = [
      {author:'Marco R.',title:'Review response time dropped from 3 days to same-day',stars:5,date:'Mar 30, 2026',body:'Sage drafts a response in seconds that actually sounds like us. GM reviews and approves, takes 5 minutes total now.'},
      {author:'Leila F.',title:'Best investment for our boutique',stars:5,date:'Mar 10, 2026',body:'The pre-arrival sequence alone is worth it. Guests keep commenting at check-in that they loved getting our messages.'}
    ],freeType:'free-prompt',freeDesc:'Sage base prompt + 5 review response starters',paidDesc:'Full tone calibration system, 40+ templates, pre-arrival sequences, brand voice intake questionnaire',approved:true},
-  {id:3,pricingModel:'onetime',pms:['Opera','Mews','Salesforce','Any PMS'],type:'persona',category:'Sales & Events',emoji:'🤝',name:'Harper',
+  {id:3,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Salesforce','Any PMS'],type:'persona',category:'Sales & Events',emoji:'🤝',name:'Harper',
    tagline:'Sales & Events Agent — RFP responses, group lead qualification, and BEO prep',
    desc:'A full hotel sales persona for group and events. Qualifies incoming leads, drafts RFP responses, and generates BEO first drafts.',
    price:89,sales:43,rating:4.7,reviews:9,version:1,
@@ -1900,7 +1935,7 @@ const SEED_LISTINGS = [
    capabilities:['RFP response drafting from scratch','Group lead qualification scoring framework','Displacement analysis decision support','BEO first draft generation from event notes','Sales proposal narrative generation'],
    about:'Harper is built for the hotel sales manager who spends more time on admin than actually selling. It knows the group sales workflow from inbound lead to signed contract.',
    reviewList:[{author:'David L.',title:'Finally, RFPs that don\'t take all afternoon',stars:5,date:'Mar 20, 2026',body:'Used to spend 2-3 hours on a complex RFP response. Harper gets me to a strong first draft in 20 minutes.'}],freeType:'free-prompt',freeDesc:'Harper base prompt + 1 sample RFP response',paidDesc:'Full group-qualification framework, displacement analysis tools, BEO generator, 20+ segment templates',approved:true},
-  {id:4,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Any PMS'],type:'persona',category:'Front Office',emoji:'🏨',name:'Morgan',
+  {id:4,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Any PMS'],type:'persona',category:'Front Office',emoji:'🏨',name:'Morgan',
    tagline:'GM Morning Brief Agent — daily ops summary, escalation flags, and ownership-ready reporting',
    desc:'Delivers a structured morning brief for GMs: previous day performance, open issues, and flagged escalations.',
    price:69,sales:61,rating:4.6,reviews:11,version:2,
@@ -1909,7 +1944,7 @@ const SEED_LISTINGS = [
    capabilities:['Daily GM morning brief generation','Previous night performance summary with commentary','Day-of arrival/departure count and VIP flag','Occupancy and rate forecast for next 7 days','Ownership report formatting'],
    about:'Morgan transforms raw daily data into a structured morning report. Feed it your numbers and it produces a brief a GM can review in 3 minutes and forward to ownership without editing.',
    reviewList:[{author:'Nina P.',title:'Saved my mornings',stars:5,date:'Mar 22, 2026',body:'I was assembling this report manually every morning. Now I paste the key numbers and Morgan has a clean brief ready in 90 seconds.'}],freeType:'free-prompt',freeDesc:'Morgan base prompt + 1 sample morning brief',paidDesc:'Full ownership report formatting, 7-day forecast module, VIP flag logic, historical variance tools',approved:true},
-  {id:5,pricingModel:'onetime',pms:[],type:'skill',category:'Guest Experience',emoji:'⭐',name:'Review Response Engine',
+  {id:5,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:[],type:'skill',category:'Guest Experience',emoji:'⭐',name:'Review Response Engine',
    tagline:'Draft brand-consistent OTA review responses in under 60 seconds — across all major platforms',
    desc:'A prompt pack and decision framework for responding to reviews on Tripadvisor, Booking.com, Expedia, and Google.',
    price:19,sales:203,rating:4.8,reviews:31,version:4,
@@ -1918,7 +1953,7 @@ const SEED_LISTINGS = [
    capabilities:['Platform-specific response formats','Negative review framework without admitting liability','Management response templates for 12 complaint categories','Brand voice calibration guide'],
    about:'A focused, modular skill for the single most time-consuming guest communication task: review responses. 40+ response starters sorted by sentiment and platform.',
    reviewList:[{author:'Tom H.',title:'Best $19 I\'ve spent on hotel ops',stars:5,date:'Mar 29, 2026',body:'This is now part of the standard weekly workflow for every front office manager. Response time down from 5 days to same-day.'}],freeType:'free-prompt',freeDesc:'10 starter response templates',paidDesc:'Full 40+ template library, platform-specific formats, brand voice calibration, negative review framework',approved:true},
-  {id:6,pricingModel:'onetime',pms:[],type:'skill',category:'Sales & Events',emoji:'📋',name:'RFP Response Drafter',
+  {id:6,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:[],type:'skill',category:'Sales & Events',emoji:'📋',name:'RFP Response Drafter',
    tagline:'Generate complete group RFP responses from a lead brief — corporate, SMERF, and association ready',
    desc:'Prompt pack and template library for drafting hotel RFP responses.',
    price:29,sales:88,rating:4.6,reviews:16,version:2,
@@ -1927,7 +1962,7 @@ const SEED_LISTINGS = [
    capabilities:['Corporate group RFP response template','SMERF segment response framework','Association and conference response format','F&B minimum calculation helper'],
    about:'Written by former hotel sales managers who have responded to thousands of RFPs. The prompts know the language meeting planners use.',
    reviewList:[{author:'Rachel M.',title:'Cut RFP time in half',stars:5,date:'Mar 18, 2026',body:'This gets me to a strong draft in a fraction of the time. The SMERF template is something I would have spent weeks building myself.'}],freeType:'free-prompt',freeDesc:'Corporate RFP template pack',paidDesc:'Full SMERF + association templates, F&B minimum calculator, proposal narrative generator',approved:true},
-  {id:7,pricingModel:'monthly',pms:['SiteMinder','Cloudbeds','Opera'],type:'addon',category:'Revenue Management',emoji:'💹',name:'Rate Parity Monitor',
+  {id:7,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:['SiteMinder','Cloudbeds','Opera'],type:'addon',category:'Revenue Management',emoji:'💹',name:'Rate Parity Monitor',
    tagline:'Identify and document OTA rate parity violations — ready for channel manager escalation',
    desc:'A workflow and prompt pack for systematically checking rate parity across OTA channels.',
    price:15,sales:147,rating:4.5,reviews:28,version:3,
@@ -1936,7 +1971,7 @@ const SEED_LISTINGS = [
    capabilities:['Parity check prompt framework','Violation documentation template','Channel manager escalation message drafts','Weekly parity audit report format'],
    about:'A practical skill for revenue managers who check parity manually. Structures the process, formats findings, and drafts escalation communications.',
    reviewList:[{author:'Ben K.',title:'Practical and immediate ROI',stars:4,date:'Mar 12, 2026',body:'The violation documentation format is what I was missing — now I actually have records to send to channel managers.'}],freeType:'free-trial',freeDesc:'14-day free trial',paidDesc:'Full parity monitoring automation, violation documentation, channel manager escalation drafts',approved:true},
-  {id:8,pricingModel:'onetime',pms:[],type:'skill',category:'Guest Experience',emoji:'✉️',name:'Pre-Arrival Messaging Suite',
+  {id:8,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:[],type:'skill',category:'Guest Experience',emoji:'✉️',name:'Pre-Arrival Messaging Suite',
    tagline:'3-touch pre-arrival email and SMS sequence — personalized and conversion-focused',
    desc:'A prompt pack for generating personalized pre-arrival message sequences with upsell logic.',
    price:12,sales:176,rating:4.9,reviews:37,version:2,
@@ -1945,7 +1980,7 @@ const SEED_LISTINGS = [
    capabilities:['3-touch email sequence (7 days, 3 days, day-of)','SMS variation for each touch','Upgrade offer framing for leisure and business travelers','F&B and spa upsell language'],
    about:'Pre-arrival communication that feels personal and generates ancillary revenue. Built for hotels that want to upsell without sounding like a retail promo blast.',
    reviewList:[{author:'Camille S.',title:'Upgrade attachment rate went up 18%',stars:5,date:'Mar 25, 2026',body:'The upgrade framing in the 3-day email is exactly right — it presents the upgrade as a service, not a pitch.'}],freeType:'free-prompt',freeDesc:'Day-of arrival message template',paidDesc:'Full 3-touch sequence, SMS variations, upsell logic for leisure and business travelers',approved:true},
-  {id:9,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Apaleo','Any PMS'],type:'skill',category:'Revenue Management',emoji:'📅',name:'Daily Pickup Report',
+  {id:9,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Apaleo','Any PMS'],type:'skill',category:'Revenue Management',emoji:'📅',name:'Daily Pickup Report',
    tagline:'Structured pickup analysis prompt — paste your numbers, get your report',
    desc:'Stop building pickup reports manually. Feed daily booking pace and get a formatted, commentated pickup report.',
    price:9,sales:312,rating:4.7,reviews:48,version:5,
@@ -1954,7 +1989,7 @@ const SEED_LISTINGS = [
    capabilities:['Daily pickup vs STLY commentary','Segment mix shift identification','Forward 30/60/90 day pace summary','Alert flags for unusual pace patterns'],
    about:'The most-used skill on HospitalityAgents. Simple, high-value, immediately deployable. Paste your daily numbers, get a formatted pickup report with narrative commentary.',
    reviewList:[{author:'Yuki T.',title:'Used every single day',stars:5,date:'Mar 31, 2026',body:'Takes 2 minutes instead of 20. The commentary catches things I\'d miss when I\'m going fast.'}],freeType:'free-prompt',freeDesc:'Basic pickup report template (no commentary)',paidDesc:'Full STLY commentary, segment mix shift detection, 30/60/90 day forecasts, alert flags',approved:true},
-  {id:10,pricingModel:'monthly',pms:[],type:'agent',category:'F&B',emoji:'🍽️',name:'F&B Upsell Agent',
+  {id:10,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:[],type:'agent',category:'F&B',emoji:'🍽️',name:'F&B Upsell Agent',
    tagline:'In-room dining, outlet, and event upsell prompts tuned for hotel F&B context',
    desc:'A skill for generating F&B upsell copy, server scripting, and in-room dining menu descriptions.',
    price:19,sales:64,rating:4.4,reviews:12,version:1,
@@ -1963,7 +1998,7 @@ const SEED_LISTINGS = [
    capabilities:['In-room dining menu description rewriting','Outlet upsell prompts for FOH teams','Event catering proposal language','Wine and beverage pairing suggestion framework'],
    about:'F&B language that sells without feeling pushy. Built by people who have worked restaurant and banquet operations in hotels.',
    reviewList:[{author:'Sofia R.',title:'Great for menu rewrites',stars:4,date:'Mar 8, 2026',body:'Used this to rewrite our entire room service menu. Orders and average check both went up in the first month.'}],freeType:'free-tier',freeDesc:'10 menu description rewrites/month',paidDesc:'Unlimited usage, outlet upsell library, event catering language, wine pairing framework',approved:true},
-  {id:11,pricingModel:'monthly',pms:['SiteMinder','Cloudbeds'],type:'addon',category:'Marketing',emoji:'📣',name:'OTA Listing Optimizer',
+  {id:11,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:['SiteMinder','Cloudbeds'],type:'addon',category:'Marketing',emoji:'📣',name:'OTA Listing Optimizer',
    tagline:'Rewrite your Booking.com and Expedia listings for conversion',
    desc:'A prompt pack for optimizing hotel listings across major OTA platforms.',
    price:14,sales:93,rating:4.6,reviews:19,version:2,
@@ -1972,7 +2007,7 @@ const SEED_LISTINGS = [
    capabilities:['OTA headline rewriting framework','Amenity prioritization guide','Photo caption optimization for conversion','Seasonal listing variation prompts'],
    about:'Your OTA listing is your digital front desk. Most hotels have listings written years ago by someone who\'s no longer there. This skill audits and rewrites them.',
    reviewList:[{author:'Andre M.',title:'Immediate uplift on Booking.com',stars:5,date:'Mar 14, 2026',body:'Rewrote our listing using this skill. Conversion rate is up.'}],freeType:'limited-version',freeDesc:'Audit mode (shows issues, no rewrites)',paidDesc:'Full rewrite mode, seasonal variation prompts, amenity prioritization, conversion optimization',approved:true},
-  {id:12,pricingModel:'monthly',pms:['M3','Opera','Any PMS'],type:'agent',category:'Finance',emoji:'💳',name:'Expense Reconciliation Agent',
+  {id:12,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:['M3','Opera','Any PMS'],type:'agent',category:'Finance',emoji:'💳',name:'Expense Reconciliation Agent',
    tagline:'Structured prompt workflow for hotel AP and expense reconciliation',
    desc:'A prompt pack for accounts payable and expense reconciliation tasks common to hotel finance teams.',
    price:24,sales:37,rating:4.3,reviews:8,version:1,
@@ -1980,7 +2015,25 @@ const SEED_LISTINGS = [
    platforms:['Claude','GPT-4','Gemini','Any LLM'],
    capabilities:['AP reconciliation prompt framework','Month-end accrual documentation template','Variance explanation narrative generator','Budget vs actual commentary generator'],
    about:'Built for hotel controllers who spend too much time formatting reports. Structures the reconciliation workflow and generates documentation auditors need.',
-   reviewList:[{author:'Finance Director',title:'Solid for month-end',stars:4,date:'Mar 1, 2026',body:'The variance narrative generator is the best part. Gets us 80% of the way there in minutes.'}],freeType:'free-trial',freeDesc:'7-day free trial',paidDesc:'Full AP automation, month-end accrual templates, variance narrative generator, budget vs actual commentary',approved:true}
+   reviewList:[{author:'Finance Director',title:'Solid for month-end',stars:4,date:'Mar 1, 2026',body:'The variance narrative generator is the best part. Gets us 80% of the way there in minutes.'}],freeType:'free-trial',freeDesc:'7-day free trial',paidDesc:'Full AP automation, month-end accrual templates, variance narrative generator, budget vs actual commentary',approved:true},
+  {id:13,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Any PMS'],type:'skill',category:'Guest Experience',emoji:'⭐',name:'Forbes Travel Guide Self-Assessment',
+   tagline:'Audit your property against Forbes Travel Guide Five-Star standards — 50-point checklist covering service, facilities, and guest room criteria',
+   desc:'A structured self-assessment prompt pack based on the Forbes Travel Guide evaluation methodology. Covers the core observable standards inspectors use across arrival, guest room, bathroom, evening service, and departure.',
+   price:0,sales:0,rating:null,reviews:0,version:1,
+   creator:'HospitalityAgents',creatorInitial:'H',creatorBio:'Official free tools from the HospitalityAgents team.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['50-point self-assessment checklist mapped to Forbes Travel Guide observable standards','Arrival experience audit — doorman/valet, lobby, check-in, escort to room','Guest room inspection framework — bed, linens, lighting, minibar, technology, turndown','Bathroom standards audit — fixtures, amenities, toweling, cleanliness, lighting','Service delivery evaluation — greeting standards, anticipation, personalization, recovery','Departure and follow-up assessment','Scoring template: Five-Star / Four-Star / Recommended tier placement estimate','Gap analysis prompt that identifies your weakest areas relative to the next tier'],
+   about:'Forbes Travel Guide is the global authority on luxury hospitality, rating hotels on up to 900 objective, incognito-evaluated standards. This self-assessment distills the core observable criteria into a structured checklist any hotel team can run internally.\n\nThis is not an official Forbes Travel Guide product. It is a prompt-based self-assessment tool built from publicly available Forbes Travel Guide criteria and methodology documentation. Use it to identify gaps before a formal inspection, train staff on what inspectors look for, or benchmark your property against Five-Star service standards.\n\nCovers: arrival and departure, guest room and bathroom condition, evening/turndown service, staff interaction standards, and anticipatory service markers. Each criterion is framed as an observable yes/no or rating, matching the binary evaluation style Forbes inspectors use.',
+   reviewList:[],freeType:'free-download',freeDesc:'Full 50-point checklist — completely free, no paid tier',paidDesc:'This listing is entirely free.',approved:true},
+  {id:14,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Apaleo','Any PMS'],type:'skill',category:'Front Office',emoji:'🌙',name:'Night Audit Summary Generator',
+   tagline:'Paste your end-of-day numbers, get a formatted night audit summary with commentary — ready for the GM in 90 seconds',
+   desc:'A prompt pack that transforms raw nightly operational data into a structured, narrated night audit summary. Built for night auditors and front office managers who are tired of formatting the same report manually.',
+   price:0,sales:0,rating:null,reviews:0,version:1,
+   creator:'HospitalityAgents',creatorInitial:'H',creatorBio:'Official free tools from the HospitalityAgents team.',
+   platforms:['Claude','GPT-4','Gemini','Any LLM'],
+   capabilities:['Structured night audit summary with occupancy, ADR, RevPAR, and revenue breakdown','Variance commentary — automatic flags for metrics above or below expected range','No-show, cancellation, and walk-in reconciliation narrative','Rate segment mix breakdown with shift analysis vs prior night and STLY','F&B revenue summary with per-outlet commentary','Cash and credit reconciliation summary format','Handover notes section — flagged issues, VIP arrivals, maintenance alerts for morning shift','GM-ready formatting — clean, professional, ready to forward without editing'],
+   about:'Every hotel runs a night audit. Most night auditors spend 20-30 minutes formatting the same summary manually, copying numbers between systems and writing the same narrative patterns. This prompt pack automates the formatting and commentary.\n\nPaste your key metrics — occupancy, rate, revenue by segment, F&B totals, no-shows, walk-ins — and get a clean, narrated summary with variance flags and handover notes. The output is formatted for a GM morning review: scannable, professional, and ready to forward to ownership without editing.\n\nWorks with data from any PMS. You paste the numbers, the prompt handles the structure, math validation, and narrative. Includes templates for weeknight, weekend, and high-occupancy audit variations.',
+   reviewList:[],freeType:'free-download',freeDesc:'Full night audit prompt pack — completely free, no paid tier',paidDesc:'This listing is entirely free.',approved:true}
 ];
 
 
@@ -2027,7 +2080,7 @@ function dbToListing(row) {
     capabilities: row.capabilities || [], platforms: row.platforms || [],
     creator: row.creator_name, creatorInitial: row.creator_initial || '?',
     creatorBio: row.creator_bio || '', creator_id: row.creator_id,
-    pms: row.pms_systems || [], pricingModel: row.pricing_model || 'onetime', freeType: row.free_tier_type, freeDesc: row.free_tier_desc, paidDesc: row.paid_tier_desc, reviewList: [], approved: row.approved, submittedAt: row.created_at
+    pms: row.pms_systems || [], pricingModel: row.pricing_model || 'onetime', deliveryMethod: row.delivery_method || 'file', deliveryContent: row.delivery_content, freeDeliveryContent: row.free_delivery_content, freeType: row.free_tier_type, freeDesc: row.free_tier_desc, paidDesc: row.paid_tier_desc, reviewList: [], approved: row.approved, submittedAt: row.created_at
   };
 }
 
@@ -2088,9 +2141,9 @@ async function initAuth() {
 async function loadProfile(authUser) {
   const { data } = await sb.from('profiles').select('*').eq('id', authUser.id).single();
   if (data) {
-    currentUser = { id: authUser.id, email: authUser.email, ...data };
+    currentUser = { id: authUser.id, email: authUser.email, ...data, role: data.role || 'both' };
   } else {
-    currentUser = { id: authUser.id, email: authUser.email, name: authUser.email.split('@')[0], bio: '', website: '' };
+    currentUser = { id: authUser.id, email: authUser.email, name: authUser.email.split('@')[0], bio: '', website: '', role: 'both' };
   }
 }
 
@@ -2099,7 +2152,7 @@ function renderNav() {
   if (currentUser) {
     const initials = (currentUser.name || currentUser.email).substring(0,2).toUpperCase();
     el.innerHTML = `
-      <button class="btn btn-neu btn-sm" onclick="showPage('submit')">+ List Agent</button>
+      ${currentUser.role !== 'buyer' ? '<button class="btn btn-neu btn-sm" onclick="showPage(\'submit\')">+ List Agent</button>' : ''}
       <div class="avatar avatar-sm" style="cursor:pointer;font-size:11px;width:36px;height:36px;background:var(--accent-muted)" onclick="showPage('profile')" title="My Profile">${initials}</div>
       <button class="btn btn-ghost btn-sm" onclick="logout()">Log out</button>
     `;
@@ -2137,7 +2190,15 @@ function openSignup() {
     <p class="modal-sub">Join as a developer or buyer — it's free</p>
     <div class="form-group">
       <label class="form-label">Display Name</label>
-      <input class="form-input" id="r-name" type="text" placeholder="Your name or studio name" onkeydown="if(event.key==='Enter')doSignup()">
+      <input class="form-input" id="r-name" type="text" placeholder="Your name or studio name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">I am a…</label>
+      <select class="form-select" id="r-role">
+        <option value="buyer">Buyer — looking for AI tools for my hotel</option>
+        <option value="builder">Builder — selling AI tools I have built</option>
+        <option value="both">Both — buying and building</option>
+      </select>
     </div>
     <div class="form-group">
       <label class="form-label">Email</label>
@@ -2189,8 +2250,9 @@ async function doSignup() {
     if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
     return;
   }
-  currentUser = { id: data.user.id, email, name, bio: '', website: '' };
-  await sb.from('profiles').insert({ id: data.user.id, name, bio: '', website: '' });
+  const role = document.getElementById('r-role').value;
+    currentUser = { id: data.user.id, email, name, bio: '', website: '', role };
+  await sb.from('profiles').insert({ id: data.user.id, name, bio: '', website: '', role });
   renderNav();
   document.getElementById('auth-content').innerHTML = `
     <div class="modal-success">
@@ -2328,8 +2390,12 @@ async function showDetail(id) {
             <div style="font-size:32px;margin-bottom:10px">✓</div>
             <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px">Purchased</div>
             <div style="font-size:13px;color:var(--text-3);margin-bottom:18px">You own the full version of this listing.</div>
-            <button class="btn btn-accent" style="width:100%" onclick="handleGetFree(${item.id})">Access Full Version</button>
-            <button class="btn btn-neu" style="width:100%;margin-top:8px" onclick="handleGetFree(${item.id})">Download Again</button>
+            ${item.deliveryMethod==='access_code'&&item.deliveryContent?
+              '<div style="background:var(--surface-up);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;text-align:left"><div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:6px">Your Access</div><div style="font-size:13px;color:var(--text);word-break:break-all;font-family:monospace">'+item.deliveryContent+'</div></div>'
+              :''}
+            <button class="btn btn-accent" style="width:100%" onclick="handleDownload(${item.id})">
+              ${item.deliveryMethod==='access_code'?'Open Platform':'Download Full Version'}
+            </button>
           </div>
           ` : `
           <div class="tier-block">
@@ -2401,9 +2467,35 @@ async function handleBuy(id) {
   }
 }
 
-function handleGetFree(id) {
+async function handleDownload(id) {
+  const item = getAllListings().find(l => l.id === id);
+  if (!item) return;
+  if (item.deliveryMethod === 'access_code' && item.deliveryContent) {
+    if (item.deliveryContent.startsWith('http')) {
+      window.open(item.deliveryContent, '_blank');
+    } else {
+      navigator.clipboard.writeText(item.deliveryContent);
+      showToast('Access code copied to clipboard.', 'success');
+    }
+  } else if (item.deliveryContent) {
+    // Generate signed URL from Supabase Storage
+    const { data } = await sb.storage.from('listing-files').createSignedUrl(item.deliveryContent, 3600);
+    if (data?.signedUrl) window.open(data.signedUrl, '_blank');
+    else showToast('Download error — please contact support.', 'error');
+  } else {
+    showToast('Full version access — check your email for delivery details.', 'success');
+  }
+}
+
+async function handleGetFree(id) {
   if (!currentUser) { openLogin(); return; }
-  showToast('Free tier access unlocked — check your email for delivery details.', 'success');
+  const { data } = await sb.from('purchases').select('id').eq('listing_id', String(id)).eq('email', currentUser.email).limit(1);
+  const owned = data && data.length > 0;
+  if (owned) {
+    showToast('Full version access — check your email for delivery details.', 'success');
+  } else {
+    showToast('Free tier unlocked — check your email for access details.', 'success');
+  }
 }
 
 // ═══════════ LISTING FILTER ═══════════
@@ -2580,6 +2672,21 @@ function renderCaps() {
   el.innerHTML = capabilities.map((c,i) => `<div class="cap-item"><span>${c}</span><button class="cap-remove" onclick="removeCap(${i})">×</button></div>`).join('');
 }
 
+
+function toggleDeliveryFields() {
+  const method = document.getElementById('s-delivery-method').value;
+  document.getElementById('delivery-file-fields').style.display = method === 'file' ? 'block' : 'none';
+  document.getElementById('delivery-code-fields').style.display = method === 'access_code' ? 'block' : 'none';
+}
+
+async function uploadListingFile(file, listingName) {
+  const ext = file.name.split('.').pop();
+  const path = `listings/${Date.now()}_${listingName.replace(/[^a-z0-9]/gi,'_')}.${ext}`;
+  const { error } = await sb.storage.from('listing-files').upload(path, file);
+  if (error) { console.error('Upload error:', error); return null; }
+  return path;
+}
+
 function togglePMS(el, val) {
   el.classList.toggle('selected');
   if (el.classList.contains('selected')) { if (!selectedPMS.includes(val)) selectedPMS.push(val); }
@@ -2619,9 +2726,27 @@ async function submitListing() {
   if (!freeType) err('e-free-type','Choose how buyers access the free tier');
   if (!freeDesc) err('e-free-desc','Describe what the free tier includes');
   if (!paidDesc) err('e-paid-desc','Describe what the paid tier adds');
+  // Delivery validation
+  const deliveryMethod = document.getElementById('s-delivery-method').value;
+  if (deliveryMethod === 'file' && !document.getElementById('s-paid-file').files.length) err('e-delivery','Upload the paid tier deliverable');
+  if (deliveryMethod === 'access_code' && !document.getElementById('s-access-code').value.trim()) err('e-delivery','Enter the access code or URL');
+
   if (capabilities.length < 2) err('e-caps','Add at least 2 capabilities');
   if (!selectedPlatforms.length) err('e-platforms','Select at least one platform');
   if (!valid) { showToast('Please fix the errors above.', 'error'); return; }
+  // Handle file uploads if delivery is file-based
+  let paidFilePath = null;
+  let freeFilePath = null;
+  if (deliveryMethod === 'file') {
+    const paidFile = document.getElementById('s-paid-file').files[0];
+    if (paidFile) paidFilePath = await uploadListingFile(paidFile, name);
+    const freeFile = document.getElementById('s-free-file').files[0];
+    if (freeFile) freeFilePath = await uploadListingFile(freeFile, name);
+  }
+
+  const deliveryContent = deliveryMethod === 'access_code' ? document.getElementById('s-access-code').value.trim() : paidFilePath;
+  const freeDeliveryContent = deliveryMethod === 'access_code' ? document.getElementById('s-free-access').value.trim() : freeFilePath;
+
   const btn = document.querySelector('[onclick="submitListing()"]');
   if (btn) { btn.textContent = 'Submitting…'; btn.disabled = true; }
   const { error } = await sb.from('listings').insert({
@@ -2629,6 +2754,9 @@ async function submitListing() {
     capabilities, platforms: selectedPlatforms,
     pms_systems: selectedPMS,
     pricing_model: document.getElementById('s-pricing-model').value,
+    delivery_method: deliveryMethod,
+    delivery_content: deliveryContent,
+    free_delivery_content: freeDeliveryContent,
     free_tier_type: freeType, free_tier_desc: freeDesc, paid_tier_desc: paidDesc,
     creator_id: currentUser.id, creator_name: currentUser.name || currentUser.email,
     creator_initial: (currentUser.name || '?').substring(0,1).toUpperCase(),
