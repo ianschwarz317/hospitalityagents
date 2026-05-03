@@ -32,20 +32,27 @@ export default async function handler(req, res) {
     const listingName = session.metadata?.listing_name;
     const email = session.customer_email || session.customer_details?.email;
     const amount = session.amount_total;
-    const mode = session.mode; // 'payment' or 'subscription'
+    const mode = session.mode;
 
-    if (listingId && email) {
-      await sb.from('purchases').insert({
-        listing_id: listingId,
-        listing_name: listingName,
-        email,
-        amount_cents: amount,
-        mode,
-        stripe_session_id: session.id,
-        created_at: new Date().toISOString()
-      });
+    const insertData = {
+      listing_id: listingId || 'unknown',
+      listing_name: listingName || 'Unknown listing',
+      email: email || 'unknown@unknown.com',
+      amount_cents: amount || 0,
+      mode: mode || 'payment',
+      stripe_session_id: session.id,
+      created_at: new Date().toISOString()
+    };
+
+    const { error } = await sb.from('purchases').insert(insertData);
+
+    if (error) {
+      console.error('Supabase insert error:', JSON.stringify(error));
+      return res.status(500).json({ error: 'DB insert failed', detail: error });
     }
+
+    return res.status(200).json({ received: true, inserted: true });
   }
 
-  return res.status(200).json({ received: true });
+  return res.status(200).json({ received: true, skipped: event.type });
 }
