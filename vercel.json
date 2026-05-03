@@ -1,8 +1,11 @@
 {
-  "outputDirectory": ".",
   "routes": [
     {
       "handle": "filesystem"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(listings|about|creator|partners|request|contact|terms|privacy|submit|profile|detail|home)",
