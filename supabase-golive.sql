@@ -256,3 +256,38 @@ end $$;
 alter table listings
   add constraint listings_type_check
   check (type in ('persona', 'agent', 'skill', 'addon'));
+
+
+-- ── 10. PURCHASES TABLE ──────────────────────────────────
+create table if not exists purchases (
+  id               uuid primary key default gen_random_uuid(),
+  listing_id       text not null,
+  listing_name     text,
+  email            text not null,
+  amount_cents     integer default 0,
+  mode             text,
+  stripe_session_id text,
+  created_at       timestamptz default now()
+);
+
+alter table purchases enable row level security;
+
+drop policy if exists "Users can read own purchases" on purchases;
+create policy "Users can read own purchases"
+  on purchases for select
+  using (email = (select email from auth.users where id = auth.uid()));
+
+drop policy if exists "Service can insert purchases" on purchases;
+create policy "Service can insert purchases"
+  on purchases for insert
+  with check (true);
+
+drop policy if exists "Admin can read all purchases" on purchases;
+create policy "Admin can read all purchases"
+  on purchases for select
+  using (auth.uid() in (select id from auth.users where email = 'ian_schwarz@outlook.com'));
+
+
+-- ── 11. PRICING MODEL COLUMN ─────────────────────────────
+alter table listings
+  add column if not exists pricing_model text default 'onetime';
