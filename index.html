@@ -2260,9 +2260,17 @@ function renderCard(item) {
 }
 
 // ═══════════ RENDER DETAIL ═══════════
-function showDetail(id) {
+async function showDetail(id) {
   const item = getAllListings().find(l => l.id === id);
   if (!item) return;
+
+  // Check if user has purchased this listing
+  let hasPurchased = false;
+  if (currentUser) {
+    const { data } = await sb.from('purchases').select('id').eq('listing_id', String(id)).eq('email', currentUser.email).limit(1);
+    hasPurchased = data && data.length > 0;
+  }
+
   const star = n => '★'.repeat(Math.round(n)) + '☆'.repeat(5-Math.round(n));
   const bars = [5,4,3,2,1].map(s => {
     const cnt = (item.reviewList||[]).filter(r=>r.stars===s).length;
@@ -2315,6 +2323,15 @@ function showDetail(id) {
       </div>
       <div class="sidebar">
         <div class="sidebar-card">
+          ${hasPurchased ? `
+          <div class="tier-block" style="border-bottom:none;text-align:center;padding:28px 24px">
+            <div style="font-size:32px;margin-bottom:10px">✓</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px">Purchased</div>
+            <div style="font-size:13px;color:var(--text-3);margin-bottom:18px">You own the full version of this listing.</div>
+            <button class="btn btn-accent" style="width:100%" onclick="handleGetFree(${item.id})">Access Full Version</button>
+            <button class="btn btn-neu" style="width:100%;margin-top:8px" onclick="handleGetFree(${item.id})">Download Again</button>
+          </div>
+          ` : `
           <div class="tier-block">
             <div class="tier-label tier-label-free">✓ Free Tier</div>
             <div class="tier-free-access">${item.freeType||'Free starter version'}</div>
@@ -2328,6 +2345,7 @@ function showDetail(id) {
             <div class="tier-free-desc" style="margin-top:10px">${item.paidDesc||'Full features, lifetime access.'}</div>
             <button class="btn btn-accent" style="width:100%;margin-top:6px" onclick="handleBuy(${item.id})">Unlock Full Version</button>
           </div>
+          `}
           <div class="sidebar-meta">
             <div class="smeta-row"><span class="smeta-label">Type</span><span class="smeta-value">${typeLabel(item.type)}</span></div>
             <div class="smeta-row"><span class="smeta-label">Category</span><span class="smeta-value">${item.category}</span></div>
