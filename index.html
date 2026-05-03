@@ -1901,121 +1901,6 @@ window.pageTitles = pageTitles;
 
 // ═══════════ SEED DATA ═══════════
 const SEED_LISTINGS = [
-  {id:1,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Any PMS'],type:'persona',category:'Revenue Management',emoji:'📊',name:'Atlas',
-   tagline:'Revenue Manager Agent — comp set monitoring, rate strategy, and pickup reports on autopilot',
-   desc:'A production-ready Revenue Manager persona with full system prompt, memory architecture, and daily reporting playbook.',
-   price:99,sales:87,rating:4.8,reviews:14,version:2,
-   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools for hotel operators.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['Daily pickup report generation with commentary','Rate parity monitoring across OTA channels','Competitive set rate comparison and alert logic','Demand signal identification from booking pace','Weekly RevPAR variance analysis with recommendations','Group displacement analysis framework','Pricing decision documentation and audit trail'],
-   about:'Atlas is a Revenue Manager persona built from real hotel operations experience. It knows the difference between rate compression and demand suppression, understands segment mix, and knows how to read booking pace against the same time last year.\n\nIncludes a full system prompt, a MEMORY.md architecture for persistent context across sessions, a PLAYBOOK.md with daily/weekly/monthly rhythms, and a setup guide for PMS data connection.',
-   reviewList:[
-     {author:'Sarah M.',title:'Finally understands RevPAR',stars:5,date:'Mar 28, 2026',body:'Atlas actually understands the language — pace, pickup, compression. First time I\'ve trusted AI output enough to put it in front of ownership.'},
-     {author:'James T.',title:'Strong foundation, minor tweaks needed',stars:4,date:'Mar 15, 2026',body:'The daily pickup report template is excellent. Had to adjust the comp set logic for our market but the base prompt is solid.'},
-     {author:'Priya K.',title:'Worth every dollar',stars:5,date:'Mar 2, 2026',body:'We\'re a small independent and can\'t afford a full-time revenue manager. Atlas fills that gap. The weekly variance memo saves me 3 hours.'}
-   ],freeType:'free-prompt',freeDesc:'Atlas base system prompt + 1 sample pickup report',paidDesc:'Full MEMORY.md architecture, PLAYBOOK.md with daily/weekly/monthly rhythms, PMS connection guide, priority support',approved:true},
-  {id:2,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Cloudbeds','Apaleo','Any PMS'],type:'persona',category:'Guest Experience',emoji:'🌟',name:'Sage',
-   tagline:'Guest Experience Agent — review management, pre-arrival personalization, and post-stay follow-up',
-   desc:'End-to-end guest communication persona with tone calibration for luxury, lifestyle, or select-service properties.',
-   price:79,sales:112,rating:4.9,reviews:22,version:3,
-   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['OTA review response drafting across Tripadvisor, Booking, Expedia, Google','Tone calibration for property tier','Pre-arrival message sequences (3-touch)','In-stay service recovery response templates','Post-stay follow-up and win-back messaging','Sentiment analysis framework for review patterns'],
-   about:'Sage is a Guest Experience persona tuned for the specific communication challenges hotel teams face: responding to negative OTA reviews without admitting liability, writing pre-arrival messages that feel personal, and handling in-stay complaints in a way that prevents public posts.\n\nv3 adds a brand voice intake questionnaire so Sage can calibrate to your property\'s specific personality on first run.',
-   reviewList:[
-     {author:'Marco R.',title:'Review response time dropped from 3 days to same-day',stars:5,date:'Mar 30, 2026',body:'Sage drafts a response in seconds that actually sounds like us. GM reviews and approves, takes 5 minutes total now.'},
-     {author:'Leila F.',title:'Best investment for our boutique',stars:5,date:'Mar 10, 2026',body:'The pre-arrival sequence alone is worth it. Guests keep commenting at check-in that they loved getting our messages.'}
-   ],freeType:'free-prompt',freeDesc:'Sage base prompt + 5 review response starters',paidDesc:'Full tone calibration system, 40+ templates, pre-arrival sequences, brand voice intake questionnaire',approved:true},
-  {id:3,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Salesforce','Any PMS'],type:'persona',category:'Sales & Events',emoji:'🤝',name:'Harper',
-   tagline:'Sales & Events Agent — RFP responses, group lead qualification, and BEO prep',
-   desc:'A full hotel sales persona for group and events. Qualifies incoming leads, drafts RFP responses, and generates BEO first drafts.',
-   price:89,sales:43,rating:4.7,reviews:9,version:1,
-   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['RFP response drafting from scratch','Group lead qualification scoring framework','Displacement analysis decision support','BEO first draft generation from event notes','Sales proposal narrative generation'],
-   about:'Harper is built for the hotel sales manager who spends more time on admin than actually selling. It knows the group sales workflow from inbound lead to signed contract.',
-   reviewList:[{author:'David L.',title:'Finally, RFPs that don\'t take all afternoon',stars:5,date:'Mar 20, 2026',body:'Used to spend 2-3 hours on a complex RFP response. Harper gets me to a strong first draft in 20 minutes.'}],freeType:'free-prompt',freeDesc:'Harper base prompt + 1 sample RFP response',paidDesc:'Full group-qualification framework, displacement analysis tools, BEO generator, 20+ segment templates',approved:true},
-  {id:4,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Any PMS'],type:'persona',category:'Front Office',emoji:'🏨',name:'Morgan',
-   tagline:'GM Morning Brief Agent — daily ops summary, escalation flags, and ownership-ready reporting',
-   desc:'Delivers a structured morning brief for GMs: previous day performance, open issues, and flagged escalations.',
-   price:69,sales:61,rating:4.6,reviews:11,version:2,
-   creator:'CVH Studio',creatorInitial:'C',creatorBio:'CVH builds hospitality-specific AI tools.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['Daily GM morning brief generation','Previous night performance summary with commentary','Day-of arrival/departure count and VIP flag','Occupancy and rate forecast for next 7 days','Ownership report formatting'],
-   about:'Morgan transforms raw daily data into a structured morning report. Feed it your numbers and it produces a brief a GM can review in 3 minutes and forward to ownership without editing.',
-   reviewList:[{author:'Nina P.',title:'Saved my mornings',stars:5,date:'Mar 22, 2026',body:'I was assembling this report manually every morning. Now I paste the key numbers and Morgan has a clean brief ready in 90 seconds.'}],freeType:'free-prompt',freeDesc:'Morgan base prompt + 1 sample morning brief',paidDesc:'Full ownership report formatting, 7-day forecast module, VIP flag logic, historical variance tools',approved:true},
-  {id:5,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:[],type:'skill',category:'Guest Experience',emoji:'⭐',name:'Review Response Engine',
-   tagline:'Draft brand-consistent OTA review responses in under 60 seconds — across all major platforms',
-   desc:'A prompt pack and decision framework for responding to reviews on Tripadvisor, Booking.com, Expedia, and Google.',
-   price:19,sales:203,rating:4.8,reviews:31,version:4,
-   creator:'Lighthouse Labs',creatorInitial:'L',creatorBio:'Building hospitality reputation tools for independent operators.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['Platform-specific response formats','Negative review framework without admitting liability','Management response templates for 12 complaint categories','Brand voice calibration guide'],
-   about:'A focused, modular skill for the single most time-consuming guest communication task: review responses. 40+ response starters sorted by sentiment and platform.',
-   reviewList:[{author:'Tom H.',title:'Best $19 I\'ve spent on hotel ops',stars:5,date:'Mar 29, 2026',body:'This is now part of the standard weekly workflow for every front office manager. Response time down from 5 days to same-day.'}],freeType:'free-prompt',freeDesc:'10 starter response templates',paidDesc:'Full 40+ template library, platform-specific formats, brand voice calibration, negative review framework',approved:true},
-  {id:6,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:[],type:'skill',category:'Sales & Events',emoji:'📋',name:'RFP Response Drafter',
-   tagline:'Generate complete group RFP responses from a lead brief — corporate, SMERF, and association ready',
-   desc:'Prompt pack and template library for drafting hotel RFP responses.',
-   price:29,sales:88,rating:4.6,reviews:16,version:2,
-   creator:'Events Intelligence Co.',creatorInitial:'E',creatorBio:'Former hotel sales managers building tools for the industry.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['Corporate group RFP response template','SMERF segment response framework','Association and conference response format','F&B minimum calculation helper'],
-   about:'Written by former hotel sales managers who have responded to thousands of RFPs. The prompts know the language meeting planners use.',
-   reviewList:[{author:'Rachel M.',title:'Cut RFP time in half',stars:5,date:'Mar 18, 2026',body:'This gets me to a strong draft in a fraction of the time. The SMERF template is something I would have spent weeks building myself.'}],freeType:'free-prompt',freeDesc:'Corporate RFP template pack',paidDesc:'Full SMERF + association templates, F&B minimum calculator, proposal narrative generator',approved:true},
-  {id:7,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:['SiteMinder','Cloudbeds','Opera'],type:'addon',category:'Revenue Management',emoji:'💹',name:'Rate Parity Monitor',
-   tagline:'Identify and document OTA rate parity violations — ready for channel manager escalation',
-   desc:'A workflow and prompt pack for systematically checking rate parity across OTA channels.',
-   price:15,sales:147,rating:4.5,reviews:28,version:3,
-   creator:'RevOps AI',creatorInitial:'R',creatorBio:'Revenue management tools for independent and boutique hotels.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['Parity check prompt framework','Violation documentation template','Channel manager escalation message drafts','Weekly parity audit report format'],
-   about:'A practical skill for revenue managers who check parity manually. Structures the process, formats findings, and drafts escalation communications.',
-   reviewList:[{author:'Ben K.',title:'Practical and immediate ROI',stars:4,date:'Mar 12, 2026',body:'The violation documentation format is what I was missing — now I actually have records to send to channel managers.'}],freeType:'free-trial',freeDesc:'14-day free trial',paidDesc:'Full parity monitoring automation, violation documentation, channel manager escalation drafts',approved:true},
-  {id:8,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:[],type:'skill',category:'Guest Experience',emoji:'✉️',name:'Pre-Arrival Messaging Suite',
-   tagline:'3-touch pre-arrival email and SMS sequence — personalized and conversion-focused',
-   desc:'A prompt pack for generating personalized pre-arrival message sequences with upsell logic.',
-   price:12,sales:176,rating:4.9,reviews:37,version:2,
-   creator:'Lighthouse Labs',creatorInitial:'L',creatorBio:'Building hospitality reputation tools.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['3-touch email sequence (7 days, 3 days, day-of)','SMS variation for each touch','Upgrade offer framing for leisure and business travelers','F&B and spa upsell language'],
-   about:'Pre-arrival communication that feels personal and generates ancillary revenue. Built for hotels that want to upsell without sounding like a retail promo blast.',
-   reviewList:[{author:'Camille S.',title:'Upgrade attachment rate went up 18%',stars:5,date:'Mar 25, 2026',body:'The upgrade framing in the 3-day email is exactly right — it presents the upgrade as a service, not a pitch.'}],freeType:'free-prompt',freeDesc:'Day-of arrival message template',paidDesc:'Full 3-touch sequence, SMS variations, upsell logic for leisure and business travelers',approved:true},
-  {id:9,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Opera','Mews','Cloudbeds','Apaleo','Any PMS'],type:'skill',category:'Revenue Management',emoji:'📅',name:'Daily Pickup Report',
-   tagline:'Structured pickup analysis prompt — paste your numbers, get your report',
-   desc:'Stop building pickup reports manually. Feed daily booking pace and get a formatted, commentated pickup report.',
-   price:9,sales:312,rating:4.7,reviews:48,version:5,
-   creator:'RevOps AI',creatorInitial:'R',creatorBio:'Revenue management tools for independent and boutique hotels.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['Daily pickup vs STLY commentary','Segment mix shift identification','Forward 30/60/90 day pace summary','Alert flags for unusual pace patterns'],
-   about:'The most-used skill on HospitalityAgents. Simple, high-value, immediately deployable. Paste your daily numbers, get a formatted pickup report with narrative commentary.',
-   reviewList:[{author:'Yuki T.',title:'Used every single day',stars:5,date:'Mar 31, 2026',body:'Takes 2 minutes instead of 20. The commentary catches things I\'d miss when I\'m going fast.'}],freeType:'free-prompt',freeDesc:'Basic pickup report template (no commentary)',paidDesc:'Full STLY commentary, segment mix shift detection, 30/60/90 day forecasts, alert flags',approved:true},
-  {id:10,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:[],type:'agent',category:'F&B',emoji:'🍽️',name:'F&B Upsell Agent',
-   tagline:'In-room dining, outlet, and event upsell prompts tuned for hotel F&B context',
-   desc:'A skill for generating F&B upsell copy, server scripting, and in-room dining menu descriptions.',
-   price:19,sales:64,rating:4.4,reviews:12,version:1,
-   creator:'Hospitality Copy Co.',creatorInitial:'H',creatorBio:'Language tools for hotel teams.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['In-room dining menu description rewriting','Outlet upsell prompts for FOH teams','Event catering proposal language','Wine and beverage pairing suggestion framework'],
-   about:'F&B language that sells without feeling pushy. Built by people who have worked restaurant and banquet operations in hotels.',
-   reviewList:[{author:'Sofia R.',title:'Great for menu rewrites',stars:4,date:'Mar 8, 2026',body:'Used this to rewrite our entire room service menu. Orders and average check both went up in the first month.'}],freeType:'free-tier',freeDesc:'10 menu description rewrites/month',paidDesc:'Unlimited usage, outlet upsell library, event catering language, wine pairing framework',approved:true},
-  {id:11,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:['SiteMinder','Cloudbeds'],type:'addon',category:'Marketing',emoji:'📣',name:'OTA Listing Optimizer',
-   tagline:'Rewrite your Booking.com and Expedia listings for conversion',
-   desc:'A prompt pack for optimizing hotel listings across major OTA platforms.',
-   price:14,sales:93,rating:4.6,reviews:19,version:2,
-   creator:'Direct Booking Lab',creatorInitial:'D',creatorBio:'Distribution strategy tools for independent hotels.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['OTA headline rewriting framework','Amenity prioritization guide','Photo caption optimization for conversion','Seasonal listing variation prompts'],
-   about:'Your OTA listing is your digital front desk. Most hotels have listings written years ago by someone who\'s no longer there. This skill audits and rewrites them.',
-   reviewList:[{author:'Andre M.',title:'Immediate uplift on Booking.com',stars:5,date:'Mar 14, 2026',body:'Rewrote our listing using this skill. Conversion rate is up.'}],freeType:'limited-version',freeDesc:'Audit mode (shows issues, no rewrites)',paidDesc:'Full rewrite mode, seasonal variation prompts, amenity prioritization, conversion optimization',approved:true},
-  {id:12,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'monthly',pms:['M3','Opera','Any PMS'],type:'agent',category:'Finance',emoji:'💳',name:'Expense Reconciliation Agent',
-   tagline:'Structured prompt workflow for hotel AP and expense reconciliation',
-   desc:'A prompt pack for accounts payable and expense reconciliation tasks common to hotel finance teams.',
-   price:24,sales:37,rating:4.3,reviews:8,version:1,
-   creator:'Hotel Finance Tools',creatorInitial:'H',creatorBio:'Financial workflow tools for hospitality accounting.',
-   platforms:['Claude','GPT-4','Gemini','Any LLM'],
-   capabilities:['AP reconciliation prompt framework','Month-end accrual documentation template','Variance explanation narrative generator','Budget vs actual commentary generator'],
-   about:'Built for hotel controllers who spend too much time formatting reports. Structures the reconciliation workflow and generates documentation auditors need.',
-   reviewList:[{author:'Finance Director',title:'Solid for month-end',stars:4,date:'Mar 1, 2026',body:'The variance narrative generator is the best part. Gets us 80% of the way there in minutes.'}],freeType:'free-trial',freeDesc:'7-day free trial',paidDesc:'Full AP automation, month-end accrual templates, variance narrative generator, budget vs actual commentary',approved:true},
   {id:13,deliveryMethod:'file',deliveryContent:null,freeDeliveryContent:null,pricingModel:'onetime',pms:['Any PMS'],type:'skill',category:'Guest Experience',emoji:'⭐',name:'Forbes Travel Guide Self-Assessment',
    tagline:'Audit your property against Forbes Travel Guide Five-Star standards — 50-point checklist covering service, facilities, and guest room criteria',
    desc:'A structured self-assessment prompt pack based on the Forbes Travel Guide evaluation methodology. Covers the core observable standards inspectors use across arrival, guest room, bathroom, evening service, and departure.',
@@ -2034,6 +1919,7 @@ const SEED_LISTINGS = [
    capabilities:['Structured night audit summary with occupancy, ADR, RevPAR, and revenue breakdown','Variance commentary — automatic flags for metrics above or below expected range','No-show, cancellation, and walk-in reconciliation narrative','Rate segment mix breakdown with shift analysis vs prior night and STLY','F&B revenue summary with per-outlet commentary','Cash and credit reconciliation summary format','Handover notes section — flagged issues, VIP arrivals, maintenance alerts for morning shift','GM-ready formatting — clean, professional, ready to forward without editing'],
    about:'Every hotel runs a night audit. Most night auditors spend 20-30 minutes formatting the same summary manually, copying numbers between systems and writing the same narrative patterns. This prompt pack automates the formatting and commentary.\n\nPaste your key metrics — occupancy, rate, revenue by segment, F&B totals, no-shows, walk-ins — and get a clean, narrated summary with variance flags and handover notes. The output is formatted for a GM morning review: scannable, professional, and ready to forward to ownership without editing.\n\nWorks with data from any PMS. You paste the numbers, the prompt handles the structure, math validation, and narrative. Includes templates for weeknight, weekend, and high-occupancy audit variations.',
    reviewList:[],freeType:'free-download',freeDesc:'Full night audit prompt pack — completely free, no paid tier',paidDesc:'This listing is entirely free.',approved:true}
+
 ];
 
 
@@ -2136,12 +2022,13 @@ async function initAuth() {
   initEmailBar();
   initLaunchBanner();
   checkPurchaseSuccess();
+  checkConnectReturn();
 }
 
 async function loadProfile(authUser) {
   const { data } = await sb.from('profiles').select('*').eq('id', authUser.id).single();
   if (data) {
-    currentUser = { id: authUser.id, email: authUser.email, ...data, role: data.role || 'both' };
+    currentUser = { id: authUser.id, email: authUser.email, ...data, role: data.role || 'both', stripe_account_id: data.stripe_account_id || null };
   } else {
     currentUser = { id: authUser.id, email: authUser.email, name: authUser.email.split('@')[0], bio: '', website: '', role: 'both' };
   }
@@ -2451,7 +2338,8 @@ async function handleBuy(id) {
         listingPrice: item.price,
         listingId: item.id,
         userEmail: currentUser.email,
-        pricingModel: item.pricingModel || 'onetime'
+        pricingModel: item.pricingModel || 'onetime',
+        creatorId: item.creator_id || null
       })
     });
     const data = await res.json();
@@ -2555,10 +2443,14 @@ function renderHome() {
   const all = getAllListings();
   // Featured: mix of personas and agents (full-solution types)
   const featured = all.filter(l=>l.type==='persona'||l.type==='agent').slice(0,4);
-  document.getElementById('home-personas').innerHTML = featured.map(renderCard).join('');
+  const featuredEl = document.getElementById('home-personas');
+  if (featured.length) featuredEl.innerHTML = featured.map(renderCard).join('');
+  else featuredEl.closest('.section').style.display = 'none';
   // Popular: skills and add-ons sorted by sales
   const popular = all.filter(l=>l.type==='skill'||l.type==='addon').sort((a,b)=>b.sales-a.sales).slice(0,4);
-  document.getElementById('home-skills').innerHTML = popular.map(renderCard).join('');
+  const popularEl = document.getElementById('home-skills');
+  if (popular.length) popularEl.innerHTML = popular.map(renderCard).join('');
+  else popularEl.closest('.section').style.display = 'none';
 }
 
 // ═══════════ PROFILE PAGE ═══════════
@@ -2581,7 +2473,13 @@ async function renderProfile() {
           <div class="pstat"><div class="pstat-n">${myListings.filter(l=>!l.approved).length}</div><div class="pstat-l">Pending review</div></div>
         </div>
       </div>
-      <button class="btn btn-neu btn-sm" onclick="openEditProfile()" style="align-self:flex-start">Edit Profile</button>
+      <div style="display:flex;flex-direction:column;gap:6px;align-self:flex-start">
+        <button class="btn btn-neu btn-sm" onclick="openEditProfile()">Edit Profile</button>
+        ${currentUser.role !== 'buyer' ? (currentUser.stripe_account_id
+          ? '<button class="btn btn-neu btn-sm" onclick="openStripeDashboard()">💳 Stripe Dashboard</button>'
+          : '<button class="btn btn-accent btn-sm" onclick="connectStripe()">💳 Connect Stripe to Get Paid</button>'
+        ) : ''}
+      </div>
     </div>
     <div class="profile-tabs">
       <button class="ptab active" id="ptab-listings" onclick="switchTab('listings')">My Listings</button>
@@ -2623,6 +2521,37 @@ async function switchTab(tab) {
       </div>
     `).join('') + '</div>';
   }
+}
+
+async function connectStripe() {
+  const btn = event?.target;
+  if (btn) { btn.textContent = 'Connecting…'; btn.disabled = true; }
+  try {
+    const res = await fetch('/api/connect', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: currentUser.id, email: currentUser.email })
+    });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url;
+    else { showToast('Error connecting Stripe.', 'error'); if (btn) { btn.textContent = 'Connect Stripe to Get Paid'; btn.disabled = false; } }
+  } catch (err) {
+    showToast('Error connecting Stripe.', 'error');
+    if (btn) { btn.textContent = 'Connect Stripe to Get Paid'; btn.disabled = false; }
+  }
+}
+
+async function openStripeDashboard() {
+  try {
+    const res = await fetch('/api/connect', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: currentUser.id, email: currentUser.email, action: 'dashboard' })
+    });
+    const data = await res.json();
+    if (data.url) window.open(data.url, '_blank');
+    else showToast('Could not open Stripe dashboard.', 'error');
+  } catch (err) { showToast('Error opening Stripe dashboard.', 'error'); }
 }
 
 function openEditProfile() {
@@ -2903,6 +2832,20 @@ function initLaunchBanner() {
   if (sessionStorage.getItem('bannerDismissed')) {
     const b = document.getElementById('launch-banner');
     if (b) b.style.display = 'none';
+  }
+}
+
+function checkConnectReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const connect = params.get('connect');
+  if (connect === 'success') {
+    showToast('Stripe account connected — you can now receive payments!', 'success');
+    history.replaceState(null, '', '/profile');
+    // Reload profile to reflect connected status
+    loadProfile({ id: currentUser.id, email: currentUser.email }).then(() => { renderNav(); renderProfile(); });
+  } else if (connect === 'refresh') {
+    showToast('Stripe onboarding incomplete — please try again.', 'error');
+    history.replaceState(null, '', '/profile');
   }
 }
 

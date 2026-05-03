@@ -302,3 +302,8 @@ alter table listings
   add column if not exists delivery_method text default 'file',
   add column if not exists delivery_content text,
   add column if not exists free_delivery_content text;
+
+
+-- ── 14. STRIPE CONNECT ───────────────────────────────────
+alter table profiles
+  add column if not exists stripe_account_id text;
