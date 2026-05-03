@@ -2501,12 +2501,15 @@ async function switchTab(tab) {
       return;
     }
     el.innerHTML = '<div style="display:flex;flex-direction:column;gap:12px">' + data.map(p => `
-      <div class="neu-card-flat" style="padding:18px 22px;display:flex;align-items:center;justify-content:space-between">
+      <div class="neu-card-flat" style="padding:18px 22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .15s" onclick="showDetail(${p.listing_id})" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor=''">
         <div>
           <div style="font-weight:600;color:var(--text);margin-bottom:2px">${p.listing_name||'Listing'}</div>
           <div style="font-size:12px;color:var(--text-3)">${new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} · ${p.amount_cents===0?'Free (coupon)':'$'+(p.amount_cents/100).toFixed(2)} · ${p.mode==='subscription'?'Subscription':'One-time'}</div>
         </div>
-        <span class="badge badge-skill" style="font-size:11px">Purchased</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="badge badge-skill" style="font-size:11px">Purchased</span>
+          <span style="font-size:13px;color:var(--text-3)">View →</span>
+        </div>
       </div>
     `).join('') + '</div>';
   }
