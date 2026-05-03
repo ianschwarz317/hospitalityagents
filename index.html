@@ -92,7 +92,7 @@ nav{
 .page{display:none;}
 .page.active{display:block;}
 
-.hero{max-width:1280px;margin:0 auto;padding:100px 32px 72px;display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:center;}
+.hero{max-width:1280px;margin:0 auto;padding:100px 32px 72px;display:grid;grid-template-columns:1fr;gap:80px;align-items:center;max-width:800px;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:11.5px;font-weight:500;color:var(--text-2);margin-bottom:32px;cursor:pointer;transition:border-color .15s;}
 .hero-eyebrow:hover{border-color:var(--border-hover);}
 .hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
@@ -722,25 +722,7 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
         <button class="btn btn-neu btn-lg" onclick="showPage('creator')">Start Building</button>
       </div>
     </div>
-    <div class="hero-card">
-      <div class="hero-card-label">⭐ Featured this week</div>
-      <div class="featured-listing" onclick="showDetail(1)">
-        <div class="fl-image">📊</div>
-        <div class="fl-meta">
-          <span class="badge badge-persona">Persona</span>
-          <span class="badge-cat">Revenue Management</span>
-        </div>
-        <div class="fl-title">Atlas</div>
-        <div class="fl-desc">Revenue Manager Agent — comp set monitoring, rate strategy, and pickup reports on autopilot.</div>
-        <div class="fl-footer">
-          <div>
-            <div class="fl-price">$99</div>
-            <div class="fl-sales">87 sold</div>
-          </div>
-          <button class="btn btn-accent">View →</button>
-        </div>
-      </div>
-    </div>
+
   </div>
 
   <!-- Categories -->
