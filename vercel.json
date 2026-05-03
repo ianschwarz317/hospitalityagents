@@ -1,21 +1,17 @@
 {
-  "routes": [
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(listings|about|creator|partners|request|contact|terms|privacy|submit|profile|detail|home)",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/404.html",
-      "status": 404
-    }
+  "rewrites": [
+    { "source": "/listings", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/creator", "destination": "/index.html" },
+    { "source": "/partners", "destination": "/index.html" },
+    { "source": "/request", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" },
+    { "source": "/terms", "destination": "/index.html" },
+    { "source": "/privacy", "destination": "/index.html" },
+    { "source": "/submit", "destination": "/index.html" },
+    { "source": "/profile", "destination": "/index.html" },
+    { "source": "/detail", "destination": "/index.html" },
+    { "source": "/home", "destination": "/index.html" }
   ],
   "headers": [
     {
@@ -28,51 +24,24 @@
       ]
     },
     {
-      "source": "/index.html",
-      "headers": [
-        {
-          "key": "Link",
-          "value": "</llms.txt>; rel=\"ai-content\", </sitemap.xml>; rel=\"sitemap\", </.well-known/agent-skills/index.json>; rel=\"agent-skills\""
-        }
-      ]
-    },
-    {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     },
     {
       "source": "/og-image.png",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
       ]
     }
   ]
