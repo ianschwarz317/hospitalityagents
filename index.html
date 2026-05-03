@@ -1510,28 +1510,10 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
         <textarea class="form-textarea" id="req-description" rows="5" placeholder="What task should it handle? What does success look like? What data or systems would it need access to? The more specific, the better."></textarea>
         <div class="form-error" id="req-e-desc"></div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Budget range</label>
-          <select class="form-select" id="req-budget">
-            <option value="">Select range...</option>
-            <option>Under $25</option>
-            <option>$25–$75</option>
-            <option>$75–$150</option>
-            <option>$150+</option>
-            <option>Custom / discuss</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">AI platform preference</label>
-          <select class="form-select" id="req-platform">
-            <option value="">No preference</option>
-            <option>Claude</option>
-            <option>GPT-4 / GPT-4o</option>
-            <option>Gemini</option>
-            <option>Any LLM</option>
-          </select>
-        </div>
+      <div class="form-group">
+        <label class="form-label">Software, LLM, or hotel tech dependencies</label>
+        <input class="form-input" id="req-dependencies" type="text" placeholder="e.g. Opera PMS, Claude, SiteMinder, Mews, GPT-4, n8n — anything relevant to your setup">
+        <div class="form-hint">List any platforms, AI tools, or hotel systems this agent would need to work with.</div>
       </div>
       <div class="form-group">
         <label class="form-label">Department / area of focus</label>
@@ -2609,7 +2591,7 @@ async function submitAgentRequest() {
     property: property,
     role: document.getElementById('req-role').value.trim(),
     description,
-    budget: document.getElementById('req-budget').value,
+    budget: document.getElementById('req-dependencies').value.trim(),
     areas,
     created_at: new Date().toISOString()
   });
