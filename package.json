@@ -2,5 +2,8 @@
   "name": "hospitalityagents",
   "version": "1.0.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "stripe": "^17.0.0"
+  }
 }

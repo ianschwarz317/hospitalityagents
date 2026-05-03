@@ -469,6 +469,15 @@ footer{border-top:1px solid var(--border);padding:56px 32px 36px;}
   .listings-body,.detail-wrap,.profile-wrap,.submit-wrap,.creator-body,.about-body,.legal-wrap{padding-left:24px;padding-right:24px;}
 }
 
+/* ── Launch banner ── */
+.launch-banner{background:linear-gradient(90deg,#059669,#047857);padding:10px 24px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;color:#fff;position:relative;z-index:201;}
+.launch-banner strong{color:#fff;}
+.coupon-code{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.35);border-radius:4px;padding:2px 8px;font-family:monospace;font-size:13px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:0.04em;}
+.coupon-code:hover{background:rgba(255,255,255,0.3);}
+.launch-banner-close{background:none;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;padding:0 4px;margin-left:8px;line-height:1;}
+.launch-banner-close:hover{color:#fff;}
+@media(max-width:768px){.launch-banner{font-size:12px;padding:10px 16px;gap:8px;flex-wrap:wrap;text-align:center;}}
+
 /* ── Hero ghost word ── */
 .hero{position:relative;overflow:hidden;}
 .hero::before{content:"Hotels";position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-family:"Playfair Display",serif;font-size:clamp(160px,18vw,260px);font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(26,39,68,0.06);line-height:1;pointer-events:none;user-select:none;white-space:nowrap;letter-spacing:-0.04em;z-index:0;}
@@ -670,6 +679,13 @@ nav.scrolled{box-shadow:0 1px 0 var(--border),0 4px 24px rgba(26,39,68,0.06);}
     </div>
     <button class="btn btn-accent" style="width:100%" onclick="saveProfile()">Save Changes</button>
   </div>
+</div>
+
+<!-- ══ LAUNCH BANNER ══ -->
+<div class="launch-banner" id="launch-banner">
+  <span>🚀</span>
+  <span><strong>Launch offer:</strong> Use code <code class="coupon-code" onclick="navigator.clipboard.writeText('LAUNCH2026');this.textContent='Copied!';setTimeout(()=>this.textContent='LAUNCH2026',1500)">LAUNCH2026</code> for 100% off every listing — free for a limited time</span>
+  <button class="launch-banner-close" onclick="document.getElementById('launch-banner').style.display='none';sessionStorage.setItem('bannerDismissed','1')">×</button>
 </div>
 
 <!-- ══ NAV ══ -->
@@ -2053,6 +2069,8 @@ async function initAuth() {
   renderNav();
   initRouting();
   initEmailBar();
+  initLaunchBanner();
+  checkPurchaseSuccess();
 }
 
 async function loadProfile(authUser) {
@@ -2322,9 +2340,34 @@ function showDetail(id) {
   showPage('detail');
 }
 
-function handleBuy(id) {
+async function handleBuy(id) {
   if (!currentUser) { openLogin(); return; }
-  showToast('Redirecting to checkout… (Stripe integration coming soon)', 'success');
+  const item = getAllListings().find(l => l.id === id);
+  if (!item) return;
+  const btn = event?.target;
+  if (btn) { btn.textContent = 'Redirecting…'; btn.disabled = true; }
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        listingName: item.name,
+        listingPrice: item.price,
+        listingId: item.id,
+        userEmail: currentUser.email
+      })
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      showToast('Checkout error — please try again.', 'error');
+      if (btn) { btn.textContent = 'Unlock Full Version'; btn.disabled = false; }
+    }
+  } catch (err) {
+    showToast('Checkout error — please try again.', 'error');
+    if (btn) { btn.textContent = 'Unlock Full Version'; btn.disabled = false; }
+  }
 }
 
 function handleGetFree(id) {
@@ -2677,6 +2720,22 @@ function initRouting() {
 
   window.addEventListener('popstate', routeFromPath);
   routeFromPath();
+}
+
+function initLaunchBanner() {
+  if (sessionStorage.getItem('bannerDismissed')) {
+    const b = document.getElementById('launch-banner');
+    if (b) b.style.display = 'none';
+  }
+}
+
+function checkPurchaseSuccess() {
+  const params = new URLSearchParams(window.location.search);
+  const purchased = params.get('purchased');
+  if (purchased) {
+    showToast('Purchase complete — check your email for access details.', 'success');
+    history.replaceState(null, '', window.location.pathname);
+  }
 }
 
 // ═══════════ INIT ═══════════
